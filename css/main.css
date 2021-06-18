@@ -1,0 +1,293 @@
+:root { 
+    display: block;
+}
+
+body{
+    background-color: #000;
+    background-repeat: repeat-x;
+    background-position: top;   
+}
+
+*, *:before, *:after {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+     
+input, input:before, input:after {
+    -webkit-user-select: initial;
+    -khtml-user-select: initial;
+    -moz-user-select: initial;
+    -ms-user-select: initial;
+    user-select: initial;
+}
+
+::selection { background: transparent;color:inherit; }
+::-moz-selection { background: transparent;color:inherit; }
+
+#canvas{
+    position: fixed;
+ 
+}
+
+canvas {
+    image-rendering: optimizeSpeed;
+    image-rendering:-o-crisp-edges;
+    image-rendering:-webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+	-ms-touch-action: none;
+}
+
+.ani_hack{
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent; /* mobile webkit */
+}
+
+/***************FONTS*******************/
+
+.check-fonts{
+        position: fixed;
+        opacity:0;
+}
+
+.check-font-1{
+        font-family: 'showcard';
+}
+                
+                
+
+@font-face {
+    font-family: 'showcard';
+    src: url('UTMShowcard.woff2') format('woff2'),
+        url('UTMShowcard.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooBhaina-Bold';
+    src: url('BalooBhaina2-Bold.woff2') format('woff2'),
+        url('BalooBhaina2-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooBhaina-ExtraBold';
+    src: url('BalooBhaina2-ExtraBold.woff2') format('woff2'),
+        url('BalooBhaina2-ExtraBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooBhaina-Medium';
+    src: url('BalooBhaina2-Medium.woff2') format('woff2'),
+        url('BalooBhaina2-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooBhaina-Regular';
+    src: url('BalooBhaina2-Regular.woff2') format('woff2'),
+        url('BalooBhaina2-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BalooBhaina-SemiBold';
+    src: url('BalooBhaina2-SemiBold.woff2') format('woff2'),
+        url('BalooBhaina2-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MontserratBlack';
+    src: url('Montserrat-Black.woff2') format('woff2'),
+        url('Montserrat-Black.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MontserratSemiBold';
+    src: url('Montserrat-SemiBold.woff2') format('woff2'),
+        url('Montserrat-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MontserratBoldItalic';
+    src: url('Montserrat-BoldItalic.woff2') format('woff2'),
+        url('Montserrat-BoldItalic.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+input, select:focus {
+    outline: none;
+    font-family:inherit; 
+}
+
+#loginPopup, #thele {
+    font-family: 'Montserrat', sans-serif;
+    background-image: url(../assets/modal_login_background.png);
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    box-shadow: none;
+    text-align: center;
+    max-width: 600px;
+    height: 448px;
+    position: relative;
+}
+
+#loginPopup .close-modal {
+    display: none;
+}
+
+#loginPopup h4 {
+    font-family: 'showcard';
+    color: #fffec9;
+    font-size: 24px;
+    text-shadow: 0px 3px 3px #00000069;
+    margin-top: 34px;
+}
+
+#loginPopup form input, #loginPopup form select {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 8px 13px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+#loginPopup form select {
+    margin-bottom: 0;
+}
+
+#loginPopup form {
+    display: flex;
+    flex-direction: column;
+    max-width: 270px;
+    background-color: #59173e4d;
+    padding: 17px;
+    margin: auto;
+    border-radius: 15px;
+    margin-top: 30px;
+}
+
+#loginPopup span {   
+    color: #fff;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 13px;
+    margin-bottom: 15px;
+    display: block;
+    margin-top: 14px;
+}
+
+#loginPopup button:focus {
+    outline: none;
+}
+
+#loginPopup button {
+    background-image: url(../assets/background_btn_start.png);
+    background-size: contain;
+    width: 236px;
+    height: 50px;
+    border: none;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    font-family: 'showcard';
+    font-size: 23px;
+    color: #61230b;
+    text-shadow: 0px 2px 0px #fffec9;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 11px;
+}
+
+#loginPopup p {
+    font-size: 14px;
+    font-weight: 600;
+    font-style: italic;
+    color: #fff;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 0px 10px;
+}
+
+#thele h4 {
+    font-family: 'showcard';
+    color: #fffec9;
+    font-size: 45px;
+    text-shadow: 0px 3px 3px #873837;
+    margin-top: 34px;
+    position: absolute;
+    top: -109px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#thele .content-box {
+    margin: 40px;
+    background-color: #ffc46b;
+    padding: 20px;
+    border-radius: 22px;
+    height: 280px;
+    box-shadow: rgb(195 85 45 / 56%) 3px 3px 6px 0px inset, rgb(220 179 108 / 58%) -3px -3px 6px 1px inset;
+    font-weight: 600;
+    padding-right: 8px;
+}
+
+#thele .content-box .content {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#thele .content-box .content::-webkit-scrollbar-thumb {
+    background: #b8651e; 
+    border-radius: 10px;
+}
+
+#thele .content-box .content::-webkit-scrollbar {
+    width: 10px;
+}
+
+#thele .content-box .content::-webkit-scrollbar-track {
+    background: #ffb445; 
+    border-radius: 10px;
+}
