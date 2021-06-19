@@ -5,7 +5,7 @@ function CCharacter(iX,iY,iIndex,oParentContainer){
     
     this._init = function(iX,iY,iIndex){
         var oData = {   
-                    images: [s_oSpriteLibrary.getSprite('character_'+iIndex)], 
+                    images: [s_oSpriteLibrary.getSprite('mouse_sheet_'+iIndex)], 
                     // width, height & registration point of each sprite
                     frames: {width: CHARACTER_WIDTH[iIndex], height: CHARACTER_HEIGHT[iIndex], regX: CHARACTER_WIDTH[iIndex]/2, regY: CHARACTER_HEIGHT[iIndex]}, 
                     animations: {start:0, idle:[0, 16, "idle"], hit:[17,29,"hit_stop"],hit_stop:[29]}

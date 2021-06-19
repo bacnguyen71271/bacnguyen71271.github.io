@@ -78,7 +78,7 @@ function CPreloader() {
         _oContainer.addChild(_oLoadingText);
         
         var oSprite = s_oSpriteLibrary.getSprite('but_start');
-        _oButStart = new CTextButton(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, oSprite, TEXT_PRELOADER_CONTINUE, "Arial", "#000", "bold "+ 50, _oContainer);        
+        _oButStart = new CTextButton(CANVAS_WIDTH/2, CANVAS_HEIGHT/2, oSprite, "START", "Arial", "#000", "bold "+ 50, _oContainer);        
         _oButStart.addEventListener(ON_MOUSE_UP, this._onButStartRelease, this);
         _oButStart.setVisible(false);
         

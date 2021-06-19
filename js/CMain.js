@@ -23,7 +23,7 @@ function CMain(oData){
             s_oStage.enableMouseOver(20);  
         }
 		
-        s_iPrevTime = new Date().getTime();
+        // s_iPrevTime = new Date().getTime();
 
 	createjs.Ticker.addEventListener("tick", this._update);
         createjs.Ticker.framerate = FPS;
@@ -116,38 +116,29 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("game_avt_3","./assets/game_avt_3.png");
         s_oSpriteLibrary.addSprite("game_avt_4","./assets/game_avt_4.png");
 
+        s_oSpriteLibrary.addSprite("game1_bg","./assets/game1_bg.jpg");
+        s_oSpriteLibrary.addSprite("homa_dapchuot_title","./assets/homa_dapchuot_title.png");
+        s_oSpriteLibrary.addSprite("hammer_icon_1","./assets/hammer_icon_1.png");
+        s_oSpriteLibrary.addSprite("hammer_icon_2","./assets/hammer_icon_2.png");
+        s_oSpriteLibrary.addSprite("hammer_icon_3","./assets/hammer_icon_3.png");
+        s_oSpriteLibrary.addSprite("button_background_4","./assets/button_background_4.png");
+        s_oSpriteLibrary.addSprite("button_background_3","./assets/button_background_3.png");
+        s_oSpriteLibrary.addSprite("game_info_bg","./assets/game_info_bg.png");
+        s_oSpriteLibrary.addSprite("clock","./assets/clock.png");
+        s_oSpriteLibrary.addSprite("start","./assets/start.png");
 
-        s_oSpriteLibrary.addSprite("but_play","./assets/but_play.png");
-        s_oSpriteLibrary.addSprite("but_home","./assets/but_home.png");
-        s_oSpriteLibrary.addSprite("but_restart","./assets/but_restart.png");
-        s_oSpriteLibrary.addSprite("but_start_game","./assets/but_start_game.png");
-        s_oSpriteLibrary.addSprite("msg_box","./assets/msg_box.png");
-        s_oSpriteLibrary.addSprite("bg_menu","./assets/bg_menu.jpg");
-        s_oSpriteLibrary.addSprite("bg_help","./assets/bg_help.png");
-        s_oSpriteLibrary.addSprite("bg_game","./assets/bg_game.jpg");
-        s_oSpriteLibrary.addSprite("but_exit","./assets/but_exit.png");
-        s_oSpriteLibrary.addSprite("bg_timebar","./assets/bg_timebar.png");  
-        s_oSpriteLibrary.addSprite("fill_timebar","./assets/fill_timebar.png");  
-        s_oSpriteLibrary.addSprite("hammer_icon","./assets/hammer_icon.png");
+        s_oSpriteLibrary.addSprite("mouse_sheet_1","./assets/mouse_sheet_1.png");
+        s_oSpriteLibrary.addSprite("mouse_sheet_2","./assets/mouse_sheet_2.png");
+        s_oSpriteLibrary.addSprite("mouse_sheet_3","./assets/mouse_sheet_3.png");
+        s_oSpriteLibrary.addSprite("mouse_sheet_4","./assets/mouse_sheet_4.png");
+
         s_oSpriteLibrary.addSprite("terrain_hole","./assets/terrain_hole.png");
-        s_oSpriteLibrary.addSprite("hammer","./assets/hammer.png");
-        s_oSpriteLibrary.addSprite("superhammer","./assets/superhammer.png");
-        s_oSpriteLibrary.addSprite("but_credits","./assets/but_credits.png");
-        s_oSpriteLibrary.addSprite("but_fullscreen","./assets/but_fullscreen.png");
-        s_oSpriteLibrary.addSprite("ctl_logo","./assets/ctl_logo.png");
-        s_oSpriteLibrary.addSprite("score_panel","./assets/score_panel.png");
-        s_oSpriteLibrary.addSprite("score_panel_help","./assets/score_panel_help.png");
-        s_oSpriteLibrary.addSprite("game_area","./assets/game_area.png");
-        s_oSpriteLibrary.addSprite("timebar_frame","./assets/timebar_frame.png");
-        s_oSpriteLibrary.addSprite("time_icon","./assets/time_icon.png");
-        s_oSpriteLibrary.addSprite("best_icon","./assets/best_icon.png");
-        s_oSpriteLibrary.addSprite("score_bg","./assets/score_bg.png");
-        s_oSpriteLibrary.addSprite("but_yes","./assets/but_yes.png");
+        s_oSpriteLibrary.addSprite("terrain_hole_back","./assets/terrain_hole_back.png");
+        s_oSpriteLibrary.addSprite("hammer1","./assets/hammer1.png");
+        // for(var i=0;i<CHARACTER_NUM;i++){
+        //     s_oSpriteLibrary.addSprite("character_"+i,"./assets/character_"+i+".png");
+        // }
 
-        for(var i=0;i<CHARACTER_NUM;i++){
-                s_oSpriteLibrary.addSprite("character_"+i,"./assets/character_"+i+".png");
-        }
-        
         RESOURCE_TO_LOAD += s_oSpriteLibrary.getNumSprites();
         s_oSpriteLibrary.loadSprites();
     };
@@ -172,7 +163,8 @@ function CMain(oData){
         s_oSoundTrack = playSound("soundtrack", 0, true);
 
         // this.goToHome();
-        this.goToChooseGame();
+        // this.goToChooseGame();
+        this.goToGame1()
     };
     
     this._onAllImagesLoaded = function(){
@@ -189,6 +181,10 @@ function CMain(oData){
 
     this.goToChooseGame = function() {
         _ScreenChooseGame =  new ScreenChooseGame();
+    }
+
+    this.goToGame1 = function() {
+        _goToGame1 =  new SmashTheMouseScreen1();
     }
     
     this.gotoMenu = function(){
@@ -212,7 +208,7 @@ function CMain(oData){
     };
 
     this.startUpdateNoBlock = function(){
-        s_iPrevTime = new Date().getTime();
+        // s_iPrevTime = new Date().getTime();
         _bUpdate = true;
         createjs.Ticker.paused = false; 
     };
@@ -228,7 +224,7 @@ function CMain(oData){
     };
 
     this.startUpdate = function(){
-        s_iPrevTime = new Date().getTime();
+        // s_iPrevTime = new Date().getTime();
         _bUpdate = true;
         createjs.Ticker.paused = false;
         $("#block_game").css("display","none");
@@ -241,30 +237,30 @@ function CMain(oData){
     };
     
     this._update = function(event){
-        if(_bUpdate === false){
-                return;
-        }
-        var iCurTime = new Date().getTime();
-        s_iTimeElaps = iCurTime - s_iPrevTime;
-        s_iCntTime += s_iTimeElaps;
-        s_iCntFps++;
-        s_iPrevTime = iCurTime;
+        // if(_bUpdate === false){
+        //         return;
+        // }
+        // var iCurTime = new Date().getTime();
+        // s_iTimeElaps = iCurTime - s_iPrevTime;
+        // s_iCntTime += s_iTimeElaps;
+        // s_iCntFps++;
+        // s_iPrevTime = iCurTime;
 
-        if ( s_iCntTime >= 1000 ){
-            s_iCurFps = s_iCntFps;
-            s_iCntTime-=1000;
-            s_iCntFps = 0;
-        }
+        // if ( s_iCntTime >= 1000 ){
+        //     s_iCurFps = s_iCntFps;
+        //     s_iCntTime-=1000;
+        //     s_iCntFps = 0;
+        // }
 
-        if(_iState === STATE_MENU){
-            _oMenu.update();
-        }
+        // if(_iState === STATE_MENU){
+        //     _oMenu.update();
+        // }
         
-        if(_iState === STATE_GAME){
-            _oGame.update();
-        }
+        // if(_iState === STATE_GAME){
+        //     _oGame.update();
+        // }
 
-        s_oStage.update(event);
+        // s_oStage.update(event);
        
     };
 
@@ -275,7 +271,6 @@ function CMain(oData){
     s_oMain = this;
     
     _oData = oData;
-    CHARACTER_POINTS = oData.points;
     START_SPAWN_TIME = oData.start_spawn_time;
     TIME_OFFSET_PER_SPAWN_DECREASE = oData.time_offset;
     OFFSET_SPAWN_TIME = oData.offset_spawn_time;

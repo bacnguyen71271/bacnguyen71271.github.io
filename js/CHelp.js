@@ -66,7 +66,7 @@ function CHelp(){
         
         
         /////////////CHARACTER 1
-        var oCharacter = new CCharacter(-250,-40,0,_oPanelContainer);
+        var oCharacter = new CCharacter(-250, -40, 1, _oPanelContainer);
         oCharacter.playAnim("idle");
         
         var oSpriteScoreBg = s_oSpriteLibrary.getSprite("score_panel_help");
@@ -93,7 +93,7 @@ function CHelp(){
 
         
         /////////////CHARACTER 2
-        var oCharacter = new CCharacter(0,-40,1,_oPanelContainer);
+        var oCharacter = new CCharacter(0, -40, 2, _oPanelContainer);
         oCharacter.playAnim("idle");
         
         var oScorePanel =  createBitmap(oSpriteScoreBg);
@@ -117,7 +117,7 @@ function CHelp(){
        
        
        /////////////CHARACTER 3
-       var oCharacter = new CCharacter(250,-40,2,_oPanelContainer);
+       var oCharacter = new CCharacter( 250, -40, 3, _oPanelContainer);
         oCharacter.playAnim("idle");
         
         var oScorePanel =  createBitmap(oSpriteScoreBg);
@@ -140,8 +140,8 @@ function CHelp(){
         _oPanelContainer.addChild(oScoreNum);
       
       
-      /////////////CHARACTER 4
-        var oCharacter = new CCharacter(-250,220,3,_oPanelContainer);
+        /////////////CHARACTER 4
+        var oCharacter = new CCharacter( -250, 220, 3, _oPanelContainer);
         oCharacter.playAnim("idle");
 
         
@@ -167,7 +167,7 @@ function CHelp(){
         
         
         /////////////CHARACTER 5
-        var oCharacter = new CCharacter(0,220,4,_oPanelContainer);
+        var oCharacter = new CCharacter(0, 220, 3, _oPanelContainer);
         oCharacter.playAnim("idle");
 
         

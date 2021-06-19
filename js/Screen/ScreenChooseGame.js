@@ -119,9 +119,9 @@ function ScreenChooseGame() {
         _ButonStart.addEventListener(ON_MOUSE_UP, () => {}, this, 0);
         
         _GameAvatar.push(new CGImage(oModePos.x + 20, oModePos.y + 140, s_oSpriteLibrary.getSprite('game_avt_1'), s_oStage));
-        _GameAvatar.push(new CGImage(oModePos.x - 20, oModePos.y + 160, s_oSpriteLibrary.getSprite('game_avt_2'), s_oStage));
-        _GameAvatar.push(new CGImage(oModePos.x + 20, oModePos.y + 140, s_oSpriteLibrary.getSprite('game_avt_3'), s_oStage));
-        _GameAvatar.push(new CGImage(oModePos.x + 20, oModePos.y + 140, s_oSpriteLibrary.getSprite('game_avt_4'), s_oStage));
+        _GameAvatar.push(new CGImage(oModePos.x - 41, oModePos.y + 182, s_oSpriteLibrary.getSprite('game_avt_2'), s_oStage));
+        _GameAvatar.push(new CGImage(oModePos.x - 13, oModePos.y + 174, s_oSpriteLibrary.getSprite('game_avt_3'), s_oStage));
+        _GameAvatar.push(new CGImage(oModePos.x - 3, oModePos.y + 161, s_oSpriteLibrary.getSprite('game_avt_4'), s_oStage));
         _GameAvatar.forEach((el)=>{ el.setVisible(false) })
 
         if(ENABLE_FULLSCREEN === false){

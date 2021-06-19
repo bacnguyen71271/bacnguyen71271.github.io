@@ -96,7 +96,7 @@ function CGfxButton(iXPos,iYPos,oSprite,oParentContainer){
     };
     
     this.pulseAnimation = function () {
-        createjs.Tween.get(_oButton).to({scaleX: _iScale*1.1, scaleY: _iScale*1.1}, 850, createjs.Ease.quadOut).to({scaleX: _iScale, scaleY: _iScale}, 650, createjs.Ease.quadIn).call(function () {
+        createjs.Tween.get(_oButton).to({scaleX: _iScale*1.05, scaleY: _iScale*1.05}, 1500, createjs.Ease.quadOut).to({scaleX: _iScale, scaleY: _iScale}, 1500, createjs.Ease.quadIn).call(function () {
             _oParent.pulseAnimation();
         });
     };
