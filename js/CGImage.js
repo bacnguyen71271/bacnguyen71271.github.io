@@ -75,7 +75,6 @@ function CGImage(iXPos,iYPos,oSprite,oParentContainer){
         return _oImage;
     };
     
-    
     this.getX = function(){
         return _oImage.x;
     };

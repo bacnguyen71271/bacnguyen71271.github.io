@@ -1,4 +1,4 @@
-function ChaseImageCaptureWordScreen1 () {
+function Game3Screen1 () {
     var _ButtonBack;
 
     this.init = function() {
@@ -39,18 +39,17 @@ function ChaseImageCaptureWordScreen1 () {
         
         new CGImage(oModePos.x, oModePos.y + 160, s_oSpriteLibrary.getSprite('modal_bg'), s_oStage);
 
-        new CText(oModePos.x, oModePos.y - 220, null, 'HOMA NHÌN HÌNH ĐOÁN CHỮ', "showcard", "#fffec9", 60, s_oStage);
+        new CText(oModePos.x, oModePos.y - 220, null, 'ÔN LUYỆN CÙNG HOMA', "showcard", "#fffec9", 60, s_oStage);
 
-        new CText(oModePos.x, oModePos.y - 40, null, 'Cách chơi: điền chữ cái để ghép thành câu trả lời đúng', "MontserratSemiBold", "#fff", 25, s_oStage);
-        new CText(oModePos.x, oModePos.y - 5, null, 'theo hình ảnh mô tả. Điền đúng được 3 câu trên 5 câu', "MontserratSemiBold", "#fff", 25, s_oStage);
-        new CText(oModePos.x, oModePos.y + 30, null, 'sẽ được tính là qua game', "MontserratSemiBold", "#fff", 25, s_oStage);
+        new CText(oModePos.x, oModePos.y - 40, null, 'Chào mừng các bé đã đến với thử thách', "MontserratSemiBold", "#fff", 30, s_oStage);
+        new CText(oModePos.x, oModePos.y + 5, null, 'Homa Làm toán!', "MontserratSemiBold", "#fff", 30, s_oStage);
 
-        new CText(780, oModePos.y + 125, null, 'CÁCH TÍNH ĐIỂM:', "MontserratBlack", "#fff", 35, s_oStage)
-        new CText(850, oModePos.y + 165, null, '• Trả lời đúng trong 15s đầu: 30 điểm', "MontserratSemiBold", "#fff", 25, s_oStage)
-        new CText(884, oModePos.y + 200, null, '• Trả lời đúng trong 15s tiếp theo: 20 điểm', "MontserratSemiBold", "#fff", 25, s_oStage)
-        new CText(860, oModePos.y + 235, null, '• Trả lời đúng trong vòng 60s: 10 điểm', "MontserratSemiBold", "#fff", 25, s_oStage)
-        new CText(951, oModePos.y + 270, null, '• Trả lời đúng nhưng quá 60s: Qua bài nhưng không', "MontserratSemiBold", "#fff", 25, s_oStage)
-        new CText(716, oModePos.y + 305, null, 'được tính điểm', "MontserratSemiBold", "#fff", 25, s_oStage)
+        new CGImage(oModePos.x - 190, oModePos.y + 140, s_oSpriteLibrary.getSprite('game3_score_define1'), s_oStage);
+        new CGImage(oModePos.x + 190, oModePos.y + 140, s_oSpriteLibrary.getSprite('game3_score_define2'), s_oStage);
+
+        new CText(oModePos.x, oModePos.y + 270, null, '*Thời gian trả lời mỗi câu hỏi: 15s', "MontserratSemiBold", "#fff", 25, s_oStage);
+        new CText(oModePos.x, oModePos.y + 315, null, '*Điểm số tối thiểu cần đạt: 50 điểm', "MontserratSemiBold", "#fff", 25, s_oStage);
+        
 
         var oSprite = s_oSpriteLibrary.getSprite('button_background_3');
         _pStartPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
@@ -64,7 +63,7 @@ function ChaseImageCaptureWordScreen1 () {
 
     this.goToGame = function () {
         this.unload()
-        ScreenGame = new ChaseImageCaptureWordScreen2();
+        ScreenGame = new Game3Screen2();
     }
 
     this._onAudioToggle = function(){

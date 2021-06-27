@@ -1,0 +1,359 @@
+function Game3Screen2 () {
+    var _ButtonBack;
+
+    var _question;
+    var _option = []
+    var _questionExtra;
+    var oModePos
+    var Score = 0;
+
+    var _questionTitle
+
+    var _questionIndex
+    var questionList = [
+        {
+            question: 'Vườn nhà Mai có 316 cây, trong đó có 148 cây cam còn lại là cây chanh. Tỉ số cây cam : cây chanh = ...',
+            question_extra: '5 + 7 = ?',
+            answer_option: [
+                'WWWWWWWWWWs',
+                'B. 37 : 42',
+                'C. 37 : 79',
+                'D. 42 : 79',
+            ],
+            right_answer: 1
+        },
+        {
+            question: 'Trong các câu sau, câu nào cần sử dụng dấu phẩy?',
+            question_extra: null,
+            answer_option: [
+                'A. Gia đình tớ gồm bố mẹ chị gái và tớ.',
+                'B. Cô giáo tớ rất dịu dàng.',
+                'C. Trường học là ngôi nhà thứ hai của tớ.',
+                'D. Tớ cùng chị đạp xe mỗi buổi chiều.',
+            ],
+            right_answer: 0
+        },
+        {
+            question: 'Gấp đôi của 4 là ...',
+            question_extra: null,
+            answer_option: [
+                'A. 8',
+                'B. 7',
+                'C. 10',
+                'D. 6',
+            ],
+            right_answer: 0
+        },
+    ]
+
+    var _iTimeElapsed
+    var _Time;
+
+    this.init = function() {
+        _questionIndex = -1
+        oModePos = {x: CANVAS_WIDTH/2, y: 875};
+        _iTimeElapsed = 15000;
+        s_iPrevTime = new Date().getTime();
+        Score = 0;
+
+        // Add background
+        _Bg = createBitmap(s_oSpriteLibrary.getSprite('ldp_background'));
+        s_oStage.addChild(_Bg);
+
+        // Overlay Layout
+        _Fade = new createjs.Shape()
+        _Fade.graphics.beginFill('black').drawRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+        _Fade.alpha = 0.6
+        s_oStage.addChild(_Fade);
+        _Listener = _Fade.on("click", function () {});
+        
+        // Add Audio Button
+        if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+            var oSprite = s_oSpriteLibrary.getSprite('audio_icon');
+            _pStartPosAudio = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
+            
+            _oAudioToggle = new CToggle(_pStartPosAudio.x,_pStartPosAudio.y,oSprite,s_bAudioActive);
+            _oAudioToggle.addEventListener(ON_MOUSE_UP, this._onAudioToggle, this);    
+        }
+
+        // Add Cart Button
+        var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
+        _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
+        _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
+        _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
+
+        
+        new CGImage(oModePos.x, oModePos.y + 140, s_oSpriteLibrary.getSprite('modal_bg'), s_oStage);
+
+        new CText(oModePos.x, oModePos.y - 240, null, 'ÔN LUYỆN CÙNG HOMA', "showcard", "#fffec9", 60, s_oStage);
+
+        _Time = new GameInfo(oModePos.x - 257, oModePos.y - 100, s_oSpriteLibrary.getSprite('clock'), s_oSpriteLibrary.getSprite('game_info_bg'), '00:00', '#602708', s_oStage)
+        _Time.setRotate(-3)
+        _Time.setScale(0.8, 0.8)
+        
+        _Score = new GameInfo(oModePos.x + 274, oModePos.y - 100, s_oSpriteLibrary.getSprite('start'), s_oSpriteLibrary.getSprite('background_score'), '0', '#602708', s_oStage, 'right')
+        _Score.setRotate(3)
+        _Score.setScale(0.8, 0.8)
+
+        _questionTitle = new CText(oModePos.x, oModePos.y - 95, null, 'CÂU HỎI SỐ: 10/10', "MontserratBlack", "#fff", 30, s_oStage);
+
+        _question = new createjs.Text(' ' , "20px MontserratSemiBold", "#fff");
+        _question.textAlign = "center";
+        _question.lineHeight = 25;
+        _question.textBaseline = "alphabetic";
+        _question.lineWidth = 660
+        _question.x = oModePos.x
+        _question.y = oModePos.y
+        s_oStage.addChild(_question)
+
+        _questionExtra = new QuestionExtra(oModePos.x, oModePos.y + 150)
+        _questionExtra.changeText(' ')
+        
+
+        for (let index = 0; index < 4; index++) {
+            var col = index % 2;
+            var row = parseInt(index / 2)
+            var button = new CTextButton( 750 + (col * 440) , oModePos.y + 260 + (row * 90) , s_oSpriteLibrary.getSprite('answer_bg'), ' ', "MontserratBlack", "#7d2308", 15, s_oStage, 'left')
+            button.addEventListenerWithParams(ON_MOUSE_UP, this.selectAnswer , this, index);
+            button.setVisible(false)
+            _option.push(button);
+        }
+
+        createjs.Ticker.addEventListener("tick", this.update);
+        this.refreshButtonPos();
+        this._nextQuestion()
+    }
+
+    this.selectAnswer = function (index) {
+        if (index == questionList[_questionIndex].right_answer) {
+            console.log('tra loi dung')
+            // Cong diem
+            Score += 10
+        } else {
+            console.log('tra loi sai')
+            // Tru diem
+            Score -= 20
+            if (Score < 0) { Score = 0 }
+        }
+        // Update diem so
+        _Score.changeText(Score)
+        // Chuyen cau tiep theo
+        s_Game3Screen2._nextQuestion()
+        _iTimeElapsed = 15000;
+    }
+
+    this.update = function() {
+
+        if (_questionIndex == questionList.length) {
+            return;
+        }
+        
+        var iCurTime = new Date().getTime();    
+        s_iTimeElaps = iCurTime - s_iPrevTime;
+        s_iCntTime += s_iTimeElaps;
+        s_iCntFps++;
+        s_iPrevTime = iCurTime;
+
+        if ( s_iCntTime >= 1000 ){
+            // console.log(s_iCntTime)
+            s_iCurFps = s_iCntFps;
+            s_iCntTime-=1000;
+            s_iCntFps = 0;
+        }
+
+        //REFRESH TIME BAR
+        _iTimeElapsed -= s_iTimeElaps;
+        if (_iTimeElapsed < 0){
+            _bUpdate = false;
+            // _oInterface.refreshTimeText(formatTime(0));
+            // this.gameOver();
+
+            // Chuyen cau khac
+            if (_questionIndex < questionList.length - 1) {
+                s_Game3Screen2._nextQuestion()
+                _iTimeElapsed = 15000;
+            } else {
+                s_Game3Screen2.questionSuccess()
+                return
+            }
+        }else{
+            // Change time text
+            _Time.changeText(formatTime(_iTimeElapsed))
+        }
+    }
+
+    this.questionSuccess = function () {
+        console.log('xong')
+    }
+
+    this._nextQuestion = function () {
+        _questionIndex++;
+        
+        if (questionList[_questionIndex].question) {
+            _question.text = questionList[_questionIndex].question
+        }
+
+        if (questionList[_questionIndex].question_extra) {
+            _questionExtra.changeText(questionList[_questionIndex].question_extra)
+            _questionExtra.setVisible(true)
+            _question.y = oModePos.y
+        } else {
+            _question.y = oModePos.y + 30
+        }
+
+        if (questionList[_questionIndex].answer_option) {
+            for (let index = 0; index < _option.length; index++) {
+                _option[index].setVisible(false)
+            }
+            var answerTextLenght = 0;
+            for (let index = 0; index < questionList[_questionIndex].answer_option.length; index++) {
+                _option[index].changeText(questionList[_questionIndex].answer_option[index])
+                _option[index].setVisible(true, 'auto')
+                if (questionList[_questionIndex].answer_option[index].length > answerTextLenght) { answerTextLenght = questionList[_questionIndex].answer_option[index].length }
+            }
+
+            for (let index = 0; index < _option.length; index++) {
+                if (answerTextLenght < 11) {
+                    _option[index].changeFont('20px MontserratBlack')
+                } else {
+                    _option[index].changeFont('15px MontserratBlack')
+                }
+            }
+        }
+
+        _questionTitle.changeText('CÂU HỎI SỐ: ' + (_questionIndex + 1) + '/' +questionList.length )
+
+    }
+
+    this._onAudioToggle = function(){
+        Howler.mute(s_bAudioActive);
+        s_bAudioActive = !s_bAudioActive;
+    };
+
+    this.refreshButtonPos = function(){
+        if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+            _oAudioToggle.setPosition(_pStartPosAudio.x - s_iOffsetX,s_iOffsetY + _pStartPosAudio.y);
+        }
+        _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
+        // _Time.setPosition(_pCartPos.x - s_iOffsetX , oModePos.y - 80 );
+    }
+
+    this.unload = function() {
+        s_Game3Screen2 = null;
+        s_oStage.removeAllChildren();
+    }    
+
+    s_Game3Screen2 = this;
+    this.init()
+}
+
+var s_Game3Screen2 = null;
+
+function QuestionExtra(iXPos, iYPos) {
+
+    var _extraText = []
+    var _textWidth = 0;
+    var _textHeight = 0;
+    var _panelWidth = 0
+    var _extraPanel;
+    var _panelHeight;
+    var _extraContainer;
+    var _questionMask;
+    var _questionMaskSprite = s_oSpriteLibrary.getSprite('question_mask')
+
+    this._init = function (iXPos, iYPos) {
+        _extraContainer = new createjs.Container()
+        // Init question extra
+        for (let index = 0; index < 8; index++) {
+            var _text = new createjs.Text(' ', "50px MontserratBlack", "#ffcd7d")
+            _text.textAlign = "center";
+            _text.textBaseline = "alphabetic";
+
+            // _text.y = Math.floor((panelHeight)/2) + (_textHeight/3);
+            _extraText.push(_text)
+        }
+
+        _textHeight = _extraText[0].getBounds().height
+
+        // _extraText[index].y = Math.floor((panelHeight)/2) + (_textHeight/3);
+        
+        _panelHeight = _textHeight + 40;
+        for (let index = 0; index < _extraText.length; index++) {
+            _textWidth += _extraText[index].getBounds().width + 40
+            _extraText[index].x = _textWidth
+            _extraText[index].y = Math.floor((_panelHeight)/2) + (_textHeight/3);
+        }
+        _panelWidth = _textWidth;
+
+        _extraPanel = new createjs.Shape()
+        _extraPanel.graphics
+        .beginFill('#983c34')
+        .setStrokeStyle(4)
+        .beginLinearGradientStroke(["#e5ab00","#f29a24"], [0, 1], 0, 4, 0, 120)
+        .drawRoundRect(0, 0, _panelWidth, _panelHeight, 5)
+
+        _extraPanel.shadow = new createjs.Shadow("#0000005c", 0, 3, 5);
+        
+        // insert question mask
+        _questionMask = createBitmap(_questionMaskSprite)
+        _questionMask.y = Math.floor((_panelHeight)/2) - (_questionMaskSprite.height/2);
+        _questionMask.visible = false
+        // _oText.x = panelWidth / 2
+
+        _extraContainer.x = iXPos;
+        _extraContainer.y = iYPos;
+        _extraContainer.regX = _panelWidth / 2
+        _extraContainer.regY = _panelHeight / 2
+
+        _extraContainer.addChild(_extraPanel, _questionMask)
+        for (let index = 0; index < _extraText.length; index++) {
+            _extraContainer.addChild(_extraText[index])
+            _extraText[index].visible = false
+        }
+        
+        s_oStage.addChild(_extraContainer)
+    }
+
+    this.setVisible = function(bVisible){
+        _extraContainer.visible = bVisible;
+    };
+
+    this.changeText = function (text) {
+        var textArr = text.split(' ')
+        if (text == '' || text == ' ') {
+            _extraContainer.visible = false;
+            return
+        }
+
+        _panelWidth = 0
+        _questionMask.visible = false
+
+        for (let index = 0; index < _extraText.length; index++) {
+            _extraText[index].visible = false
+        }
+
+        for (let index = 0; index < textArr.length; index++) {
+            if (textArr[index] == '?') {
+                _questionMask.visible = true
+                _questionMask.x = _panelWidth + 20
+                _panelWidth += _questionMaskSprite.width + 40
+            } else {
+                _extraText[index].text = textArr[index]
+                _extraText[index].visible = true
+                _extraText[index].x = _panelWidth + 40
+                _panelWidth += _extraText[index].getBounds().width + 40
+            }
+        }
+
+        _extraPanel.graphics.clear()
+        _extraPanel.graphics
+        .beginFill('#983c34')
+        .setStrokeStyle(4)
+        .beginLinearGradientStroke(["#e5ab00","#f29a24"], [0, 1], 0, 4, 0, 120)
+        .drawRoundRect(0, 0, _panelWidth, _panelHeight, 5)
+        
+        _extraContainer.regX = _panelWidth / 2
+    }
+
+    this._init(iXPos, iYPos)
+}

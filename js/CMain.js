@@ -135,9 +135,26 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("terrain_hole","./assets/terrain_hole.png");
         s_oSpriteLibrary.addSprite("terrain_hole_back","./assets/terrain_hole_back.png");
         s_oSpriteLibrary.addSprite("hammer1","./assets/hammer1.png");
-        // for(var i=0;i<CHARACTER_NUM;i++){
-        //     s_oSpriteLibrary.addSprite("character_"+i,"./assets/character_"+i+".png");
-        // }
+
+        s_oSpriteLibrary.addSprite("game_info_bg_2","./assets/game_info_bg_2.png");
+        s_oSpriteLibrary.addSprite("bg_time_process","./assets/bg_time_process.png");
+        s_oSpriteLibrary.addSprite("game_board","./assets/game_board.png");
+        s_oSpriteLibrary.addSprite("time_point","./assets/time_point.png");
+        s_oSpriteLibrary.addSprite("text_box_1","./assets/text_box_1.png");
+        s_oSpriteLibrary.addSprite("text_box_2","./assets/text_box_2.png");
+        s_oSpriteLibrary.addSprite("bg_back_2","./assets/bg_back_2.png");
+
+        s_oSpriteLibrary.addSprite("next_game","./assets/next_game.png");
+        s_oSpriteLibrary.addSprite("next_frame","./assets/next_frame.png");
+        s_oSpriteLibrary.addSprite("game3_score_define1","./assets/game3_score_define1.png");
+        s_oSpriteLibrary.addSprite("game3_score_define2","./assets/game3_score_define2.png");
+        s_oSpriteLibrary.addSprite("background_score","./assets/background_score.png");
+        s_oSpriteLibrary.addSprite("question_mask","./assets/question_mask.png");
+        s_oSpriteLibrary.addSprite("answer_bg","./assets/answer_bg.png");
+
+        for(var i = 1 ;i< 11 ;i++){
+            s_oSpriteLibrary.addSprite("image_word_"+i,"./assets/image_word_"+i+".png");
+        }
 
         RESOURCE_TO_LOAD += s_oSpriteLibrary.getNumSprites();
         s_oSpriteLibrary.loadSprites();
@@ -184,7 +201,9 @@ function CMain(oData){
     }
 
     this.goToGame1 = function() {
-        _goToGame1 =  new SmashTheMouseScreen1();
+        // _goToGame1 =  new SmashTheMouseScreen2();
+        _goToGame1 =  new Game3Screen1();
+        // _goToGame1 =  new ChaseImageCaptureWordScreen1();
     }
     
     this.gotoMenu = function(){

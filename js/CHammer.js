@@ -7,7 +7,7 @@ function CHammer(oParentContainer){
             images: [s_oSpriteLibrary.getSprite('hammer1')], 
             // width, height & registration point of each sprite
             frames: {width: HAMMER_WIDTH, height: HAMMER_HEIGHT, regX: HAMMER_WIDTH/2, regY: HAMMER_HEIGHT},
-            framerate: 15,
+            framerate: 60,
             animations: { 
                 start:1,
                 hit:[1, 11, "stop"],

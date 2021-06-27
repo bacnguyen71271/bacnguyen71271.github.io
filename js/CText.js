@@ -109,6 +109,22 @@ function CText(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
         _oText.text = szText;
         _oTextBack.text = szText;
     };
+
+    this.pulseAnimation2 = function () {
+        createjs.Tween.get(_oButton).to({scaleX: 1.1, scaleY: 1.1}, 100, createjs.Ease.quadOut).to({scaleX: 1, scaleY: 1}, 300, createjs.Ease.quadIn).call(function () {
+        });
+    };
+
+    this.pulseAnimation1 = function () {
+        createjs.Tween.get(_oButton)
+            .to({rotation: 20}, 100, createjs.Ease.quadOut)
+            .to({rotation: -20}, 100, createjs.Ease.quadIn)
+            .to({rotation: 0}, 200, createjs.Ease.quadIn)
+    }
+
+    this.getText = function () {
+        return _oText.text
+    }
     
     this.setX = function(iXPos){
          _oButton.x = iXPos;

@@ -1,4 +1,4 @@
-function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
+function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach, textAlign = 'center'){
     var _bDisable;
     var _iWidth;
     var _iHeight;
@@ -9,8 +9,11 @@ function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach
     var _oTextBack;
     var _oText;
     var _oButtonBg;
+    var _textBounds;
+    var _iStepShadow;
+    // var _textMetric;
     
-    this._init =function(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
+    this._init =function(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach, textAlign){
         _bDisable = false;
         _aCbCompleted=new Array();
         _aCbOwner =new Array();
@@ -19,7 +22,7 @@ function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach
         _iWidth = oSprite.width;
         _iHeight = oSprite.height;
 		
-        var iStepShadow = Math.ceil(iFontSize/20);
+        _iStepShadow = Math.ceil(iFontSize/20);
         
         if (szColor == '#fff') {
             _shadowColor = '#93420a'
@@ -28,19 +31,30 @@ function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach
         }
         
         _oTextBack = new createjs.Text(szText,iFontSize+"px "+szFont, _shadowColor);
-        var oBounds = _oTextBack.getBounds();
-        _oTextBack.textAlign = "center";
-        _oTextBack.lineWidth = _iWidth *0.9;
+        _textBounds = _oTextBack.getBounds();
+        _textMetric = _oTextBack.getMetrics();
+        _oTextBack.textAlign = textAlign;
+        _oTextBack.lineWidth = _iWidth *0.85;
         _oTextBack.textBaseline = "alphabetic";
-        _oTextBack.x = oSprite.width/2;
-        _oTextBack.y = Math.floor((oSprite.height)/2) +(oBounds.height/3) + iStepShadow;
+        if (textAlign !== 'center') {
+            _oTextBack.x = oSprite.width/2 - _oTextBack.getMetrics().width / 2
+        } else {
+            _oTextBack.x = oSprite.width/2;
+        }
+        
+        _oTextBack.y = Math.floor((oSprite.height)/2) +(_textBounds.height/3) + _iStepShadow;
 
         _oText = new createjs.Text(szText,iFontSize+"px "+szFont, szColor);
-        _oText.textAlign = "center";
+        _oText.textAlign = textAlign;
         _oText.textBaseline = "alphabetic";  
-        _oText.lineWidth = _iWidth *0.9;
-        _oText.x = oSprite.width/2;
-        _oText.y = Math.floor((oSprite.height)/2) +(oBounds.height/3);
+        _oText.lineWidth = _iWidth *0.85;
+
+        if (textAlign !== 'center') {
+            _oText.x = oSprite.width/2 - _oText.getMetrics().width / 2
+        } else {
+            _oText.x = oSprite.width/2;
+        }
+        _oText.y = Math.floor((oSprite.height)/2) +(_textBounds.height/3);
 
         _oButton = new createjs.Container();
         _oButton.x = iXPos;
@@ -78,19 +92,16 @@ function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach
     
     this.enable = function(){
         _bDisable = false;
-		
-	_oButtonBg.filters = [];
-
+	    _oButtonBg.filters = [];
         _oButtonBg.cache(0,0,_iWidth,_iHeight);
     };
     
     this.disable = function(){
         _bDisable = true;
-		
-	var matrix = new createjs.ColorMatrix().adjustSaturation(-100).adjustBrightness(40);
+	    var matrix = new createjs.ColorMatrix().adjustSaturation(-100).adjustBrightness(40);
         _oButtonBg.filters = [
-                                new createjs.ColorMatrixFilter(matrix)
-                             ];
+            new createjs.ColorMatrixFilter(matrix)
+        ];
         _oButtonBg.cache(0,0,_iWidth,_iHeight);
     };
     
@@ -143,10 +154,43 @@ function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach
          _oButton.y = iYPos;
     };
     
-    this.changeText = function(szText){
+    this.changeFont = function (font) {
+        _oText.font = font
+        _oTextBack.font = font
+    }
+
+    this.changeText = function(szText, textAlign = 'center'){
         _oText.text = szText;
         _oTextBack.text = szText;
+        console.log(_oText.getMetrics().lines.length)
+        _oText.y = _oText.getMetrics().lines.length === 1 ? Math.floor((oSprite.height)/2) + (_oText.getMeasuredHeight()/3) : Math.floor((oSprite.height)/2) - (_oText.getMeasuredHeight() / (_oText.getMetrics().lines.length * 5));
+        _oTextBack.y = _oText.getMetrics().lines.length === 1 ? Math.floor((oSprite.height)/2) + (_oText.getMeasuredHeight()/3) : Math.floor((oSprite.height)/2) - (_oText.getMeasuredHeight() / (_oText.getMetrics().lines.length * 5)) + _iStepShadow;
+
+        if (textAlign == 'auto') {
+            var _textAlign = _oText.getMetrics().lines.length === 1 ? 'center' : 'left'
+            _oText.textAlign = _textAlign
+            _oTextBack.textAlign = _textAlign
+        } else {
+            _oText.textAlign = textAlign
+            _oTextBack.textAlign = textAlign
+        }
+
+        if (textAlign !== 'center') {
+            _oText.x = oSprite.width/2 - _oText.getMetrics().width / 2
+            _oTextBack.x = oSprite.width/2 - _oTextBack.getMetrics().width / 2
+        } else {
+            _oText.x = oSprite.width/2;
+            _oTextBack.x = oSprite.width/2;
+        }
     };
+    
+    this.changeColor = function(color){
+        _oText.color = color;
+    };
+
+    this.getText = function () {
+        return _oText.text
+    }
     
     this.setX = function(iXPos){
          _oButton.x = iXPos;
@@ -172,7 +216,7 @@ function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach
         return _oButton;
     };
 
-    this._init(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach);
+    this._init(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach, textAlign);
     
     return this;
     

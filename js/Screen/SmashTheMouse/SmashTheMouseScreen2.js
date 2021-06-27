@@ -42,8 +42,8 @@ function SmashTheMouseScreen2 () {
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
         _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
 
-        _Time = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('clock'), '00:00', s_oStage)
-        _Scores = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('start'), '0', s_oStage)
+        _Time = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('clock'), s_oSpriteLibrary.getSprite('game_info_bg'), '00:00', '#602708', s_oStage)
+        _Scores = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('start'), s_oSpriteLibrary.getSprite('game_info_bg'), '0', '#602708', s_oStage)
     
         // _oInterface = new CInterface();
 

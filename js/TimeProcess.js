@@ -1,4 +1,4 @@
-function GameInfo(iXPos, iYPos, oSprite1, oSprite, szText, szColor, bAttach, position = 'left'){
+function TimeProcess(iXPos, iYPos, szText, process, bAttach){
     var _bDisable;
     var _iWidth;
     var _iHeight;
@@ -9,32 +9,35 @@ function GameInfo(iXPos, iYPos, oSprite1, oSprite, szText, szColor, bAttach, pos
     var _oTextBack;
     var _oText;
     var _oButtonBg;
-    var iFontSize = 35;
+    var iFontSize = 30;
+    var szColor = '#fce48a';
     var szFont = 'showcard'
-    
-    this._init =function(iXPos, iYPos, oSprite, szText, bAttach){
+    var ProcessMin = 30
+    var ProcessMax = 560;
+
+    this._init =function(iXPos, iYPos, szText, process, bAttach){
         _bDisable = false;
         _aCbCompleted=new Array();
         _aCbOwner =new Array();
 
-        // new CText(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('game_info_bg'), '+20 ĐIỂM', "showcard", "#fff", 25, s_oStage);  
-        // new CGImage(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('clock'), s_oStage)
 
+        oSprite1 = oSprite = s_oSpriteLibrary.getSprite('clock')
         if (oSprite1) {
             _oButtonIcon = createBitmap( oSprite1);
             _oButtonIcon.x = oSprite1.width/2 - 100;
-            _oButtonIcon.y = oSprite1.height/2 - 55;
+            _oButtonIcon.y = oSprite1.height/2 - 60;
         }
-
+        
+        oSprite = s_oSpriteLibrary.getSprite('bg_time_process')
         if (oSprite) {
             _oButtonBg = createBitmap( oSprite);
             _iWidth = oSprite.width;
             _iHeight = oSprite.height;
-
-            if (position == 'right') {
-                _oButtonIcon.x += _iWidth
-            }
         }
+
+
+        _proCess = new createjs.Shape();
+        _proCess.graphics.beginLinearGradientFill(["#f0a729","#d15b24"], [0, 1], 0, 18, 0, 40).drawRoundRect(20, 18, ProcessMax, 35, 5)
 		
         var iStepShadow = Math.ceil(iFontSize/20);
 
@@ -71,7 +74,7 @@ function GameInfo(iXPos, iYPos, oSprite1, oSprite, szText, szColor, bAttach, pos
         }
 
         if (oSprite) {
-            _oButton.addChild(_oButtonBg, _oButtonIcon, _oTextBack,_oText);
+            _oButton.addChild(_oButtonBg, _proCess, _oButtonIcon, _oTextBack,_oText);
         } else {
             _oButton.addChild(_oTextBack,_oText);
         }
@@ -80,6 +83,14 @@ function GameInfo(iXPos, iYPos, oSprite1, oSprite, szText, szColor, bAttach, pos
             s_oStage.addChild(_oButton);
         }
     };
+
+    this.updateProcess = function (process) {
+        var temp = ProcessMax - ProcessMin;
+        temp = temp / 100
+        var processWith = ProcessMin + temp * process
+        _proCess.graphics.clear();
+        _proCess.graphics.beginLinearGradientFill(["#f0a729","#d15b24"], [0, 1], 0, 18, 0, 40).drawRoundRect(20, 18, processWith, 35, 5)
+    }
     
     this.unload = function(){
        _oButton.off("mousedown");
@@ -96,15 +107,6 @@ function GameInfo(iXPos, iYPos, oSprite1, oSprite, szText, szColor, bAttach, pos
         _oText.textAlign = szAlign;
         _oTextBack.textAlign = szAlign;
     };
-
-    this.setRotate = function (p) {
-        _oButton.rotation = p;
-    }
-
-    this.setScale = function (x, y) {
-        _oButton.scaleX = x;
-        _oButton.scaleY = y;
-    }
     
     this.enable = function(){
         _bDisable = false;
@@ -119,8 +121,8 @@ function GameInfo(iXPos, iYPos, oSprite1, oSprite, szText, szColor, bAttach, pos
 		
 	var matrix = new createjs.ColorMatrix().adjustSaturation(-100).adjustBrightness(40);
         _oButtonBg.filters = [
-                                new createjs.ColorMatrixFilter(matrix)
-                             ];
+            new createjs.ColorMatrixFilter(matrix)
+        ];
         _oButtonBg.cache(0,0,_iWidth,_iHeight);
     };
     
@@ -158,7 +160,7 @@ function GameInfo(iXPos, iYPos, oSprite1, oSprite, szText, szColor, bAttach, pos
         return _oButton;
     };
 
-    this._init(iXPos, iYPos, oSprite, szText, bAttach);
+    this._init(iXPos, iYPos, szText, process, bAttach);
     
     return this;
     
