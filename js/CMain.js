@@ -25,7 +25,7 @@ function CMain(oData){
 		
         // s_iPrevTime = new Date().getTime();
 
-	createjs.Ticker.addEventListener("tick", this._update);
+        createjs.Ticker.addEventListener("tick", this._update);
         createjs.Ticker.framerate = FPS;
         
         if(navigator.userAgent.match(/Windows Phone/i)){
@@ -236,7 +236,7 @@ function CMain(oData){
     };
 
     this.startUpdateNoBlock = function(){
-        // s_iPrevTime = new Date().getTime();
+        s_iPrevTime = new Date().getTime();
         _bUpdate = true;
         createjs.Ticker.paused = false; 
     };
@@ -252,7 +252,7 @@ function CMain(oData){
     };
 
     this.startUpdate = function(){
-        // s_iPrevTime = new Date().getTime();
+        s_iPrevTime = new Date().getTime();
         _bUpdate = true;
         createjs.Ticker.paused = false;
         $("#block_game").css("display","none");
@@ -265,30 +265,30 @@ function CMain(oData){
     };
     
     this._update = function(event){
-        // if(_bUpdate === false){
-        //         return;
-        // }
-        // var iCurTime = new Date().getTime();
-        // s_iTimeElaps = iCurTime - s_iPrevTime;
-        // s_iCntTime += s_iTimeElaps;
-        // s_iCntFps++;
-        // s_iPrevTime = iCurTime;
+        if(_bUpdate === false){
+                return;
+        }
+        var iCurTime = new Date().getTime();
+        s_iTimeElaps = iCurTime - s_iPrevTime;
+        s_iCntTime += s_iTimeElaps;
+        s_iCntFps++;
+        s_iPrevTime = iCurTime;
 
-        // if ( s_iCntTime >= 1000 ){
-        //     s_iCurFps = s_iCntFps;
-        //     s_iCntTime-=1000;
-        //     s_iCntFps = 0;
-        // }
+        if ( s_iCntTime >= 1000 ){
+            s_iCurFps = s_iCntFps;
+            s_iCntTime-=1000;
+            s_iCntFps = 0;
+        }
 
-        // if(_iState === STATE_MENU){
-        //     _oMenu.update();
-        // }
+        if(_iState === STATE_MENU){
+            _oMenu.update();
+        }
         
-        // if(_iState === STATE_GAME){
-        //     _oGame.update();
-        // }
+        if(_iState === STATE_GAME){
+            _oGame.update();
+        }
 
-        // s_oStage.update(event);
+        s_oStage.update(event);
        
     };
 
