@@ -1,11 +1,11 @@
-function SmashTheMouseScreen1 () {
+function Game4Screen1 () {
     var _ButtonBack;
 
     this.init = function() {
 
         var oModePos = {x: CANVAS_WIDTH/2, y: 875};
         // Add background
-        _Bg = createBitmap(s_oSpriteLibrary.getSprite('game1_bg'));
+        _Bg = createBitmap(s_oSpriteLibrary.getSprite('ldp_background'));
         s_oStage.addChild(_Bg);
 
         // Overlay Layout
@@ -37,25 +37,24 @@ function SmashTheMouseScreen1 () {
         _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
 
         
-        new CGImage(oModePos.x, oModePos.y + 160, s_oSpriteLibrary.getSprite('modal_bg'), s_oStage);
-        new CGImage(oModePos.x, oModePos.y - 190, s_oSpriteLibrary.getSprite('homa_dapchuot_title'), s_oStage);
+        new CGImage(oModePos.x, oModePos.y + 140, s_oSpriteLibrary.getSprite('modal_bg'), s_oStage);
 
-        new CGImage(oModePos.x - 240, oModePos.y + 10, s_oSpriteLibrary.getSprite('hammer_icon_1'), s_oStage)
-        new CText(oModePos.x - 240, oModePos.y + 100, s_oSpriteLibrary.getSprite('button_background_4'), '+10 ĐIỂM', "showcard", "#fff", 25, s_oStage);  
+        new CText(oModePos.x, oModePos.y - 240, null, 'HOMA HỌC TIẾNG ANH', "showcard", "#fffec9", 60, s_oStage);
 
-        new CGImage(oModePos.x, oModePos.y + 10, s_oSpriteLibrary.getSprite('hammer_icon_2'), s_oStage)
-        new CText(oModePos.x, oModePos.y + 100, s_oSpriteLibrary.getSprite('button_background_4'), '+20 ĐIỂM', "showcard", "#fff", 25, s_oStage);  
+        new CText(oModePos.x - 200, oModePos.y - 60, null, '• CÁCH CHƠI: ', "MontserratBlack", "#fff", 30, s_oStage);
+        new CText(oModePos.x + 30, oModePos.y - 20, null, 'Tìm 5 từ tiếng anh được ẩn trong bảng. Chơi đủ 4', "MontserratSemiBold", "#fff", 25, s_oStage);
+        new CText(oModePos.x - 133, oModePos.y + 20, null, 'bàn để được qua game.', "MontserratSemiBold", "#fff", 25, s_oStage);
 
-        new CGImage(oModePos.x + 240, oModePos.y + 10, s_oSpriteLibrary.getSprite('hammer_icon_3'), s_oStage)
-        new CText(oModePos.x + 240, oModePos.y + 100, s_oSpriteLibrary.getSprite('button_background_4'), '+30 ĐIỂM', "showcard", "#fff", 25, s_oStage);  
+        new CText(oModePos.x - 200, oModePos.y + 100, null, '• THỜI GIAN: ', "MontserratBlack", "#fff", 30, s_oStage);
+        new CText(oModePos.x - 235, oModePos.y + 140, null, '60 giây', "MontserratSemiBold", "#fff", 25, s_oStage);
 
-        new CText(oModePos.x, oModePos.y + 200, null, '*CÁCH CHƠI: DÙNG CHUỘT CHẠM VÀO MÀN HÌNH ĐỂ ĐẬP CHUỘT', "showcard", "#fff", 25, s_oStage);
-        new CText(oModePos.x, oModePos.y + 240, null, '*THỜI GIAN CHƠI: 60 GIÂY', "showcard", "#fff", 25, s_oStage);
-        new CText(oModePos.x, oModePos.y + 280, null, '*ĐIỂM CẦN ĐẠT TỐI THIỂU: 50 ĐIỂM', "showcard", "#fff", 25, s_oStage);
+        new CText(oModePos.x - 145, oModePos.y + 240, null, '• CÁCH TÍNH ĐIỂM: ', "MontserratBlack", "#fff", 30, s_oStage);
+        new CText(oModePos.x - 65, oModePos.y + 280, null, 'Mỗi từ tìm được sẽ được 10 điểm', "MontserratSemiBold", "#fff", 25, s_oStage);
+        
 
         var oSprite = s_oSpriteLibrary.getSprite('button_background_3');
         _pStartPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
-        _ButonStart = new CGfxButton(oModePos.x, oModePos.y + 380, oSprite, s_oStage);      
+        _ButonStart = new CGfxButton(oModePos.x, oModePos.y + 400, oSprite, s_oStage);      
         _ButonStart.addEventListener(ON_MOUSE_UP, this.goToGame, this, 0);
         _ButonStart.pulseAnimation();
     
@@ -65,7 +64,7 @@ function SmashTheMouseScreen1 () {
 
     this.goToGame = function () {
         this.unload()
-        ScreenGame = new SmashTheMouseScreen2();
+        ScreenGame = new Game4Screen2();
     }
 
     this._onAudioToggle = function(){

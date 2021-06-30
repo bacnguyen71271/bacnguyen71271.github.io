@@ -34,6 +34,8 @@
     <script type="text/javascript" src="js/Screen/ChaseImageCaptureWord/ChaseImageCaptureWordScreen2.js"></script>
     <script type="text/javascript" src="js/Screen/Game3/Game3Screen1.js"></script>
     <script type="text/javascript" src="js/Screen/Game3/Game3Screen2.js"></script>
+    <script type="text/javascript" src="js/Screen/Game4/Game4Screen1.js"></script>
+    <script type="text/javascript" src="js/Screen/Game4/Game4Screen2.js"></script>
     <script type="text/javascript" src="js/GameInfo.js"></script>
     <script type="text/javascript" src="js/TimeProcess.js"></script>
     <script type="text/javascript" src="js/CCharacterInHole.js"></script>
@@ -76,6 +78,8 @@
             $('#loginPopup button').click(function() {
                 isLogin = true;
                 $(".jquery-modal.blocker.current").trigger('click');
+                s_Home.unload()
+                _ChooseGameScreen = new ScreenChooseGame()
             })
 
             var oMain = new CMain({

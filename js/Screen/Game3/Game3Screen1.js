@@ -37,24 +37,24 @@ function Game3Screen1 () {
         _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
 
         
-        new CGImage(oModePos.x, oModePos.y + 160, s_oSpriteLibrary.getSprite('modal_bg'), s_oStage);
+        new CGImage(oModePos.x, oModePos.y + 140, s_oSpriteLibrary.getSprite('modal_bg'), s_oStage);
 
-        new CText(oModePos.x, oModePos.y - 220, null, 'ÔN LUYỆN CÙNG HOMA', "showcard", "#fffec9", 60, s_oStage);
+        new CText(oModePos.x, oModePos.y - 240, null, 'ÔN LUYỆN CÙNG HOMA', "showcard", "#fffec9", 60, s_oStage);
 
-        new CText(oModePos.x, oModePos.y - 40, null, 'Chào mừng các bé đã đến với thử thách', "MontserratSemiBold", "#fff", 30, s_oStage);
-        new CText(oModePos.x, oModePos.y + 5, null, 'Homa Làm toán!', "MontserratSemiBold", "#fff", 30, s_oStage);
+        new CText(oModePos.x, oModePos.y - 60, null, 'Chào mừng các bé đã đến với thử thách', "MontserratSemiBold", "#fff", 30, s_oStage);
+        new CText(oModePos.x, oModePos.y - 20, null, 'Homa Làm toán!', "MontserratSemiBold", "#fff", 30, s_oStage);
 
-        new CGImage(oModePos.x - 190, oModePos.y + 140, s_oSpriteLibrary.getSprite('game3_score_define1'), s_oStage);
-        new CGImage(oModePos.x + 190, oModePos.y + 140, s_oSpriteLibrary.getSprite('game3_score_define2'), s_oStage);
+        new CGImage(oModePos.x - 190, oModePos.y + 120, s_oSpriteLibrary.getSprite('game3_score_define1'), s_oStage);
+        new CGImage(oModePos.x + 190, oModePos.y + 120, s_oSpriteLibrary.getSprite('game3_score_define2'), s_oStage);
 
-        new CText(oModePos.x, oModePos.y + 270, null, '*Thời gian trả lời mỗi câu hỏi: 15s', "MontserratSemiBold", "#fff", 25, s_oStage);
-        new CText(oModePos.x, oModePos.y + 315, null, '*Điểm số tối thiểu cần đạt: 50 điểm', "MontserratSemiBold", "#fff", 25, s_oStage);
+        new CText(oModePos.x, oModePos.y + 250, null, '*Thời gian trả lời mỗi câu hỏi: 15s', "MontserratSemiBold", "#fff", 25, s_oStage);
+        new CText(oModePos.x, oModePos.y + 295, null, '*Điểm số tối thiểu cần đạt: 50 điểm', "MontserratSemiBold", "#fff", 25, s_oStage);
         
 
         var oSprite = s_oSpriteLibrary.getSprite('button_background_3');
         _pStartPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
-        _ButonStart = new CGfxButton(oModePos.x, oModePos.y + 420, oSprite, s_oStage);      
-        _ButonStart.addEventListener(ON_MOUSE_UP, this.goToGame(), this, 0);
+        _ButonStart = new CGfxButton(oModePos.x, oModePos.y + 400, oSprite, s_oStage);      
+        _ButonStart.addEventListener(ON_MOUSE_UP, this.goToGame, this, 0);
         _ButonStart.pulseAnimation();
     
         createjs.Ticker.addEventListener("tick", s_oStage);

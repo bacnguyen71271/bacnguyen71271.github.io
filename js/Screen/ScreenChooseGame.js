@@ -44,7 +44,7 @@ function ScreenChooseGame() {
         var oSprite = s_oSpriteLibrary.getSprite('bg_back');
         _pBackPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
         _ButtonBack = new CTextButton(_pBackPos.x, _pBackPos.y , oSprite, 'QUAY LẠI', "showcard", "#fff", 35, s_oStage);        
-        _ButtonBack.addEventListener(ON_MOUSE_UP, this._theLe, this);
+        _ButtonBack.addEventListener(ON_MOUSE_UP, s_ChooseGame.screenBack, this);
 
         var doc = window.document;
         var docEl = doc.documentElement;
@@ -116,7 +116,7 @@ function ScreenChooseGame() {
         var oSprite = s_oSpriteLibrary.getSprite('background_btn_start_2');
         _pStartPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
         _ButonStart = new CTextButton(oModePos.x, oModePos.y + 430, oSprite, 'CHƠI NGAY', "showcard", "#61230b", 45, s_oStage);      
-        _ButonStart.addEventListener(ON_MOUSE_UP, () => {}, this, 0);
+        _ButonStart.addEventListener(ON_MOUSE_UP, s_ChooseGame.goToGame, this, 0);
         
         _GameAvatar.push(new CGImage(oModePos.x + 20, oModePos.y + 140, s_oSpriteLibrary.getSprite('game_avt_1'), s_oStage));
         _GameAvatar.push(new CGImage(oModePos.x - 41, oModePos.y + 182, s_oSpriteLibrary.getSprite('game_avt_2'), s_oStage));
@@ -134,6 +134,36 @@ function ScreenChooseGame() {
 
         createjs.Ticker.addEventListener("tick", s_oStage);
         this.refreshButtonPos();
+    }
+
+    this.screenBack = function () {
+        this.unload()
+        new ScreenHome()
+    }
+
+    this.goToGame = function () {
+        this.unload()
+        switch (GAME_CHOOSE) {
+            case 1:
+                new SmashTheMouseScreen1();
+                break;
+            case 2:
+                new ChaseImageCaptureWordScreen1();
+                break;
+            case 3:
+                new Game3Screen1();
+                break;
+            case 4:
+                new Game4Screen1();
+                break;
+            default:
+                break;
+        }
+    }
+
+    this.unload = function () {
+        s_ChooseGame = null;
+        s_oStage.removeAllChildren();
     }
 
     this.previousGameClick = function() {

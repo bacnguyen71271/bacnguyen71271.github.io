@@ -13,9 +13,9 @@ function Game3Screen2 () {
     var questionList = [
         {
             question: 'Vườn nhà Mai có 316 cây, trong đó có 148 cây cam còn lại là cây chanh. Tỉ số cây cam : cây chanh = ...',
-            question_extra: '5 + 7 = ?',
+            question_extra: null,
             answer_option: [
-                'WWWWWWWWWWs',
+                'A. 37 : 54',
                 'B. 37 : 42',
                 'C. 37 : 79',
                 'D. 42 : 79',
@@ -97,7 +97,7 @@ function Game3Screen2 () {
 
         _questionTitle = new CText(oModePos.x, oModePos.y - 95, null, 'CÂU HỎI SỐ: 10/10', "MontserratBlack", "#fff", 30, s_oStage);
 
-        _question = new createjs.Text(' ' , "20px MontserratSemiBold", "#fff");
+        _question = new createjs.Text(' ' , "25px MontserratSemiBold", "#fff");
         _question.textAlign = "center";
         _question.lineHeight = 25;
         _question.textBaseline = "alphabetic";
@@ -108,12 +108,12 @@ function Game3Screen2 () {
 
         _questionExtra = new QuestionExtra(oModePos.x, oModePos.y + 150)
         _questionExtra.changeText(' ')
-        
+        _questionExtra.setVisible(false)
 
         for (let index = 0; index < 4; index++) {
             var col = index % 2;
             var row = parseInt(index / 2)
-            var button = new CTextButton( 750 + (col * 440) , oModePos.y + 260 + (row * 90) , s_oSpriteLibrary.getSprite('answer_bg'), ' ', "MontserratBlack", "#7d2308", 15, s_oStage, 'left')
+            var button = new CTextButton( 750 + (col * 440) , oModePos.y + 260 + (row * 90) , s_oSpriteLibrary.getSprite('answer_bg'), ' ', "MontserratBlack", "#7d2308", 18, s_oStage, 'left')
             button.addEventListenerWithParams(ON_MOUSE_UP, this.selectAnswer , this, index);
             button.setVisible(false)
             _option.push(button);
@@ -214,9 +214,9 @@ function Game3Screen2 () {
 
             for (let index = 0; index < _option.length; index++) {
                 if (answerTextLenght < 11) {
-                    _option[index].changeFont('20px MontserratBlack')
+                    _option[index].changeFont('25px MontserratBlack')
                 } else {
-                    _option[index].changeFont('15px MontserratBlack')
+                    _option[index].changeFont('18px MontserratBlack')
                 }
             }
         }

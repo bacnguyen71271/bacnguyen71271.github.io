@@ -121,6 +121,16 @@ function CText(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
             .to({rotation: -20}, 100, createjs.Ease.quadIn)
             .to({rotation: 0}, 200, createjs.Ease.quadIn)
     }
+    
+    this.pulseAnimation3 = function (callback) {
+        createjs.Tween.get(_oButton)
+            .to({x: _oButton.x + 20}, 100, createjs.Ease.quadOut)
+            .to({x: _oButton.x + -20}, 100, createjs.Ease.quadIn)
+            .to({x: _oButton.x + 20}, 100, createjs.Ease.quadIn)
+            .to({x: _oButton.x + -20}, 100, createjs.Ease.quadIn)
+            .to({x: _oButton.x + 0}, 200, createjs.Ease.quadOut)
+            .call(callback)
+    }
 
     this.getText = function () {
         return _oText.text

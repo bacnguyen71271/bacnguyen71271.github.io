@@ -55,7 +55,7 @@ function ChaseImageCaptureWordScreen1 () {
         var oSprite = s_oSpriteLibrary.getSprite('button_background_3');
         _pStartPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
         _ButonStart = new CGfxButton(oModePos.x, oModePos.y + 420, oSprite, s_oStage);      
-        _ButonStart.addEventListener(ON_MOUSE_UP, this.goToGame(), this, 0);
+        _ButonStart.addEventListener(ON_MOUSE_UP, this.goToGame, this, 0);
         _ButonStart.pulseAnimation();
     
         createjs.Ticker.addEventListener("tick", s_oStage);

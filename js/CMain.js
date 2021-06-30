@@ -18,9 +18,9 @@ function CMain(oData){
         s_oStage = new createjs.Stage(s_oCanvas);
         createjs.Touch.enable(s_oStage);
 		
-	s_bMobile = jQuery.browser.mobile;
+	    s_bMobile = jQuery.browser.mobile;
         if(s_bMobile === false){
-            s_oStage.enableMouseOver(20);  
+            s_oStage.enableMouseOver(50);  
         }
 		
         // s_iPrevTime = new Date().getTime();
@@ -62,6 +62,10 @@ function CMain(oData){
         aSoundsInfo.push({path: './sounds/',filename:'superhammer',loop:false,volume:1, ingamename: 'superhammer'});
         aSoundsInfo.push({path: './sounds/',filename:'bomb',loop:false,volume:1, ingamename: 'bomb'});
         aSoundsInfo.push({path: './sounds/',filename:'soundtrack',loop:true,volume:1, ingamename: 'soundtrack'});
+        aSoundsInfo.push({path: './sounds/',filename:'hover1',loop:false,volume:0.4, ingamename: 'hover1'});
+        aSoundsInfo.push({path: './sounds/',filename:'ball_tap',loop:false,volume:0.4, ingamename: 'ball_tap'});
+        aSoundsInfo.push({path: './sounds/',filename:'bonus-collect',loop:false,volume:0.4, ingamename: 'bonus-collect'});
+        aSoundsInfo.push({path: './sounds/',filename:'lose_game',loop:false,volume:0.4, ingamename: 'lose_game'});
         
         RESOURCE_TO_LOAD += aSoundsInfo.length;
 
@@ -152,6 +156,13 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("question_mask","./assets/question_mask.png");
         s_oSpriteLibrary.addSprite("answer_bg","./assets/answer_bg.png");
 
+        s_oSpriteLibrary.addSprite("game_4_bg","./assets/game_4_bg.png");
+        s_oSpriteLibrary.addSprite("text_select","./assets/text_select.png");
+        s_oSpriteLibrary.addSprite("text_select_bg","./assets/text_select_bg.png");
+        s_oSpriteLibrary.addSprite("text_selected","./assets/text_selected.png");
+        s_oSpriteLibrary.addSprite("notifi_bg","./assets/notifi_bg.png");
+        s_oSpriteLibrary.addSprite("sugges_bg","./assets/sugges_bg.png");
+
         for(var i = 1 ;i< 11 ;i++){
             s_oSpriteLibrary.addSprite("image_word_"+i,"./assets/image_word_"+i+".png");
         }
@@ -179,9 +190,9 @@ function CMain(oData){
 
         s_oSoundTrack = playSound("soundtrack", 0, true);
 
-        // this.goToHome();
+        this.goToHome();
         // this.goToChooseGame();
-        this.goToGame1()
+        // this.goToGame1()
     };
     
     this._onAllImagesLoaded = function(){
@@ -201,9 +212,7 @@ function CMain(oData){
     }
 
     this.goToGame1 = function() {
-        // _goToGame1 =  new SmashTheMouseScreen2();
-        _goToGame1 =  new Game3Screen1();
-        // _goToGame1 =  new ChaseImageCaptureWordScreen1();
+        _goToGame1 =  new Game4Screen1();
     }
     
     this.gotoMenu = function(){

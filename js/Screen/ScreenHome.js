@@ -147,13 +147,13 @@ function ScreenHome(){
     
     this.unload = function(){
         _bUpdate = false;
-        _oStart.unload();
-        _oCreditsBut.unload();
+        // _oStart.unload();
+        // _oCreditsBut.unload();
         
-        if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
-            _oAudioToggle.unload();
-            _oAudioToggle = null;
-        }
+        // if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+        //     _oAudioToggle.unload();
+        //     _oAudioToggle = null;
+        // }
         
         s_Home = null;
         s_oStage.removeAllChildren();        
@@ -171,6 +171,10 @@ function ScreenHome(){
             $("#loginPopup").modal({
                 fadeDuration: 200
             })
+        } else {
+            this.unload()
+            // Go to choose game
+            _ChooseGameScreen = new ScreenChooseGame()
         }
     };
 
