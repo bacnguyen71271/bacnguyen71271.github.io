@@ -66,6 +66,7 @@ function CMain(oData){
         aSoundsInfo.push({path: './sounds/',filename:'ball_tap',loop:false,volume:0.4, ingamename: 'ball_tap'});
         aSoundsInfo.push({path: './sounds/',filename:'bonus-collect',loop:false,volume:0.4, ingamename: 'bonus-collect'});
         aSoundsInfo.push({path: './sounds/',filename:'lose_game',loop:false,volume:0.4, ingamename: 'lose_game'});
+        aSoundsInfo.push({path: './sounds/',filename:'game_1',loop:true,volume:1, ingamename: 'game_1'});
         
         RESOURCE_TO_LOAD += aSoundsInfo.length;
 
@@ -265,30 +266,30 @@ function CMain(oData){
     };
     
     this._update = function(event){
-        if(_bUpdate === false){
-                return;
-        }
-        var iCurTime = new Date().getTime();
-        s_iTimeElaps = iCurTime - s_iPrevTime;
-        s_iCntTime += s_iTimeElaps;
-        s_iCntFps++;
-        s_iPrevTime = iCurTime;
+        // if(_bUpdate === false){
+        //         return;
+        // }
+        // var iCurTime = new Date().getTime();
+        // s_iTimeElaps = iCurTime - s_iPrevTime;
+        // s_iCntTime += s_iTimeElaps;
+        // s_iCntFps++;
+        // s_iPrevTime = iCurTime;
 
-        if ( s_iCntTime >= 1000 ){
-            s_iCurFps = s_iCntFps;
-            s_iCntTime-=1000;
-            s_iCntFps = 0;
-        }
+        // if ( s_iCntTime >= 1000 ){
+        //     s_iCurFps = s_iCntFps;
+        //     s_iCntTime-=1000;
+        //     s_iCntFps = 0;
+        // }
 
-        if(_iState === STATE_MENU){
-            _oMenu.update();
-        }
+        // if(_iState === STATE_MENU){
+        //     _oMenu.update();
+        // }
         
-        if(_iState === STATE_GAME){
-            _oGame.update();
-        }
+        // if(_iState === STATE_GAME){
+        //     _oGame.update();
+        // }
 
-        s_oStage.update(event);
+        // s_oStage.update(event);
        
     };
 

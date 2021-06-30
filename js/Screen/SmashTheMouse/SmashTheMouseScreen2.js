@@ -57,7 +57,7 @@ function SmashTheMouseScreen2 () {
 
         _bUpdate = true;
         this._selectCharacter();
-
+        playSound('game_1', 1, true)
         createjs.Ticker.addEventListener("tick", this.update);
         createjs.Ticker.framerate = FPS;
         this.refreshButtonPos();
