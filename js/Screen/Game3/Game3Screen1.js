@@ -19,7 +19,7 @@ function Game3Screen1 () {
         var oSprite = s_oSpriteLibrary.getSprite('bg_back');
         _pBackPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
         _ButtonBack = new CTextButton(_pBackPos.x, _pBackPos.y , oSprite, 'QUAY LẠI', "showcard", "#fff", 35, s_oStage);        
-        _ButtonBack.addEventListener(ON_MOUSE_UP, this._theLe, this);
+        _ButtonBack.addEventListener(ON_MOUSE_UP, s_Game3Screen1.screenBack, this);
         
         // Add Audio Button
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
@@ -63,8 +63,15 @@ function Game3Screen1 () {
 
     this.goToGame = function () {
         this.unload()
-        ScreenGame = new Game3Screen2();
+        ScreenGame_3 = new Game3Screen2();
+        _iState = 'GAME3'
     }
+
+    this.screenBack = function () {
+        this.unload()
+        _ScreenChooseGame = new ScreenChooseGame()
+    }
+
 
     this._onAudioToggle = function(){
         Howler.mute(s_bAudioActive);
@@ -80,12 +87,12 @@ function Game3Screen1 () {
     }
 
     this.unload = function() {
-        s_SmashTheMouseScreen1 = null;
+        s_Game3Screen1 = null;
         s_oStage.removeAllChildren();
     }    
 
-    s_SmashTheMouseScreen1 = this;
+    s_Game3Screen1 = this;
     this.init()
 }
 
-var s_SmashTheMouseScreen1 = null;
+var s_Game3Screen1 = null;

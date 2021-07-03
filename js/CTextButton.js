@@ -68,7 +68,9 @@ function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach
         _oButton.addChild(_oButtonBg,_oTextBack,_oText);
         
         if(bAttach !== false){
-            s_oStage.addChild(_oButton);
+            bAttach.addChild(_oButton);
+        } else {
+            bAttach.addChild(_oButton);
         }
         
         this._initListener();
@@ -162,7 +164,6 @@ function CTextButton(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach
     this.changeText = function(szText, textAlign = 'center'){
         _oText.text = szText;
         _oTextBack.text = szText;
-        console.log(_oText.getMetrics().lines.length)
         _oText.y = _oText.getMetrics().lines.length === 1 ? Math.floor((oSprite.height)/2) + (_oText.getMeasuredHeight()/3) : Math.floor((oSprite.height)/2) - (_oText.getMeasuredHeight() / (_oText.getMetrics().lines.length * 5));
         _oTextBack.y = _oText.getMetrics().lines.length === 1 ? Math.floor((oSprite.height)/2) + (_oText.getMeasuredHeight()/3) : Math.floor((oSprite.height)/2) - (_oText.getMeasuredHeight() / (_oText.getMetrics().lines.length * 5)) + _iStepShadow;
 

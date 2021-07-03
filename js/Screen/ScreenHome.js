@@ -9,6 +9,7 @@ function ScreenHome(){
     var _oButtonTheLe;
     var _oButtonBXH;
     var _oButtonLogin;
+    var _oButtonLogOut;
     var _oButtonStart;
     var _btnArrowSliderLeft;
     var _btnArrowSliderRight;
@@ -106,11 +107,14 @@ function ScreenHome(){
         _oButtonBXH.addEventListener(ON_MOUSE_UP, this._onButStartRelease, this);
 
         _oButtonLogin = new CTextButton(CANVAS_WIDTH - (oSprite.height/2) - 10, (oSprite.height/2) + 10, oSprite, 'ĐĂNG NHẬP', "MontserratBlack", "#61230b", 25, s_oStage);        
-        _oButtonLogin.addEventListener(ON_MOUSE_UP, this._checkLogin, this);
+        _oButtonLogin.addEventListener(ON_MOUSE_UP, this._loginPopup, this);
+        
+        _oButtonLogOut = new CTextButton(CANVAS_WIDTH - (oSprite.height/2) - 10, (oSprite.height/2) + 10, oSprite, 'ĐĂNG XUẤT', "MontserratBlack", "#61230b", 25, s_oStage);        
+        _oButtonLogOut.addEventListener(ON_MOUSE_UP, this._checkLogin, this);
 
         var oSprite = s_oSpriteLibrary.getSprite('button_background_start');
         _oButtonStart = new CTextButton(oModePos.x, oModePos.y + 450, oSprite, 'BẮT ĐẦU SĂN KHO BÁU', "showcard", "#61230b", 50, s_oStage);        
-        _oButtonStart.addEventListener(ON_MOUSE_UP, this._checkLogin, this);
+        _oButtonStart.addEventListener(ON_MOUSE_UP, this._registerPopup, this);
         
         var circle = new createjs.Shape();
         circle.graphics.beginFill("white").drawCircle(oModePos.x - 100, oModePos.y + 100, 100);
@@ -138,12 +142,18 @@ function ScreenHome(){
             _fRequestFullScreen = false;
         }
         
+        // _PassPartPanel = new FailedPartPanel(s_oStage);
+        // _PassPartPanel.show()
         createjs.Ticker.addEventListener("tick", s_oStage);
-
         this.refreshButtonPos();
-        
         _bUpdate = true;
     };  
+
+    this.logOut = function () {
+        IS_LOGIN = false
+        localStorage.setItem('tieuhoc_game_key', '');
+        this.checkLogin()
+    }
     
     this.unload = function(){
         _bUpdate = false;
@@ -163,17 +173,38 @@ function ScreenHome(){
         _oButtonTheLe.setPosition(_pStartPosButton.x - s_iOffsetX - 460, s_iOffsetY + _pStartPosButton.y);
         _oButtonBXH.setPosition(_pStartPosButton.x - s_iOffsetX - 230, s_iOffsetY + _pStartPosButton.y);
         _oButtonLogin.setPosition(_pStartPosButton.x - s_iOffsetX, s_iOffsetY + _pStartPosButton.y);
+        _oButtonLogOut.setPosition(_pStartPosButton.x - s_iOffsetX, s_iOffsetY + _pStartPosButton.y);
         _hmLogo.setPosition(_pStartPosLogo.x + s_iOffsetX,s_iOffsetY + _pStartPosLogo.y);
     };
+
+    this.checkLogin = function () {
+        if (IS_LOGIN) {
+            _oButtonLogin.setVisible(false)
+            _oButtonLogOut.setVisible(true)
+        } else {
+            _oButtonLogin.setVisible(true)
+            _oButtonLogOut.setVisible(false)
+        }
+    }
     
-    this._checkLogin = function(){
-        if (!isLogin) {
+    this._loginPopup = function(){
+        if (!IS_LOGIN) {
             $("#loginPopup").modal({
                 fadeDuration: 200
             })
         } else {
             this.unload()
-            // Go to choose game
+            _ChooseGameScreen = new ScreenChooseGame()
+        }
+    };
+
+    this._registerPopup = function(){
+        if (!IS_LOGIN) {
+            $("#registerPopup").modal({
+                fadeDuration: 200
+            })
+        } else {
+            this.unload()
             _ChooseGameScreen = new ScreenChooseGame()
         }
     };

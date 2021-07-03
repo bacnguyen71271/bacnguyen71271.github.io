@@ -2,8 +2,9 @@
 <html>
 
 <head>
-    <title></title>
+    <title>Truy tìm kho báu - HOCMAI Tiểu học</title>
     <link rel="stylesheet" href="css/reset.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery.modal.min.css" />
     <link rel="stylesheet" href="css/main.css" type="text/css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -19,6 +20,7 @@
     <script type="text/javascript" src="js/ctl_utils.js"></script>
     <script type="text/javascript" src="js/sprite_lib.js"></script>
     <script type="text/javascript" src="js/settings.js"></script>
+    <script type="text/javascript" src="js/DataHelper.js"></script>
     <script type="text/javascript" src="js/CPreloader.js"></script>
     <script type="text/javascript" src="js/CMain.js"></script>
     <script type="text/javascript" src="js/CText.js"></script>
@@ -36,51 +38,188 @@
     <script type="text/javascript" src="js/Screen/Game3/Game3Screen2.js"></script>
     <script type="text/javascript" src="js/Screen/Game4/Game4Screen1.js"></script>
     <script type="text/javascript" src="js/Screen/Game4/Game4Screen2.js"></script>
+    <script type="text/javascript" src="js/Panel/PausePanel.js"></script>
+    <script type="text/javascript" src="js/Panel/PassPartPanel.js"></script>
+    <script type="text/javascript" src="js/Panel/PassPartPanel2.js"></script>
+    <script type="text/javascript" src="js/Panel/FailedPartPanel.js"></script>
     <script type="text/javascript" src="js/GameInfo.js"></script>
     <script type="text/javascript" src="js/TimeProcess.js"></script>
     <script type="text/javascript" src="js/CCharacterInHole.js"></script>
     <script type="text/javascript" src="js/CCharacter.js"></script>
     <script type="text/javascript" src="js/CHammer.js"></script>
-    <link rel="stylesheet" href="css/jquery.modal.min.css" />
 
 </head>
 
 <body ondragstart="return false;" ondrop="return false;">
-    <div id="thele" class="modal">
+    <div id="thele" class="modal game_popup">
         <h4>THỂ LỆ</h4>
         <div class="content-box">
             <div class="content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                <p>Để tham gia game "Truy tìm kho báu" và có cơ hội nhận học bổng từ HOCMAI, Quý phụ huynh – học sinh cần nắm rõ về thể lệ của chương trình. Cụ thể như sau:</p>
+                <strong>*Đối tượng tham gia:</strong>
+                <p>Tất cả học sinh từ lớp 1 – lớp 5 hoặc phụ huynh đang có con ở độ tuổi này.</p>
+                <strong>* Thời gian:</strong>
+                <p>Sự kiện sẽ diễn ra trong khoảng thời gian từ 1/7 – 30/7/2021	</p>
+                <strong>* Cách thức tham gia:</strong>
+                <p>Để tham gia chương trình, phụ huynh và học sinh làm theo các bước sau đây:	</p>
+                <ul>
+                    <li>Bước 1: Truy cập vào trang  "Truy tìm kho báu"</li>
+                    <li>Bước 2: Đăng ký và điền đầy đủ thông tin theo hướng dẫn</li>
+                    <li>Bước 3: Kiểm tra và gửi thông tin</li>
+                    <li>Bước 4: Hoàn thành các thử thách của chương trình</li>
+                    <li>Bước 5: Theo dõi fanpage Hocmai.vn Tiểu học để biết kết quả</li>
+                </ul>
+                <strong>* Quà tặng:</strong>
+                <p>Tham gia sự kiện phụ huynh – học sinh sẽ có cơ hội nhận được những phần quà tặng hấp dẫn từ HOCMAI. Thông tin chi tiết về quà tặng như sau:</p>
+                <ul>
+                    <li><strong>- 1 GIẢI CHIẾN BINH XUÂT SÁC:</strong>  Mỗi giải là 01 đồng hồ định vị trẻ em 4G trị giá 3 triệu đồng, và 01 khóa học online Tiểu học trong vòng 01 năm giành cho chiến binh đạt điểm số cao nhất trong thời gian ngắn nhất	</li>
+                    <li><strong>- 5 Giải Chiến binh ƯU TÚ:</strong> Mỗi giải là 1 khoá học online Tiểu học trong vòng 12 tháng và 1 bộ sách nuôi dưỡng tâm hồn cho bé</li>
+                    <li><strong>- 10 Giải Chiến binh Nỗ lực:</strong> Mỗi giải là 1 khoá học online Tiểu học trong vòng 6 tháng và 1 bộ sách nuôi dưỡng tâm hồn cho bé</li>
+                    <li><strong>- 15 Giải Chiến binh chăm chỉ:</strong> mỗi giải là 1 bộ sách nuôi dưỡng tâm hồn cho bé</li>
+                    <li><strong>- Và hàng ngàn giải thưởng:</strong> là 1 khoá học onine Tiểu học 1 tháng dành cho các bé tham gia game Truy tìm kho báu của Hocmai</li>
+                </ul>
             </div>
         </div>
     </div>
-    <div id="loginPopup" class="modal">
-        <h4>BẠN CẦN ĐĂNG NHẬP ĐỂ THAM GIA GAME</h4>
+    <div id="registerPopup" class="modal game_popup">
+        <h4>BẠN CẦN ĐĂNG KÝ ĐỂ THAM GIA GAME</h4>
         <span>Bạn cần điền đầy đủ thông tin tại đây để bắt đầu tham gia trò chơi nhé:</span>
         <form action="">
-            <input type="text" placeholder="Họ và tên">
-            <input type="text" placeholder="Số điện thoại">
-            <select name="" id="">
+            <input type="text" name="fullname" id="fullname" placeholder="Họ và tên">
+            <span class="alert fullname">Hãy nhập tên của bạn</span>
+            <input type="text" name="phone" id="phone" placeholder="Số điện thoại">
+            <span class="alert phone">Hãy nhập tên của bạn</span>
+            <select name="" id="class_id">
                 <option value="1">Lớp 1</option>
                 <option value="2">Lớp 2</option>
                 <option value="3">Lớp 3</option>
                 <option value="4">Lớp 4</option>
                 <option value="5">Lớp 5</option>
             </select>
+            <span class="alert class_id">Hãy nhập tên của bạn</span>
         </form>
         <p>* Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với Chính sách bảo mật, Điều khoản dịch vụ và Chính sách tư vấn của HOCMAI.</p>
-        <button>BẮT ĐẦU</button>
+        <button>ĐĂNG KÝ</button>
+    </div>
+    <div id="loginPopup" class="modal game_popup">
+        <h4>BẠN CẦN ĐĂNG NHẬP ĐỂ THAM GIA GAME</h4>
+        <span>Vui lòng nhập số điện thoại</span>
+        <form action="">
+            <input type="text" name="phone" id="phone_2" placeholder="Số điện thoại">
+            <span class="alert phone_2"></span>
+        </form>
+        <p>Bạn chưa có tài khoản? Vui lòng <a href="#" class="btn_regiser_popup">Đăng ký tại đây</a></p>
+        <button>ĐĂNG NHẬP</button>
     </div>
     <div style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%"></div>
     <script>
         $(document).ready(function () {
 
-            $('#loginPopup button').click(function() {
-                isLogin = true;
+            $('.btn_regiser_popup').click(function() {
                 $(".jquery-modal.blocker.current").trigger('click');
-                s_Home.unload()
-                _ChooseGameScreen = new ScreenChooseGame()
+                $("#registerPopup").modal({
+                    fadeDuration: 200
+                })
             })
+
+            function isVietnamesePhoneNumber(number) {
+                return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
+            }
+
+            $('#registerPopup button').click(function() {
+                var fullname = $('#fullname').val()
+                var phone = $('#phone').val()
+                var class_id = $('#class_id').val()
+                var error = false;
+
+                if (fullname.trim() == '' || fullname.trim() == ' ') {
+                    error = true
+                    $('.alert.fullname').html('Hãy nhập tên của bạn !')
+                    $('.alert.fullname').css('display', 'block')
+                } else {
+                    $('.alert.fullname').css('display', 'none')
+                }
+                
+                if (phone.trim() == '' || phone.trim() == ' ') {
+                    error = true
+                    $('.alert.phone').html('Hãy nhập số điện thoại của bạn !')
+                    $('.alert.phone').css('display', 'block')
+                } else {
+                    if (!isVietnamesePhoneNumber(phone.trim())) {
+                        error = true
+                        $('.alert.phone').html('Số điện thoại bạn nhập không hợp lệ !')
+                        $('.alert.phone').css('display', 'block')
+                    } else {
+                        $('.alert.phone').css('display', 'none')
+                    }
+                }
+                
+                if (class_id.trim() == '' || class_id.trim() == ' ') {
+                    error = true
+                    $('.alert.phone').html('Hãy chọn lớp đang học !')
+                    $('.alert.phone').css('display', 'block')
+                } else {
+                    $('.alert.phone').css('display', 'none')
+                }
+
+                if (!error) {
+                    register({fullname, phone, class_id}, function (res) {
+                        if (res.code == 1) {
+                            IS_LOGIN = true;
+                            $(".jquery-modal.blocker.current").trigger('click');
+                            s_Home.unload()
+                            _ChooseGameScreen = new ScreenChooseGame()
+                        }
+
+                        if (res.code == 2) {
+                            error = true
+                            $('.alert.phone').html(res.message)
+                            $('.alert.phone').css('display', 'block')
+                        }
+                    })
+                } else {
+                    return;
+                }
+            })
+
+            $('#loginPopup button').click(function() {
+                var phone = $('#phone_2').val()
+                var error = false;
+                
+                if (phone.trim() == '' || phone.trim() == ' ') {
+                    error = true
+                    $('.alert.phone_2').html('Hãy nhập số điện thoại của bạn !')
+                    $('.alert.phone_2').css('display', 'block')
+                } else {
+                    if (!isVietnamesePhoneNumber(phone.trim())) {
+                        error = true
+                        $('.alert.phone_2').html('Số điện thoại bạn nhập không hợp lệ !')
+                        $('.alert.phone_2').css('display', 'block')
+                    } else {
+                        $('.alert.phone_2').css('display', 'none')
+                    }
+                }
+                
+                if (!error) {
+                    login({phone}, function (res) {
+                        if (res.code == 1) {
+                            IS_LOGIN = true;
+                            $(".jquery-modal.blocker.current").trigger('click');
+                            s_Home.unload()
+                            _ChooseGameScreen = new ScreenChooseGame()
+                        }
+
+                        if (res.code == 2) {
+                            error = true
+                            $('.alert.phone_2').html(res.message)
+                            $('.alert.phone_2').css('display', 'block')
+                        }
+                    })
+                } else {
+                    return;
+                }
+            })
+
 
             var oMain = new CMain({
                 points: [10, 20, 30, -100], //POINTS ASSIGNED FOR EACH CHARACTER
@@ -128,7 +267,6 @@
     <div id="block_game"
         style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%; display:none">
     </div>
-
 </body>
 
 </html>

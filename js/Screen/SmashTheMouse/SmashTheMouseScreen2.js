@@ -9,7 +9,11 @@ function SmashTheMouseScreen2 () {
     var _iTimeElapsed;
     var _iTimeLevelUpElapsed
     var _iTimeSpawnElaps
-    var s_iTimeElaps = 0;
+
+    var _PausePanel = null;
+    var _FailedPartPanel = null;
+    var _PassPartPanel = null;
+    var _ButtonPause;
     // var _oInterface;
 
     this.init = function() {
@@ -19,8 +23,7 @@ function SmashTheMouseScreen2 () {
         _aCharacterSelected = new Array(0, 0, 0, 0, 0, 0);
         _iTimeElapsed = 60000;
         _iCurTimeSpawn = _iTimeSpawnElaps = 1000;
-        s_iPrevTime = new Date().getTime();
-        
+        // s_iPrevTime = new Date().getTime();
 
         var oModePos = {x: CANVAS_WIDTH/2, y: 875};
         // Add background
@@ -45,6 +48,10 @@ function SmashTheMouseScreen2 () {
         _Time = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('clock'), s_oSpriteLibrary.getSprite('game_info_bg'), '00:00', '#602708', s_oStage)
         _Scores = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('start'), s_oSpriteLibrary.getSprite('game_info_bg'), '0', '#602708', s_oStage)
     
+        var oSprite = s_oSpriteLibrary.getSprite('game_pause');
+        _pPausePos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
+        _ButtonPause = new CGfxButton(_pPausePos.x, _pPausePos.y, oSprite, s_oStage);
+
         // _oInterface = new CInterface();
 
         _oContainerGrid = new createjs.Container();
@@ -56,16 +63,23 @@ function SmashTheMouseScreen2 () {
         _oHammer = new CHammer(_oContainerGrid);
 
         _bUpdate = true;
-        this._selectCharacter();
-        playSound('game_1', 1, true)
-        createjs.Ticker.addEventListener("tick", this.update);
-        createjs.Ticker.framerate = FPS;
+        
         this.refreshButtonPos();
+        this._selectCharacter();
+
+        _PassPartPanel = new PassPartPanel();
+        _FailedPartPanel = new FailedPartPanel();
+        _PausePanel = new PausePanel();
+        _ButtonPause.addEventListener(ON_MOUSE_UP, s_SmashTheMouseScreen2.onPauseGame, this);    
+
+        playSound('game_1', 1, true)
+        // createjs.Ticker.addEventListener("tick", this.update);
+        // createjs.Ticker.framerate = FPS;
     }
 
-    this._update = function(event){
-        s_SmashTheMouseScreen2.update();
-    };
+    this.onPauseGame = function() {
+        _PausePanel.show()
+    }
 
     this.updateTime = function (timeString) {
         _Time.changeText(timeString)
@@ -75,34 +89,34 @@ function SmashTheMouseScreen2 () {
         _Scores.changeText(score)
     }
 
+    this.unload = function(){
+        stopSound('game_1');
+        s_SmashTheMouseScreen2 = null;
+
+        createjs.Tween.removeAllTweens();
+        s_oStage.removeAllChildren(); 
+    }
+
+    this.gameOver = function(){
+        stopSound('game_1')
+        // Nếu đủ điểm
+        if (_iScore >= 50) {
+            _PassPartPanel.show(_iScore)
+        } else {
+            _FailedPartPanel.show(_iScore)
+        }
+    };
+
     this.update = function(){
         
         if(_bUpdate){
-            var iCurTime = new Date().getTime();
-            
-            s_iTimeElaps = iCurTime - s_iPrevTime;
-            s_iCntTime += s_iTimeElaps;
-            // console.log(s_iCntFps);
-            s_iCntFps++;
-            s_iPrevTime = iCurTime;
-
-            if ( s_iCntTime >= 1000 ){
-                // console.log(s_iCntTime)
-                s_iCurFps = s_iCntFps;
-                s_iCntTime-=1000;
-                s_iCntFps = 0;
-            }
-            
             //REFRESH TIME BAR
             _iTimeElapsed -= s_iTimeElaps;
-            // _oInterface.refreshTime(_iTimeElapsed / (TIME_LEVEL) ); 
             if (_iTimeElapsed < 0){
                 _bUpdate = false;
-                // _oInterface.refreshTimeText(formatTime(0));
-                // this.gameOver();
+                this.gameOver();
             }else{
                 s_SmashTheMouseScreen2.updateTime(formatTime(_iTimeElapsed))
-                // _oInterface.refreshTimeText(formatTime(_iTimeElapsed));
             }
             
             //REFRESH TIME FOR LEVEL UP
@@ -116,17 +130,12 @@ function SmashTheMouseScreen2 () {
             }
             
             //REFRESH TIME FOR NEXT SPAWN
-            // console.log(_iTimeElapsed / 1000)
             _iTimeSpawnElaps -= s_iTimeElaps;
-            // console.log(s_iTimeElaps);
-            
-            // console.log(_iTimeLevelUpElapsed)
             if(_iTimeSpawnElaps < 0){
                 _iTimeSpawnElaps = _iCurTimeSpawn;
                 s_SmashTheMouseScreen2._selectCharacter();
             }
             
-            s_oStage.update(event);
         }
     };
 
@@ -225,7 +234,8 @@ function SmashTheMouseScreen2 () {
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             _oAudioToggle.setPosition(_pStartPosAudio.x - s_iOffsetX,s_iOffsetY + _pStartPosAudio.y);
         }
-        _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
+        _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 260,s_iOffsetY + _pCartPos.y);
+        _ButtonPause.setPosition(_pPausePos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
         _Time.setPosition(s_iOffsetX + 200, s_iOffsetY + 80);
         _Scores.setPosition(s_iOffsetX + 500, s_iOffsetY + 80);
         // _ButtonBack.setPosition(_pBackPos.x + s_iOffsetX,s_iOffsetY + _pBackPos.y);

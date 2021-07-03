@@ -1,7 +1,3 @@
-var GAME_NAME = [ 'HOMA ĐẬP CHUỘT', 'HOMA ĐUỔI HÌNH BẮT CHỮ', 'HOMA LÀM TOÁN', 'HOMA HỌC TIẾNG ANH'];
-
-var GAME_CHOOSE = 1;
-
 function ScreenChooseGame() {
 
     var _Listener;
@@ -17,8 +13,6 @@ function ScreenChooseGame() {
     var _GameAvatar = [];
 
     var _GameNameLayer;
-
-    var _GameUnLocked = 4;
     
     
     var _HeightGameStatus = -285;
@@ -66,7 +60,10 @@ function ScreenChooseGame() {
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
         _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
-
+        _ButtonCart.setVisible(false)
+        if (USER_COUPON != '') {
+            _ButtonCart.setVisible(true)
+        }
 
         // Add Background Level Game       
         new CGImage(oModePos.x, oModePos.y - 280, s_oSpriteLibrary.getSprite('bg_level'), s_oStage);
@@ -129,7 +126,7 @@ function ScreenChooseGame() {
         }
 
 
-        this.updateGameUnlocked(_GameUnLocked)
+        this.updateGameUnlocked(GameUnLocked)
         this.updateGameChoose(GAME_CHOOSE)
 
         createjs.Ticker.addEventListener("tick", s_oStage);
@@ -138,7 +135,7 @@ function ScreenChooseGame() {
 
     this.screenBack = function () {
         this.unload()
-        new ScreenHome()
+        _ScreenHome = new ScreenHome()
     }
 
     this.goToGame = function () {
@@ -180,14 +177,14 @@ function ScreenChooseGame() {
             GAME_CHOOSE = 1
         }
 
-        if (GAME_CHOOSE > _GameUnLocked) {
+        if (GAME_CHOOSE > GameUnLocked) {
             GAME_CHOOSE = 1
         }
         this.updateGameChoose(GAME_CHOOSE)
     }
 
     this.updateGameUnlocked = function(gameUnlocked) {
-        this._GameUnLocked = gameUnlocked;
+        this.GameUnLocked = gameUnlocked;
         _GameUnLock.forEach((el)=>{ el.setVisible(false) })
         for (let index = 0; index < gameUnlocked; index++) {
             _GameUnLock[index].setVisible(true)
@@ -199,7 +196,7 @@ function ScreenChooseGame() {
     }
 
     this.updateGameChoose = function(gameChoosed) {
-        GAME_CHOOSE = gameChoosed > _GameUnLocked ? _GameUnLocked : gameChoosed
+        GAME_CHOOSE = gameChoosed > GameUnLocked ? GameUnLocked : gameChoosed
         
         _GameChoose.forEach((el)=>{ el.setVisible(false) })
         _GameChoose[GAME_CHOOSE - 1].setVisible(true)

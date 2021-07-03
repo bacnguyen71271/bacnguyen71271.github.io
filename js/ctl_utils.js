@@ -204,17 +204,23 @@ function sizeHandler() {
     // if(s_oInterface !== null){
     //     s_oInterface.refreshButtonPos( s_iOffsetX,s_iOffsetY);
     // }
-    if (s_Home !== null) {
-        s_Home.refreshButtonPos();
+    if (_ScreenHome) {
+        _ScreenHome.refreshButtonPos();
     }
-    if (s_ChooseGame !== null) {
-        s_ChooseGame.refreshButtonPos();
+    if (_ScreenChooseGame) {
+        _ScreenChooseGame.refreshButtonPos();
     }
-    if (s_SmashTheMouseScreen1 !== null) {
-        s_SmashTheMouseScreen1.refreshButtonPos();
+    if (ScreenGame_1) {
+        ScreenGame_1.refreshButtonPos();
     }
-    if (s_SmashTheMouseScreen2 !== null) {
-        s_SmashTheMouseScreen2.refreshButtonPos();
+    if (ScreenGame_2) {
+        ScreenGame_2.refreshButtonPos();
+    }
+    if (ScreenGame_3) {
+        ScreenGame_3.refreshButtonPos();
+    }
+    if (ScreenGame_4) {
+        ScreenGame_4.refreshButtonPos();
     }
     // if(s_oHelp !== null){
     //     s_oHelp.refreshButtonPos( s_iOffsetX,s_iOffsetY);

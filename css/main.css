@@ -155,7 +155,24 @@ input, select:focus {
     font-family:inherit; 
 }
 
-#loginPopup, #thele {
+.game_popup span.alert {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 400;
+    color: #ffb226;
+    display: none;
+}
+
+.game_popup select#class_id {
+    margin-bottom: 10px;
+}
+
+.game_popup span.alert.class_id {
+    margin-bottom: 0;
+}
+
+.game_popup {
     font-family: 'Montserrat', sans-serif;
     background-image: url(../assets/modal_login_background.png);
     background-size: contain;
@@ -169,11 +186,11 @@ input, select:focus {
     position: relative;
 }
 
-#loginPopup .close-modal {
+.game_popup .close-modal {
     display: none;
 }
 
-#loginPopup h4 {
+.game_popup h4 {
     font-family: 'showcard';
     color: #fffec9;
     font-size: 24px;
@@ -181,7 +198,7 @@ input, select:focus {
     margin-top: 34px;
 }
 
-#loginPopup form input, #loginPopup form select {
+.game_popup form input, .game_popup form select {
     display: inline-block;
     margin-bottom: 10px;
     padding: 8px 13px;
@@ -190,11 +207,11 @@ input, select:focus {
     font-size: 15px;
 }
 
-#loginPopup form select {
+.game_popup form select {
     margin-bottom: 0;
 }
 
-#loginPopup form {
+.game_popup form {
     display: flex;
     flex-direction: column;
     max-width: 270px;
@@ -202,10 +219,10 @@ input, select:focus {
     padding: 17px;
     margin: auto;
     border-radius: 15px;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
-#loginPopup span {   
+.game_popup span {   
     color: #fff;
     font-weight: 600;
     font-style: italic;
@@ -215,12 +232,12 @@ input, select:focus {
     margin-top: 14px;
 }
 
-#loginPopup button:focus {
+.game_popup button:focus {
     outline: none;
 }
 
-#loginPopup button {
-    background-image: url(../assets/background_btn_start.png);
+.game_popup button {
+    background-image: url(../assets/panel_button_bg_2.png);
     background-size: contain;
     width: 236px;
     height: 50px;
@@ -239,7 +256,7 @@ input, select:focus {
     bottom: 11px;
 }
 
-#loginPopup p {
+.game_popup p {
     font-size: 14px;
     font-weight: 600;
     font-style: italic;
@@ -247,6 +264,8 @@ input, select:focus {
     margin-top: 25px;
     margin-bottom: 25px;
     padding: 0px 10px;
+    position: absolute;
+    bottom: 50px;
 }
 
 #thele h4 {
@@ -261,6 +280,21 @@ input, select:focus {
     transform: translateX(-50%);
 }
 
+#thele p {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#thele strong {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    display: block;
+}
+
+#thele li {
+    margin-bottom: 10px;
+}
+
 #thele .content-box {
     margin: 40px;
     background-color: #ffc46b;
@@ -268,7 +302,8 @@ input, select:focus {
     border-radius: 22px;
     height: 280px;
     box-shadow: rgb(195 85 45 / 56%) 3px 3px 6px 0px inset, rgb(220 179 108 / 58%) -3px -3px 6px 1px inset;
-    font-weight: 600;
+    /* font-weight: 600; */
+    text-align: left;
     padding-right: 8px;
 }
 
@@ -290,4 +325,17 @@ input, select:focus {
 #thele .content-box .content::-webkit-scrollbar-track {
     background: #ffb445; 
     border-radius: 10px;
+}
+
+div#loginPopup span {
+    margin-top: 50px;
+}
+
+div#loginPopup p {
+    text-align: center;
+    position: unset;
+}
+
+div#loginPopup p a {
+    color: antiquewhite;
 }

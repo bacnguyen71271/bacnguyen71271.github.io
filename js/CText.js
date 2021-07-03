@@ -1,4 +1,4 @@
-function CText(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
+function CText(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach, shadowColor = "#903d0a"){
     var _bDisable;
     var _iWidth;
     var _iHeight;
@@ -10,7 +10,7 @@ function CText(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
     var _oText;
     var _oButtonBg;
     
-    this._init =function(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
+    this._init =function(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach, shadowColor){
         _bDisable = false;
         _aCbCompleted=new Array();
         _aCbOwner =new Array();
@@ -23,7 +23,7 @@ function CText(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
 		
         var iStepShadow = Math.ceil(iFontSize/20);
 
-        _oTextBack = new createjs.Text(szText,iFontSize+"px "+szFont, "#903d0a");
+        _oTextBack = new createjs.Text(szText,iFontSize+"px "+szFont, shadowColor);
         var oBounds = _oTextBack.getBounds();
         _oTextBack.textAlign = "center";
         _oTextBack.lineWidth = _iWidth *0.9;
@@ -62,10 +62,51 @@ function CText(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
         }
         
         if(bAttach !== false){
+            bAttach.addChild(_oButton);
+        } else {
             s_oStage.addChild(_oButton);
         }
+        
+        this._initListener()
     };
     
+    this.addEventListener = function( iEvent,cbCompleted, cbOwner ){
+        _aCbCompleted[iEvent]=cbCompleted;
+        _aCbOwner[iEvent] = cbOwner; 
+    };
+
+    this._initListener = function(){
+        _oButton.on("mousedown", this.buttonDown);
+        _oButton.on("pressup" , this.buttonRelease);      
+     };
+
+     this.buttonDown = function(){
+        if(_bDisable){
+            return;
+        }
+        // _oButton.scaleX = 0.9;
+        // _oButton.scaleY = 0.9;
+
+       if(_aCbCompleted[ON_MOUSE_DOWN]){
+           _aCbCompleted[ON_MOUSE_DOWN].call(_aCbOwner[ON_MOUSE_DOWN]);
+       }
+    };
+
+    this.buttonRelease = function(){
+        if(_bDisable){
+            return;
+        }
+        
+        // playSound("click",1,false);
+        
+        // _oButton.scaleX = 1;
+        // _oButton.scaleY = 1;
+
+        if(_aCbCompleted[ON_MOUSE_UP]){
+            _aCbCompleted[ON_MOUSE_UP].call(_aCbOwner[ON_MOUSE_UP],_oParams);
+        }
+    };
+
     this.unload = function(){
        _oButton.off("mousedown");
        _oButton.off("pressup");
@@ -160,7 +201,7 @@ function CText(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach){
         return _oButton;
     };
 
-    this._init(iXPos,iYPos,oSprite,szText,szFont,szColor,iFontSize,bAttach);
+    this._init(iXPos, iYPos, oSprite, szText, szFont, szColor, iFontSize, bAttach, shadowColor);
     
     return this;
     

@@ -19,7 +19,7 @@ function ChaseImageCaptureWordScreen1 () {
         var oSprite = s_oSpriteLibrary.getSprite('bg_back');
         _pBackPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
         _ButtonBack = new CTextButton(_pBackPos.x, _pBackPos.y , oSprite, 'QUAY LẠI', "showcard", "#fff", 35, s_oStage);        
-        _ButtonBack.addEventListener(ON_MOUSE_UP, this._theLe, this);
+        _ButtonBack.addEventListener(ON_MOUSE_UP, s_SmashTheMouseScreen1.screenBack, this);
         
         // Add Audio Button
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
@@ -49,8 +49,6 @@ function ChaseImageCaptureWordScreen1 () {
         new CText(850, oModePos.y + 165, null, '• Trả lời đúng trong 15s đầu: 30 điểm', "MontserratSemiBold", "#fff", 25, s_oStage)
         new CText(884, oModePos.y + 200, null, '• Trả lời đúng trong 15s tiếp theo: 20 điểm', "MontserratSemiBold", "#fff", 25, s_oStage)
         new CText(860, oModePos.y + 235, null, '• Trả lời đúng trong vòng 60s: 10 điểm', "MontserratSemiBold", "#fff", 25, s_oStage)
-        new CText(951, oModePos.y + 270, null, '• Trả lời đúng nhưng quá 60s: Qua bài nhưng không', "MontserratSemiBold", "#fff", 25, s_oStage)
-        new CText(716, oModePos.y + 305, null, 'được tính điểm', "MontserratSemiBold", "#fff", 25, s_oStage)
 
         var oSprite = s_oSpriteLibrary.getSprite('button_background_3');
         _pStartPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
@@ -64,7 +62,13 @@ function ChaseImageCaptureWordScreen1 () {
 
     this.goToGame = function () {
         this.unload()
-        ScreenGame = new ChaseImageCaptureWordScreen2();
+        ScreenGame_2 = new ChaseImageCaptureWordScreen2();
+        _iState = 'GAME2'
+    }
+    
+    this.screenBack = function () {
+        this.unload()
+        _ScreenChooseGame = new ScreenChooseGame()
     }
 
     this._onAudioToggle = function(){

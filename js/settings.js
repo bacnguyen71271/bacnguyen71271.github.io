@@ -6,14 +6,8 @@ var EDGEBOARD_Y = 200;
 
 var FONT = "MontserratSemiBold";
 
-
 var FPS      = 30;
 var DISABLE_SOUND_MOBILE = false;
-
-var STATE_LOADING = 0;
-var STATE_MENU    = 1;
-var STATE_HELP    = 1;
-var STATE_GAME    = 3;
 
 var NUM_ROWS = 3;
 var NUM_COLS = 3;
@@ -22,18 +16,10 @@ var BIGGER_HEIGHT = 267;
 var START_X_GRID = 650;
 var START_Y_GRID = 830;
 
-
-var TIME_X = 530;
-var TIME_Y = 590;
-var SCORE_X = 1160;
-var SCORE_Y = 590;
-var BEST_SCORE_X = 945;
-var BEST_SCORE_Y = 590;
 var HOLE_WIDTH = 297;
 var HOLE_HEIGHT = 253;
 var HAMMER_WIDTH = 258;
 var HAMMER_HEIGHT = 225;
-var TIME_LEVEL;
 var SUPER_HAMMER_MULT;
 var SUPER_HAMMER_TIME;
 
@@ -53,10 +39,13 @@ var CHARACTER_HEIGHT = new Array();
     CHARACTER_HEIGHT[3] = 191;
     CHARACTER_HEIGHT[4] = 191;
     
-    
 var CHARACTER_POINTS = new Array();
+
+// DIEM SO GAME 1
 var GAME_1_POINT = [10, 20, 30, -100]
 
+
+// EVENT
 var ON_MOUSE_DOWN  = 0;
 var ON_MOUSE_UP    = 1;
 var ON_MOUSE_OVER  = 2;
@@ -71,3 +60,24 @@ var OFFSET_SPAWN_TIME;
 var TIME_SUPER_HAMMER_CHECK;
                                                 
 var ENABLE_FULLSCREEN;
+
+
+// Ten game
+var GAME_NAME = [ 'HOMA ĐẬP CHUỘT', 'HOMA ĐUỔI HÌNH BẮT CHỮ', 'HOMA LÀM TOÁN', 'HOMA HỌC TIẾNG ANH'];
+
+// Game dang chon
+var GAME_CHOOSE = 1;
+
+// So game da unlock
+var GameUnLocked = 4;
+var IS_LOGIN = false;
+var USER_NAME = '';
+var USER_PHONE = '';
+var USER_CLASS = 0;
+var USER_COUPON = '';
+var USER_GAME_UNLOCK = 1;
+var USER_TOTAL_TIME = 0;
+var USER_TOTAL_SCORE = 0;
+
+var GAME_TOTAL_TIME = 0;
+var GAME_TOTAL_SCORE = 0;

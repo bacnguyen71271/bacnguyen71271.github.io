@@ -23,38 +23,48 @@ function Game4Screen2 () {
     var s_TextSelect;
     var s_TextHide = [];
 
+    var gamePart = 1;
+
     var textInput = [
         {
-            text: 'question',
+            text: 'mirror',
             texthide: '',
             status: false,
         },
         {
-            text: 'answer',
+            text: 'parrot',
             texthide: '',
             status: false,
         },
         {
-            text: 'apple',
+            text: 'pond',
             texthide: '',
             status: false,
         },
         {
-            text: 'selection',
+            text: 'finally',
             texthide: '',
             status: false,
         },
         {
-            text: 'console',
+            text: 'climb',
             texthide: '',
             status: false,
         },
     ]
 
+    var _FailedPartPanel;
+    var _PassPartPanel;
+
+    var questionFind = 0;
+
     this.init = function() {
 
         _iTimeElapsed = 60000;
-        s_iPrevTime = new Date().getTime();
+        gamePart = 0;
+        _bUpdate = true;
+        _iScore = 0;
+
 
         _gameContainer = new createjs.Container();
 
@@ -85,14 +95,19 @@ function Game4Screen2 () {
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
         _ButtonCart.addEventListener(ON_MOUSE_UP, ()=>{} , this);
 
+        var oSprite = s_oSpriteLibrary.getSprite('game_pause');
+        _pPausePos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
+        _ButtonPause = new CGfxButton(_pPausePos.x, _pPausePos.y, oSprite, s_oStage);
+
         _Scores = new GameInfo(_pCartPos.x, _pCartPos.y - 50, s_oSpriteLibrary.getSprite('start'), s_oSpriteLibrary.getSprite('game_info_bg_2'), '0', '#fce48a', s_oStage)
 
         _Time = new TimeProcess(_pCartPos.x, _pCartPos.y - 50, '00:00', 70, s_oStage)
 
-        s_TextSelect = new CText(oModePos.x + 500, oModePos.y - 200, null, ' ', "MontserratBlack", "#fce48a", 60, s_oStage);
+        s_TextSelect = new CText(oModePos.x + 500, oModePos.y - 180, null, ' ', "MontserratBlack", "#fce48a", 60, s_oStage);
 
         new CGImage(oModePos.x + 500, oModePos.y + 40, s_oSpriteLibrary.getSprite('sugges_bg'), s_oStage);
 
+        s_TextHide = []
         for (let index = 0; index < textInput.length; index++) {
             s_TextHide.push(new CText(oModePos.x + 500, oModePos.y - 50 + (50 * index), null, '', "MontserratBlack", "#fce48a", 30, s_oStage))
         }
@@ -102,7 +117,7 @@ function Game4Screen2 () {
         new CGImage(oModePos.x + 500, oModePos.y + 350, s_oSpriteLibrary.getSprite('notifi_bg'), s_oStage);
 
         // Notifi text
-        _notifiText = new createjs.Text('Bé hãy tìm các từ tiếng anh được gợi ý ở trên nhé' , "30px MontserratSemiBold", "#fff");
+        _notifiText = new createjs.Text('Bé hãy tìm các từ tiếng anh được gợi ý ở trên nhé' , "25px MontserratSemiBold", "#fff");
         _notifiText.textAlign = "center";
         _notifiText.lineHeight = 34;
         _notifiText.textBaseline = "alphabetic";
@@ -112,6 +127,7 @@ function Game4Screen2 () {
         s_oStage.addChild(_notifiText)
 
         // Create select button
+        _selectText = []
         for (let index = 0; index < _selectTextLength; index++) {
             var col = index % 9;
             var row = parseInt(index / 9)
@@ -123,25 +139,6 @@ function Game4Screen2 () {
         _gameContainer.x = 330
         _gameContainer.y = oModePos.y - 110
 
-
-        while (true) {
-            if (s_Game4Screen2.mergeTextToArray()) {
-                break;
-            }
-            for (let index = 0; index < _selectText.length; index++) {
-                _selectText[index].changeText(' ')
-                _selectText[index].selectStatus(false)
-            }
-            console.log('LAI')
-        }
-        s_Game4Screen2.createWordHide()
-
-        
-        for (let index = 0; index < _selectText.length; index++) {
-            if (_selectText[index].getText() == ' ')
-                _selectText[index].changeText(this._randomString(1))
-        }
-        
         s_oStage.addChild(_gameContainer);
 
         _gameContainer.addEventListener("mousedown", function(evt) {
@@ -160,6 +157,8 @@ function Game4Screen2 () {
                 s_Game4Screen2.textFailAnimation()
                 _notifiText.text = "Bé chọn chưa đúng rồi. Cố lên nào bé !"
             } else {
+                questionFind++;
+                // playSound('game_4_checked', 1, true)
                 s_Game4Screen2.changeTextSelect('')
                 var questionCount = 0;
                 for (let index = 0; index < textInput.length; index++) {
@@ -167,10 +166,13 @@ function Game4Screen2 () {
                         questionCount += 1
                 }
 
-                if (questionCount > 0)
-                _notifiText.text = "Còn " + questionCount + " từ nữa! Bé hãy cố lên nào"
-                else 
-                _notifiText.text = "Chúc mừng bé!"
+                if (questionCount > 0) {
+                    _notifiText.text = "Còn " + questionCount + " từ nữa! Bé hãy cố lên nào"
+                }
+                else {
+                    _notifiText.text = "Chúc mừng bé!"
+                    s_Game4Screen2.gameRefresh()
+                }
             }
             s_Game4Screen2.clearTextSelect()
             
@@ -179,8 +181,60 @@ function Game4Screen2 () {
         _gameContainer.addEventListener("pressmove", function(evt) {
         });
 
-        createjs.Ticker.addEventListener("tick", this.update);
+        _PassPartPanel = new PassPartPanel2();
+        _FailedPartPanel = new FailedPartPanel();
+        _PausePanel = new PausePanel(s_oStage);
+        _ButtonPause.addEventListener(ON_MOUSE_UP, s_Game4Screen2.onPauseGame, this);
+
+        s_Game4Screen2.gameRefresh()
+        playSound('game_4', 1, true)
         this.refreshButtonPos();
+    }
+
+    this.gameRefresh = function () {
+
+        if (gamePart > 0 && questionFind < 5) {
+            _FailedPartPanel.show(_iScore)
+            _bUpdate = false;
+            stopSound('game_4')
+            return;
+        } else if (gamePart == 4 && questionFind == 5) {
+            _PassPartPanel.show(_iScore)
+            _bUpdate = false;
+            stopSound('game_4')
+            return;
+        }
+
+        gamePart++;
+        questionFind = 0;
+
+        while (true) {
+            
+            for (let index = 0; index < _selectText.length; index++) {
+                _selectText[index].changeText(' ')
+                _selectText[index].selectStatus(false)
+                _selectText[index].selected(false)
+            }
+
+            if (s_Game4Screen2.mergeTextToArray()) {
+                break;
+            }
+            console.log('LAI')
+        }
+        s_Game4Screen2.createWordHide()
+
+        
+        for (let index = 0; index < _selectText.length; index++) {
+            if (_selectText[index].getText() == ' ')
+                _selectText[index].changeText(this._randomString(1))
+        }
+
+        _iTimeElapsed = 60000;
+        _bUpdate = true;
+    }
+
+    this.onPauseGame = function() {
+        _PausePanel.show()
     }
 
     this.textFailAnimation = function () {
@@ -239,7 +293,8 @@ function Game4Screen2 () {
 
             while (true) {
                 arrayRandomIndex = this.random(0, 80)
-                directionArr = this.random(1,4)
+                directionArr = this.random(1,2)
+                directionArr = directionArr === 1 ? 1 : 3
                 
                 var textOfTextIndex = _selectText[arrayRandomIndex].getText()
                 // console.log("directionArr: ", directionArr)
@@ -284,7 +339,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    _selectText[directToIndex].selectStatus(true)
+                    // _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -301,7 +356,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    _selectText[directToIndex].selectStatus(true)
+                    // _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -318,7 +373,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    _selectText[directToIndex].selectStatus(true)
+                    // _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -335,7 +390,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    _selectText[directToIndex].selectStatus(true)
+                    // _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -466,31 +521,14 @@ function Game4Screen2 () {
     }
 
     this.update = function() {
-        var iCurTime = new Date().getTime();    
-        s_iTimeElaps = iCurTime - s_iPrevTime;
-        s_iCntTime += s_iTimeElaps;
-        s_iCntFps++;
-        s_iPrevTime = iCurTime;
-
-        if ( s_iCntTime >= 1000 ){
-            // console.log(s_iCntTime)
-            s_iCurFps = s_iCntFps;
-            s_iCntTime-=1000;
-            s_iCntFps = 0;
-        }
-
         _Scores.changeText(_iScore)
 
+        if (!_bUpdate) { return; }
         //REFRESH TIME BAR
         _iTimeElapsed -= s_iTimeElaps;
         if (_iTimeElapsed < 0){
             _bUpdate = false;
-            // _oInterface.refreshTimeText(formatTime(0));
-            // this.gameOver();
-
-            // Danh dau cau da choi
-            // _wordUsed.push(_wordPre)
-
+            this.gameRefresh()
         }else{
             // Change time text
             _Time.changeText(formatTime(_iTimeElapsed))
@@ -522,9 +560,7 @@ function Game4Screen2 () {
             _input[index].setPosition( 1550 - (_inputWidth/2) + (100 * index) ,s_iOffsetY + 260)
             _input[index].setVisible(true)
         }
-
     }
-
 
     this._findArray = function (value, array) {
         for (let index = 0; index < array.length; index++) {
@@ -544,12 +580,14 @@ function Game4Screen2 () {
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             _oAudioToggle.setPosition(_pStartPosAudio.x - s_iOffsetX,s_iOffsetY + _pStartPosAudio.y);
         }
-        _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
+        _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 260,s_iOffsetY + _pCartPos.y);
+        _ButtonPause.setPosition(_pPausePos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
         _Scores.setPosition(s_iOffsetX + 970, s_iOffsetY + 80);
         _Time.setPosition(s_iOffsetX + 400, s_iOffsetY + 80);
     }
 
     this.unload = function() {
+        stopSound('game_4');
         s_Game4Screen2 = null;
         s_oStage.removeAllChildren();
     }    

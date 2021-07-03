@@ -19,7 +19,7 @@ function SmashTheMouseScreen1 () {
         var oSprite = s_oSpriteLibrary.getSprite('bg_back');
         _pBackPos = {x: (oSprite.width/2) + 30, y: (oSprite.height/2) + 30}; 
         _ButtonBack = new CTextButton(_pBackPos.x, _pBackPos.y , oSprite, 'QUAY LẠI', "showcard", "#fff", 35, s_oStage);        
-        _ButtonBack.addEventListener(ON_MOUSE_UP, this._theLe, this);
+        _ButtonBack.addEventListener(ON_MOUSE_UP, s_SmashTheMouseScreen1.screenBack, this);
         
         // Add Audio Button
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
@@ -65,7 +65,13 @@ function SmashTheMouseScreen1 () {
 
     this.goToGame = function () {
         this.unload()
-        ScreenGame = new SmashTheMouseScreen2();
+        ScreenGame_1 = new SmashTheMouseScreen2();
+        _iState = 'GAME1'
+    }
+
+    this.screenBack = function () {
+        this.unload()
+        _ScreenChooseGame = new ScreenChooseGame()
     }
 
     this._onAudioToggle = function(){

@@ -1,11 +1,17 @@
-var userInfo = {};
-var isLogin = false;
+var ScreenGame_1;
+var ScreenGame_2;
+var ScreenGame_3;
+var ScreenGame_4;
+var _ScreenHome;
+var _ScreenChooseGame;
+
+var _iState = "LOADING";
 
 function CMain(oData){
     var _bUpdate;
+    var _pauseGame = false;
     var _iCurResource = 0;
     var RESOURCE_TO_LOAD = 0;
-    var _iState = STATE_LOADING;
     var _oData;
     
     var _oPreloader;
@@ -29,7 +35,7 @@ function CMain(oData){
         createjs.Ticker.framerate = FPS;
         
         if(navigator.userAgent.match(/Windows Phone/i)){
-                DISABLE_SOUND_MOBILE = true;
+            DISABLE_SOUND_MOBILE = true;
         }
         
         s_oSpriteLibrary  = new CSpriteLibrary();
@@ -59,14 +65,17 @@ function CMain(oData){
         aSoundsInfo.push({path: './sounds/',filename:'click',loop:false,volume:1, ingamename: 'click'});
         aSoundsInfo.push({path: './sounds/',filename:'hammer',loop:false,volume:1, ingamename: 'hammer'});
         aSoundsInfo.push({path: './sounds/',filename:'hit',loop:false,volume:1, ingamename: 'hit'});
-        aSoundsInfo.push({path: './sounds/',filename:'superhammer',loop:false,volume:1, ingamename: 'superhammer'});
         aSoundsInfo.push({path: './sounds/',filename:'bomb',loop:false,volume:1, ingamename: 'bomb'});
-        aSoundsInfo.push({path: './sounds/',filename:'soundtrack',loop:true,volume:1, ingamename: 'soundtrack'});
         aSoundsInfo.push({path: './sounds/',filename:'hover1',loop:false,volume:0.4, ingamename: 'hover1'});
         aSoundsInfo.push({path: './sounds/',filename:'ball_tap',loop:false,volume:0.4, ingamename: 'ball_tap'});
         aSoundsInfo.push({path: './sounds/',filename:'bonus-collect',loop:false,volume:0.4, ingamename: 'bonus-collect'});
         aSoundsInfo.push({path: './sounds/',filename:'lose_game',loop:false,volume:0.4, ingamename: 'lose_game'});
+        aSoundsInfo.push({path: './sounds/',filename:'lose_game_2',loop:false,volume:1, ingamename: 'lose_game_2'});
+        aSoundsInfo.push({path: './sounds/',filename:'game_4_checked',loop:false,volume:1, ingamename: 'game_4_checked'});
         aSoundsInfo.push({path: './sounds/',filename:'game_1',loop:true,volume:1, ingamename: 'game_1'});
+        aSoundsInfo.push({path: './sounds/',filename:'game_2',loop:true,volume:1, ingamename: 'game_2'});
+        aSoundsInfo.push({path: './sounds/',filename:'game_3',loop:true,volume:1, ingamename: 'game_3'});
+        aSoundsInfo.push({path: './sounds/',filename:'game_4',loop:true,volume:1, ingamename: 'game_4'});
         
         RESOURCE_TO_LOAD += aSoundsInfo.length;
 
@@ -104,6 +113,7 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("bg_back","./assets/bg_back.png");
         s_oSpriteLibrary.addSprite("audio_icon","./assets/audio_icon.png");
         s_oSpriteLibrary.addSprite("cart_icon","./assets/cart_icon.png");
+        s_oSpriteLibrary.addSprite("game_pause","./assets/game_pause.png");
         s_oSpriteLibrary.addSprite("bg_level","./assets/bg_level.png");
         s_oSpriteLibrary.addSprite("game_status_0_1","./assets/game_status_0_1.png");
         s_oSpriteLibrary.addSprite("game_status_0_2","./assets/game_status_0_2.png");
@@ -116,9 +126,13 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("game_select","./assets/game_select.png");
         s_oSpriteLibrary.addSprite("modal_bg","./assets/modal_bg.png");
         s_oSpriteLibrary.addSprite("background_btn_start_2","./assets/background_btn_start_2.png");
+        s_oSpriteLibrary.addSprite("panel_button_bg","./assets/panel_button_bg.png");
         s_oSpriteLibrary.addSprite("game_avt_1","./assets/game_avt_1.png");
         s_oSpriteLibrary.addSprite("game_avt_2","./assets/game_avt_2.png");
         s_oSpriteLibrary.addSprite("game_avt_3","./assets/game_avt_3.png");
+        s_oSpriteLibrary.addSprite("panel_bg","./assets/panel_bg.png");
+        s_oSpriteLibrary.addSprite("home_button","./assets/home_button.png");
+
         s_oSpriteLibrary.addSprite("game_avt_4","./assets/game_avt_4.png");
 
         s_oSpriteLibrary.addSprite("game1_bg","./assets/game1_bg.jpg");
@@ -189,11 +203,9 @@ function CMain(oData){
 
         _oPreloader.unload();
 
-        s_oSoundTrack = playSound("soundtrack", 0, true);
+        // s_oSoundTrack = playSound("soundtrack", 0, true);
 
         this.goToHome();
-        // this.goToChooseGame();
-        // this.goToGame1()
     };
     
     this._onAllImagesLoaded = function(){
@@ -206,25 +218,11 @@ function CMain(oData){
 
     this.goToHome = function() {
         _ScreenHome =  new ScreenHome();
+        //Data helper
+        checkLogin(function () {
+            _ScreenHome.checkLogin()
+        })
     }
-
-    this.goToChooseGame = function() {
-        _ScreenChooseGame =  new ScreenChooseGame();
-    }
-
-    this.goToGame1 = function() {
-        _goToGame1 =  new Game4Screen1();
-    }
-    
-    this.gotoMenu = function(){
-        _oMenu = new CMenu();
-        _iState = STATE_MENU;
-    }; 
-    
-    this.gotoGame = function(){
-        _oGame = new CGame(_oData);   						
-        _iState = STATE_GAME;
-    };
     
     this.gotoHelp = function(){
         _oHelp = new CHelp();
@@ -246,10 +244,7 @@ function CMain(oData){
         _bUpdate = false;
         createjs.Ticker.paused = true;
         $("#block_game").css("display","block");
-
         Howler.mute(true);
-        
-        
     };
 
     this.startUpdate = function(){
@@ -261,35 +256,51 @@ function CMain(oData){
 		if(s_bAudioActive){
 			Howler.mute(false);
 		}
-        
-        
     };
     
     this._update = function(event){
-        // if(_bUpdate === false){
-        //         return;
-        // }
-        // var iCurTime = new Date().getTime();
-        // s_iTimeElaps = iCurTime - s_iPrevTime;
-        // s_iCntTime += s_iTimeElaps;
-        // s_iCntFps++;
-        // s_iPrevTime = iCurTime;
-
-        // if ( s_iCntTime >= 1000 ){
-        //     s_iCurFps = s_iCntFps;
-        //     s_iCntTime-=1000;
-        //     s_iCntFps = 0;
-        // }
-
-        // if(_iState === STATE_MENU){
-        //     _oMenu.update();
-        // }
+        if(_bUpdate === false){
+                return;
+        }
+        var iCurTime = new Date().getTime();
         
-        // if(_iState === STATE_GAME){
-        //     _oGame.update();
-        // }
+        s_iTimeElaps = iCurTime - s_iPrevTime;
+        
+        s_iCntTime += s_iTimeElaps;
+        s_iCntFps++;
+        s_iPrevTime = iCurTime;
 
-        // s_oStage.update(event);
+        if ( s_iCntTime >= 1000 ){
+            s_iCurFps = s_iCntFps;
+            s_iCntTime-=1000;
+            s_iCntFps = 0;
+        }
+
+        if (_iState === 'GAME1') {
+            if (ScreenGame_1) {
+                ScreenGame_1.update();
+            }
+        }
+
+        if (_iState === 'GAME2') {
+            if (ScreenGame_2) {
+                ScreenGame_2.update();
+            }
+        }
+        
+        if (_iState === 'GAME3') {
+            if (ScreenGame_3) {
+                ScreenGame_3.update();
+            }
+        }
+        
+        if (_iState === 'GAME4') {
+            if (ScreenGame_4) {
+                ScreenGame_4.update();
+            }
+        }
+
+        s_oStage.update(event);
        
     };
 

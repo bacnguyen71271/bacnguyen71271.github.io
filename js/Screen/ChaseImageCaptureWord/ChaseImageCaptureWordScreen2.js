@@ -13,8 +13,21 @@ function ChaseImageCaptureWordScreen2 () {
     var _input = []
     var _stringArr = []
     var _iScore = 0;
+    var _iTimeLevelUpElapsed
+
+    var oModePos;
+    
+    var _FailedPartPanel = null;
+    var _PassPartPanel = null;
 
     var _iTimeElapsed;
+
+    var scorePoint_1
+    var scorePointText_1
+    var scorePoint_2
+    var scorePointText_2
+    var scorePoint_3
+    var scorePointText_3
 
     var _imageWord = [
         {
@@ -23,7 +36,7 @@ function ChaseImageCaptureWordScreen2 () {
         },
         {
             image: 'image_word_2',
-            word: 'binhhoa',
+            word: 'yenbinh',
         },
         {
             image: 'image_word_3',
@@ -62,10 +75,9 @@ function ChaseImageCaptureWordScreen2 () {
     this.init = function() {
 
         _iTimeElapsed = 60000;
-        s_iPrevTime = new Date().getTime();
+        _iTimeLevelUpElapsed = 0
 
-
-        var oModePos = {x: CANVAS_WIDTH/2, y: 875};
+        oModePos = {x: CANVAS_WIDTH/2, y: 875};
         // Add background
         _Bg = createBitmap(s_oSpriteLibrary.getSprite('ldp_background'));
         s_oStage.addChild(_Bg);
@@ -92,20 +104,25 @@ function ChaseImageCaptureWordScreen2 () {
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
         _ButtonCart.addEventListener(ON_MOUSE_UP, ()=>{} , this);
 
+        var oSprite = s_oSpriteLibrary.getSprite('game_pause');
+        _pPausePos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
+        _ButtonPause = new CGfxButton(_pPausePos.x, _pPausePos.y, oSprite, s_oStage);
+
         _Scores = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('start'), s_oSpriteLibrary.getSprite('game_info_bg_2'), '0', '#fce48a', s_oStage)
 
-        new CText(280, s_iOffsetY + 35 , null, '+10 ĐIỂM', "showcard", "#fff", 25, s_oStage)
-        new CGImage(280, s_iOffsetY + 60 , s_oSpriteLibrary.getSprite('time_point'), s_oStage);
+        scorePointText_1 = new CText(280, s_iOffsetY + 35 , null, '+10 ĐIỂM', "showcard", "#fff", 25, s_oStage)
+        scorePoint_1 =new CGImage(280, s_iOffsetY + 60 , s_oSpriteLibrary.getSprite('time_point'), s_oStage);
         
-        new CText(450, s_iOffsetY + 35, null, '+20 ĐIỂM', "showcard", "#fff", 25, s_oStage)
-        new CGImage(450, s_iOffsetY + 60, s_oSpriteLibrary.getSprite('time_point'), s_oStage);
+        scorePointText_2 = new CText(450, s_iOffsetY + 35, null, '+20 ĐIỂM', "showcard", "#fff", 25, s_oStage)
+        scorePoint_2 = new CGImage(450, s_iOffsetY + 60, s_oSpriteLibrary.getSprite('time_point'), s_oStage);
 
-        new CText(600, s_iOffsetY + 35, null, '+30 ĐIỂM', "showcard", "#fff", 25, s_oStage)
-        new CGImage(600, s_iOffsetY + 60, s_oSpriteLibrary.getSprite('time_point'), s_oStage);
+        scorePointText_3 = new CText(600, s_iOffsetY + 35, null, '+30 ĐIỂM', "showcard", "#fff", 25, s_oStage)
+        scorePoint_3 = new CGImage(600, s_iOffsetY + 60, s_oSpriteLibrary.getSprite('time_point'), s_oStage);
 
         _Time = new TimeProcess(_pCartPos.x, _pCartPos.y, '00:00', 70, s_oStage)
 
-        new CGImage(oModePos.x - 390, oModePos.y + 160, s_oSpriteLibrary.getSprite('game_board'), s_oStage);
+        var sprite = s_oSpriteLibrary.getSprite('game_board')
+        new CGImage(oModePos.x - 390, oModePos.y + 160, sprite, s_oStage);
 
         // Create image
         for (let index = 0; index < _imageWord.length; index++) {
@@ -115,65 +132,68 @@ function ChaseImageCaptureWordScreen2 () {
 
         // Create input
         for (let index = 0; index < _inputLength; index++) {
-            _input.push(new CText(1170 + (100 * index), s_iOffsetY + 260 , s_oSpriteLibrary.getSprite('text_box_1'), 'W', "showcard", "#fffec9", 40, s_oStage))
+            _input.push(new CText(1170 + (100 * index), oModePos.y , s_oSpriteLibrary.getSprite('text_box_1'), 'W', "showcard", "#fffec9", 40, s_oStage))
         }
 
         // Create select button
         for (let index = 0; index < _buttonSelectLength; index++) {
             var col = index % 4;
             var row = parseInt(index / 4)
-            var button = new CTextButton(1260 + (160 * col) , s_iOffsetY + 400 + (row * 110) , s_oSpriteLibrary.getSprite('text_box_2'), ' ', "MontserratBlack", "#7d2308", 35, s_oStage)
+            var button = new CTextButton(1260 + (160 * col) , oModePos.y + 20 + (row * 110), s_oSpriteLibrary.getSprite('text_box_2'), ' ', "MontserratBlack", "#7d2308", 35, s_oStage)
             button.addEventListenerWithParams(ON_MOUSE_UP, this.selectText , this, index);
             _buttonSelect.push(button)
         }
 
         // Add button backspace
-        _buttonBackSpace = new CTextButton(1660, s_iOffsetY + 420 + (3 * 105) , s_oSpriteLibrary.getSprite('bg_back_2'), 'XÓA', "MontserratBlack", "#7d2308", 35, s_oStage)
+        _buttonBackSpace = new CTextButton(1660, oModePos.y + 40 + (3 * 105) , s_oSpriteLibrary.getSprite('bg_back_2'), 'XÓA', "MontserratBlack", "#7d2308", 35, s_oStage)
         _buttonBackSpace.addEventListener(ON_MOUSE_UP, this.backSpace , this);
 
         // Button next game
-        _buttonNextGame = new CTextButton(1320, s_iOffsetY + 853 , s_oSpriteLibrary.getSprite('next_game'), ' ', "MontserratBlack", "#7d2308", 35, s_oStage)
-        _buttonNextGame.addEventListener(ON_MOUSE_UP, this.backSpace , this);
+        _buttonNextGame = new CTextButton(1320, oModePos.y + 460 , s_oSpriteLibrary.getSprite('next_game'), ' ', "MontserratBlack", "#7d2308", 35, s_oStage)
+        _buttonNextGame.addEventListener(ON_MOUSE_UP, this.nextGame , this);
         _buttonNextGame.disable()
 
         // Button next frame
-        _buttonNextFrame = new CTextButton(1640, s_iOffsetY + 845 , s_oSpriteLibrary.getSprite('next_frame'), ' ', "MontserratBlack", "#7d2308", 35, s_oStage)
+        _buttonNextFrame = new CTextButton(1640, oModePos.y + 460 , s_oSpriteLibrary.getSprite('next_frame'), ' ', "MontserratBlack", "#7d2308", 35, s_oStage)
         _buttonNextFrame.addEventListener(ON_MOUSE_UP, this.refreshGame , this);
 
         _input[5].changeText('')
 
+        _PassPartPanel = new PassPartPanel2();
+        _FailedPartPanel = new FailedPartPanel();
+        _PausePanel = new PausePanel();
+
+        _ButtonPause.addEventListener(ON_MOUSE_UP, s_ChaseImageCaptureWordScreen2.onPauseGame, this);
+
         this.refreshGame()
-    
-        createjs.Ticker.addEventListener("tick", this.update);
         this.refreshButtonPos();
+        playSound('game_2', 1, true)
+    }
+
+    this.nextGame = function () {
+        if (_iState === 'GAME2') {
+            if (GameUnLocked == 2) { GameUnLocked = 3; GAME_CHOOSE = 3 }
+            new Game3Screen1();
+        }
+    }
+
+    this.onPauseGame = function() {
+        _PausePanel.show()
     }
 
     this.update = function() {
-        var iCurTime = new Date().getTime();    
-        s_iTimeElaps = iCurTime - s_iPrevTime;
-        s_iCntTime += s_iTimeElaps;
-        s_iCntFps++;
-        s_iPrevTime = iCurTime;
-
-        if ( s_iCntTime >= 1000 ){
-            // console.log(s_iCntTime)
-            s_iCurFps = s_iCntFps;
-            s_iCntTime-=1000;
-            s_iCntFps = 0;
-        }
-
         //REFRESH TIME BAR
         _iTimeElapsed -= s_iTimeElaps;
         if (_iTimeElapsed < 0){
             _bUpdate = false;
-            // _oInterface.refreshTimeText(formatTime(0));
             // this.gameOver();
 
             // Danh dau cau da choi
-            _wordUsed.push(_wordPre)
-            // Chuyen cau khac
-            s_SmashTheMouseScreen2.refreshGame()
-
+            if (_wordUsed.length < 5) {
+                // Chuyen cau khac
+                _wordUsed.push(_wordPre)
+                s_ChaseImageCaptureWordScreen2.refreshGame()
+            }
         }else{
             // Change time text
             _Time.changeText(formatTime(_iTimeElapsed))
@@ -185,9 +205,11 @@ function ChaseImageCaptureWordScreen2 () {
     this.inputAnimation = function (animation) {
         for (let index = 0; index < _input.length; index++) {
             if (animation == 2) {
+                playSound('bonus-collect', 1, false)
                 _input[index].pulseAnimation2()
             }
             if (animation == 1) {
+                playSound('lose_game', 1, false)
                 _input[index].pulseAnimation1()
             }
         }
@@ -213,10 +235,8 @@ function ChaseImageCaptureWordScreen2 () {
         } else if (_iTimeElapsed > 0) {
             _iScore += 10
         }
-
         // Cap nhat lai diem so
         _Scores.changeText(_iScore)
-        
     }
 
 
@@ -226,8 +246,6 @@ function ChaseImageCaptureWordScreen2 () {
         for (let index = 0; index < _pointCusor; index++) {
             textInput += _input[index].getText()
         }
-
-
         // Neu tra loi dung
         if (textInput.toUpperCase() == _imageWord[_wordPre].word.toUpperCase()) {
 
@@ -297,12 +315,25 @@ function ChaseImageCaptureWordScreen2 () {
 
         _pointCusor = 0;
 
+        if (_wordUsed.length >= 3) {
+            _buttonNextGame.enable()
+        }
 
         // Check neu da qu 4 cau
-        if (_wordUsed.length == 4) {
-            console.log('next game')
+        if (_wordUsed.length == 5) {
+            this.gameOver()
         }
     }
+
+    this.gameOver = function(){
+        stopSound('game_2')
+        // Nếu đủ điểm
+        if (_iScore >= 30) {
+            _PassPartPanel.show(_iScore)
+        } else {
+            _FailedPartPanel.show(_iScore)
+        }
+    };
 
     this._insertWordToButton = function (word) {
         var stringTemp = (word + this._randomString(14 - word.length)).toUpperCase()
@@ -349,7 +380,7 @@ function ChaseImageCaptureWordScreen2 () {
             _input[index].setVisible(false)
         }
         for (let index = 0; index < word.length; index++) {
-            _input[index].setPosition( 1550 - (_inputWidth/2) + (100 * index) ,s_iOffsetY + 260)
+            _input[index].setPosition( 1550 - (_inputWidth/2) + (100 * index) ,oModePos.y - 120)
             _input[index].setVisible(true)
         }
 
@@ -392,18 +423,28 @@ function ChaseImageCaptureWordScreen2 () {
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             _oAudioToggle.setPosition(_pStartPosAudio.x - s_iOffsetX,s_iOffsetY + _pStartPosAudio.y);
         }
-        _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
+        _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 260,s_iOffsetY + _pCartPos.y);
+        _ButtonPause.setPosition(_pPausePos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
         _Scores.setPosition(s_iOffsetX + 970, s_iOffsetY + 120);
+
         _Time.setPosition(s_iOffsetX + 400, s_iOffsetY + 120);
+
+        scorePointText_1.setPosition(s_iOffsetX + 280, s_iOffsetY + 35);
+        scorePoint_1.setPosition(s_iOffsetX + 280, s_iOffsetY + 60);
+        scorePointText_2.setPosition(s_iOffsetX + 450, s_iOffsetY + 35);
+        scorePoint_2.setPosition(s_iOffsetX + 450, s_iOffsetY + 60);
+        scorePointText_3.setPosition(s_iOffsetX + 600, s_iOffsetY + 35);
+        scorePoint_3.setPosition(s_iOffsetX + 600, s_iOffsetY + 60);
     }
 
     this.unload = function() {
-        s_SmashTheMouseScreen2 = null;
+        stopSound('game_2');
+        s_ChaseImageCaptureWordScreen2 = null;
         s_oStage.removeAllChildren();
     }    
 
-    s_SmashTheMouseScreen2 = this;
+    s_ChaseImageCaptureWordScreen2 = this;
     this.init()
 }
 
-var s_SmashTheMouseScreen2 = null;
+var s_ChaseImageCaptureWordScreen2 = null;
