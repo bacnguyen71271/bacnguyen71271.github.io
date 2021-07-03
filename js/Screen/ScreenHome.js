@@ -49,44 +49,22 @@ function ScreenHome(){
         var oSpriteLogoProgram = s_oSpriteLibrary.getSprite('light_1');         
         var _oLight = new CGImage(oModePos.x - 250, oModePos.y - 100, oSpriteLogoProgram, s_oStage);
         createjs.Tween.get(_oLight.getImage(), { loop: true })
-        .to({rotation: 10, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 20, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 30, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 40, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 50, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 60, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 70, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 80, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 90, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 100, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 110, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 120, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 130, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 140, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 150, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 160, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 170, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 180, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 190, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 200, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 210, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 220, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 230, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 240, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 250, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 260, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 270, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 280, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 290, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 300, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 310, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 320, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 330, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 340, scaleX: 1, scaleY: 1}, 1000,)
-        .to({rotation: 350, scaleX: 1.1, scaleY: 1.1}, 1000,)
-        .to({rotation: 360, scaleX: 1, scaleY: 1}, 1000,)
+        .to({ rotation: 0,scaleX: 0.8, scaleY: 0.8}, 0,createjs.Ease.linear)
+        .to({rotation: 20, scaleX: 1.3, scaleY: 1}, 2000, createjs.Ease.linear)
+        .to({rotation: 50, scaleX: 0, scaleY: 0}, 4000, createjs.Ease.linear)
+        .to({rotation: -20, scaleX: 0.5, scaleY: 0.5}, 0, createjs.Ease.linear)
+        .to({ rotation: 0,scaleX: 0.8, scaleY: 0.8}, 2000, createjs.Ease.linear)
 
         // Add logo chuong trinh
+        var oSpriteLogoProgram = s_oSpriteLibrary.getSprite('homa_head');         
+        var _oHead = new CGImage(oModePos.x - 185, oModePos.y - 250, oSpriteLogoProgram, s_oStage);
+        createjs.Tween.get(_oHead.getImage(), { loop: true })
+        .to({ y:_oHead.getY() }, 0,createjs.Ease.linear)
+        .to({ y:_oHead.getY() }, 5000,createjs.Ease.linear)
+        .to({ y:_oHead.getY() +35 }, 2000,createjs.Ease.linear)
+        .to({ y:_oHead.getY() +35},2000,createjs.Ease.linear)
+        .to({ y:_oHead.getY() }, 300,createjs.Ease.linear)
+
         var oSpriteLogoProgram = s_oSpriteLibrary.getSprite('logo_chuong_trinh');         
         new CGImage(oModePos.x, oModePos.y - 130, oSpriteLogoProgram, s_oStage);
 

@@ -99,6 +99,7 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("ldp_background","./assets/ldp_background.jpg");
         s_oSpriteLibrary.addSprite("choi-game-me-say","./assets/choi-game-me-say.png");
         s_oSpriteLibrary.addSprite("logo_chuong_trinh","./assets/logo_chuong_trinh.png");
+        s_oSpriteLibrary.addSprite("homa_head","./assets/homa_head.png");
         s_oSpriteLibrary.addSprite("hm_logo_2","./assets/hm_logo_2.png");
         s_oSpriteLibrary.addSprite("light_1","./assets/light_1.png");
         s_oSpriteLibrary.addSprite("button_background","./assets/button_background.png");
