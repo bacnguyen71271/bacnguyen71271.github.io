@@ -12,6 +12,8 @@ function checkLogin(callback) {
             if (res.code === 1) {
                 IS_LOGIN = true;
                 // Luu thong tin nguoi choi
+                USER_CLASS = res.data.class
+                USER_COUPON = res.data.coupon
                 console.log('Logined')
             }
             callback()
@@ -64,7 +66,7 @@ function register (params, callback) {
 }
 
 function getQuestion(game, class_id) {
-    $.ajax({
+    return $.ajax({
         url: BASE_URL + '/question',
         method: 'GET',
         dataType: 'JSON',
@@ -73,7 +75,5 @@ function getQuestion(game, class_id) {
             class_id,
             game
         }
-    }).then((res) => {
-        console.log(res)
     })
 }

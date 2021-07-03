@@ -181,8 +181,8 @@ input, select:focus {
     background-color: transparent;
     box-shadow: none;
     text-align: center;
-    max-width: 600px;
-    height: 448px;
+    max-width: 690px;
+    height: 510px;
     position: relative;
 }
 
@@ -219,7 +219,7 @@ input, select:focus {
     padding: 17px;
     margin: auto;
     border-radius: 15px;
-    margin-top: 15px;
+    margin-top: 30px;
 }
 
 .game_popup span {   
@@ -256,7 +256,7 @@ input, select:focus {
     bottom: 11px;
 }
 
-.game_popup p {
+#registerPopup p, #loginPopup p {
     font-size: 14px;
     font-weight: 600;
     font-style: italic;
@@ -271,11 +271,11 @@ input, select:focus {
 #thele h4 {
     font-family: 'showcard';
     color: #fffec9;
-    font-size: 45px;
+    font-size: 70px;
     text-shadow: 0px 3px 3px #873837;
     margin-top: 34px;
     position: absolute;
-    top: -109px;
+    top: -140px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -300,7 +300,7 @@ input, select:focus {
     background-color: #ffc46b;
     padding: 20px;
     border-radius: 22px;
-    height: 280px;
+    height: 350px;
     box-shadow: rgb(195 85 45 / 56%) 3px 3px 6px 0px inset, rgb(220 179 108 / 58%) -3px -3px 6px 1px inset;
     /* font-weight: 600; */
     text-align: left;

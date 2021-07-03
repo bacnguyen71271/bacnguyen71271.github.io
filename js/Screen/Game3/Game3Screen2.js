@@ -209,12 +209,35 @@ function Game3Screen2 () {
         _ButtonPause.addEventListener(ON_MOUSE_UP, s_Game3Screen2.onPauseGame, this);
 
         this.refreshButtonPos();
-        this._nextQuestion()
-        playSound('game_3', 1, true)
-    }
 
-    this.getQuestionData = function () {
-        var _questionData = getQuestion(3, CLASS_ID)
+        questionList = []
+        getQuestion(3, USER_CLASS).then((res) => {
+            if (res.code == 1) {
+                for (let index = 0; index < res.data.length; index++) {
+                    var optionParse = JSON.parse(res.data[index].options)
+
+                    var question = {
+                        question: res.data[index].question,
+                        question_extra: null,
+                        answer_option: [],
+                        right_answer: null
+                    }
+
+                    for (let index2 = 0; index2 < optionParse.length; index2++) {
+                        question.answer_option.push(optionParse[index2].content)
+                        if (optionParse[index2].answer == 'true') {
+                            question.right_answer = index2
+                        }
+                    }
+                    questionList.push(question)                    
+                }
+                
+                this._nextQuestion()
+
+            }
+        })
+
+        playSound('game_3', 1, true)
     }
 
     this.onPauseGame = function() {
