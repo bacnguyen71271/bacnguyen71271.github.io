@@ -110,7 +110,9 @@ function ScreenHome(){
         _oButtonLogin.addEventListener(ON_MOUSE_UP, this._loginPopup, this);
         
         _oButtonLogOut = new CTextButton(CANVAS_WIDTH - (oSprite.height/2) - 10, (oSprite.height/2) + 10, oSprite, 'ĐĂNG XUẤT', "MontserratBlack", "#61230b", 25, s_oStage);        
-        _oButtonLogOut.addEventListener(ON_MOUSE_UP, this._checkLogin, this);
+        _oButtonLogOut.addEventListener(ON_MOUSE_UP, this.logOut, this);
+
+        // this.checkLogin()
 
         var oSprite = s_oSpriteLibrary.getSprite('button_background_start');
         _oButtonStart = new CTextButton(oModePos.x, oModePos.y + 450, oSprite, 'BẮT ĐẦU SĂN KHO BÁU', "showcard", "#61230b", 50, s_oStage);        

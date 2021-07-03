@@ -1,5 +1,8 @@
-// var BASE_URL = 'http://127.0.0.1:3333/api'
-var BASE_URL = 'http://gm.kola.vn/api'
+var BASE_URL = 'https://gm.kola.vn/api'
+
+if( window.location.href.indexOf('localhost') !== -1){
+    var BASE_URL = 'http://127.0.0.1:3333/api'
+}
 
 function checkLogin(callback) {
     var game_key = localStorage.getItem('tieuhoc_game_key');
@@ -11,10 +14,11 @@ function checkLogin(callback) {
                 // Luu thong tin nguoi choi
                 console.log('Logined')
             }
+            callback()
         })
+    } else {
+        callback()
     }
-    
-    callback()
 }
 
 function login (params, callback) {
