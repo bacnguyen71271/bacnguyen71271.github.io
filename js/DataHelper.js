@@ -1,4 +1,5 @@
-var BASE_URL = 'http://127.0.0.1:3333/api'
+// var BASE_URL = 'http://127.0.0.1:3333/api'
+var BASE_URL = 'http://gm.kola.vn/api'
 
 function checkLogin(callback) {
     var game_key = localStorage.getItem('tieuhoc_game_key');
