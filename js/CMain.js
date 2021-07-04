@@ -28,6 +28,8 @@ function CMain(oData){
         if(s_bMobile === false){
             s_oStage.enableMouseOver(50);  
         }
+
+        screen.orientation.lock('landscape');
 		
         // s_iPrevTime = new Date().getTime();
 
