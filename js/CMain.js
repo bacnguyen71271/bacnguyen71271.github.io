@@ -205,6 +205,12 @@ function CMain(oData){
 
         // s_oSoundTrack = playSound("soundtrack", 0, true);
 
+        // s_oStage.regX = CANVAS_WIDTH/2;
+        // s_oStage.regY = CANVAS_HEIGHT/2;
+        s_oStage.rotation = 10
+        
+        // s_oStage.regY = 1400;
+
         this.goToHome();
     };
     

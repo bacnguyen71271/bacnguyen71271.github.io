@@ -148,6 +148,10 @@ function sizeHandler() {
 
     var w = getSize("Width");
 
+    var temp = h
+    h = w;
+    w = temp;
+
     var multiplier = Math.min((h / CANVAS_HEIGHT), (w / CANVAS_WIDTH));
 
     if (w > h) {
@@ -192,6 +196,9 @@ function sizeHandler() {
 
     s_iOffsetX = (-1 * fOffsetX * fGameInverseScaling);
     s_iOffsetY = (-1 * fOffsetY * fGameInverseScaling);
+
+    // s_oStage.regX = s_iOffsetX
+    // s_oStage.regY = s_iOffsetY
 
     if (fOffsetY >= 0) {
         s_iOffsetY = 0;
