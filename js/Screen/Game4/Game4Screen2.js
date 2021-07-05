@@ -197,6 +197,7 @@ function Game4Screen2 () {
             return;
         } else if (gamePart == 4 && questionFind == 5) {
             _PassPartPanel.show(_iScore, 4, _totalTime)
+            saveHistory(4)
             _bUpdate = false;
             stopSound('game_4')
             return;
@@ -262,6 +263,7 @@ function Game4Screen2 () {
         for (let index = 0; index < textInput.length; index++) {
             if (textInput[index].status === false && text.toUpperCase() == textInput[index].text.toUpperCase()) {
                 GAME_4_SCORE = _iScore;
+                saveScore(4)
                 _iScore += 10;
                 playSound('bonus-collect', 1, false)
 

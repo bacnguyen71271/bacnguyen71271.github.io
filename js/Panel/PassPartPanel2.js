@@ -126,9 +126,9 @@ function PassPartPanel2 () {
     };
 
     this.show = function(iScore, gamePart, time){
+        _TextScore.changeText(iScore)
+        _TextTime.changeText('Thời gian hoàn thành: ' + formatTime(time) + ' phút')
         if (gamePart === 4) {
-            _TextScore.changeText(iScore)
-            _TextTime.changeText('Thời gian hoàn thành: ' + formatTime(time) + ' phút')
 
             _Text2.changeText('CUỐI CÙNG. XEM TỔNG ĐIỂM VÀ VIẾT TÊN')
             _Text3.changeText('MÌNH LÊN BẢNG XẾP HẠNG NHÉ!')

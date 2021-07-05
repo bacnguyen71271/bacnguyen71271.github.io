@@ -244,6 +244,7 @@ function ChaseImageCaptureWordScreen2 () {
         // Cap nhat lai diem so
         GAME_2_SCORE = _iScore
         _Scores.changeText(_iScore)
+        saveScore(2)
     }
 
 
@@ -337,6 +338,7 @@ function ChaseImageCaptureWordScreen2 () {
         // Nếu đủ điểm
         if (_iScore >= 30) {
             _PassPartPanel.show(_iScore, 2, _totalTime)
+            saveHistory(2)
         } else {
             _FailedPartPanel.show(_iScore)
         }

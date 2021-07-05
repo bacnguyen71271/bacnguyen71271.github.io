@@ -104,7 +104,7 @@ function ScreenHome(){
         _oButtonTheLe.addEventListener(ON_MOUSE_UP, this._theLe, this);
 
         _oButtonBXH = new CTextButton(CANVAS_WIDTH - (oSprite.height/2) - 10, (oSprite.height/2) + 10, oSprite, 'BXH', "MontserratBlack", "#61230b", 25, s_oStage);        
-        _oButtonBXH.addEventListener(ON_MOUSE_UP, this._onButStartRelease, this);
+        _oButtonBXH.addEventListener(ON_MOUSE_UP, this._ranking, this);
 
         _oButtonLogin = new CTextButton(CANVAS_WIDTH - (oSprite.height/2) - 10, (oSprite.height/2) + 10, oSprite, 'ĐĂNG NHẬP', "MontserratBlack", "#61230b", 25, s_oStage);        
         _oButtonLogin.addEventListener(ON_MOUSE_UP, this._loginPopup, this);
@@ -213,6 +213,13 @@ function ScreenHome(){
 
     this._theLe = function() {
         $('#thele').modal({
+            fadeDuration: 200
+        })
+    }
+
+    this._ranking = function() {
+        getRanking()
+        $('#rankingPopup').modal({
             fadeDuration: 200
         })
     }

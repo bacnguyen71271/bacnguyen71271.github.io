@@ -69,7 +69,7 @@ var GAME_NAME = [ 'HOMA ĐẬP CHUỘT', 'HOMA ĐUỔI HÌNH BẮT CHỮ', 'HOMA
 var GAME_CHOOSE = 1;
 
 // So game da unlock
-var GameUnLocked = 4;
+var GameUnLocked = 1;
 var IS_LOGIN = false;
 var USER_NAME = '';
 var USER_PHONE = '';
@@ -94,6 +94,25 @@ var GAME_4_SCORE = 0;
 var GAME_TOTAL_TIME = 0;
 var GAME_TOTAL_SCORE = 0;
 
+
+var GAME_DATA = {
+    game_1: {
+        score_max: 0,
+        time_min: 0,
+    },
+    game_2: {
+        score_max: 0,
+        time_min: 0,
+    },
+    game_3: {
+        score_max: 0,
+        time_min: 0,
+    },
+    game_4: {
+        score_max: 0,
+        time_min: 0,
+    },
+}
 
 function openCouponPopup() {
     if (USER_COUPON != '') {

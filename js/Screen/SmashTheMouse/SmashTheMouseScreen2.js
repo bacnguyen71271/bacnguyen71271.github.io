@@ -15,9 +15,11 @@ function SmashTheMouseScreen2 () {
     var _PassPartPanel = null;
     var _PassPartPanel2 = null;
     var _ButtonPause;
+    var _totalTime = 0;
     // var _oInterface;
 
     this.init = function() {
+        _totalTime = 0
         _iScore = 0;
         _iCurCharacterHit = 0;
         _iTimeLevelUpElapsed = 0
@@ -76,7 +78,7 @@ function SmashTheMouseScreen2 () {
         _PassPartPanel2 = new PassPartPanel2();
         _FailedPartPanel = new FailedPartPanel();
         _PausePanel = new PausePanel();
-        _ButtonPause.addEventListener(ON_MOUSE_UP, s_SmashTheMouseScreen2.onPauseGame, this);    
+        _ButtonPause.addEventListener(ON_MOUSE_UP, s_SmashTheMouseScreen2.onPauseGame, this);
 
         playSound('game_1', 1, true)
         // createjs.Ticker.addEventListener("tick", this.update);
@@ -94,6 +96,7 @@ function SmashTheMouseScreen2 () {
     this.updateScore = function (score) {
         GAME_1_SCORE = score
         _Scores.changeText(score)
+        saveScore(1)
     }
 
     this.unload = function(){
@@ -111,7 +114,9 @@ function SmashTheMouseScreen2 () {
             if (USER_COUPON == '')
                 _PassPartPanel.show(_iScore)
             else 
-                _PassPartPanel2.show(_iScore, 1, 60)
+                _PassPartPanel2.show(_iScore, 1, 60000)
+
+            saveHistory(1)
         } else {
             _FailedPartPanel.show(_iScore)
         }
@@ -122,6 +127,7 @@ function SmashTheMouseScreen2 () {
         if(_bUpdate){
             //REFRESH TIME BAR
             _iTimeElapsed -= s_iTimeElaps;
+            _totalTime += s_iTimeElaps
             GAME_1_TIME = _totalTime;
 
             if (_iTimeElapsed < 0){

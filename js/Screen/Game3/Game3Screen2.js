@@ -179,6 +179,7 @@ function Game3Screen2 () {
         // Chuyen cau tiep theo
         s_Game3Screen2._nextQuestion()
         _iTimeElapsed = 15000;
+        saveScore(2)
     }
 
     this.gameOver = function(){   
@@ -186,6 +187,7 @@ function Game3Screen2 () {
         stopSound('game_3')
         if (Score >= 50) {
             _PassPartPanel.show(Score, 3, _totalTime)
+            saveHistory(3)
         } else {
             _FailedPartPanel.show(Score)
         }

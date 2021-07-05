@@ -230,6 +230,7 @@ function CMain(oData){
         //Data helper
         checkLogin(function () {
             _ScreenHome.checkLogin()
+            getRanking()
         })
     }
     
