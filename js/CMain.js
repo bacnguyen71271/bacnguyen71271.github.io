@@ -29,8 +29,14 @@ function CMain(oData){
             s_oStage.enableMouseOver(50);  
         }
 
-        screen.orientation.lock('landscape');
+        // screen.orientation.lock('landscape');
 		
+        // s_oStage.regX = CANVAS_WIDTH/2;
+        // s_oStage.regY = CANVAS_HEIGHT/2;
+        // s_oStage.rotation = 10
+        
+        // s_oStage.regY = 1400;
+
         // s_iPrevTime = new Date().getTime();
 
         createjs.Ticker.addEventListener("tick", this._update);
@@ -207,11 +213,6 @@ function CMain(oData){
 
         // s_oSoundTrack = playSound("soundtrack", 0, true);
 
-        // s_oStage.regX = CANVAS_WIDTH/2;
-        // s_oStage.regY = CANVAS_HEIGHT/2;
-        s_oStage.rotation = 10
-        
-        // s_oStage.regY = 1400;
 
         this.goToHome();
     };

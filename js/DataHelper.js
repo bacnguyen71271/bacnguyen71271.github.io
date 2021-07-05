@@ -23,6 +23,28 @@ function checkLogin(callback) {
     }
 }
 
+function getCoupon(callback) {
+    var game_key = localStorage.getItem('tieuhoc_game_key');
+
+    if (game_key && game_key != '') {
+        return $.ajax({
+            url: BASE_URL + '/get-coupon',
+            method: 'POST',
+            dataType: 'JSON',
+            data: {
+                id: game_key
+            },
+        }).then((res) => {
+            if (res.code === 1) {
+                USER_COUPON = res.data
+            }
+            callback(res)
+        })
+    } else {
+        callback()
+    }
+}
+
 function login (params, callback) {
     return $.ajax({
         url: BASE_URL + '/login',
@@ -30,7 +52,6 @@ function login (params, callback) {
         dataType: 'JSON',
         data: params,
     }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
             localStorage.setItem('tieuhoc_game_key', res.data.id)
             USER_CLASS = res.data.class;

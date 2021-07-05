@@ -148,9 +148,13 @@ function sizeHandler() {
 
     var w = getSize("Width");
 
-    var temp = h
-    h = w;
-    w = temp;
+    var rota = false
+    if (h > w) {
+        var temp = h
+        h = w;
+        w = temp;
+        rota = true
+    }
 
     var multiplier = Math.min((h / CANVAS_HEIGHT), (w / CANVAS_WIDTH));
 
@@ -160,6 +164,7 @@ function sizeHandler() {
         EDGEBOARD_Y = 570;
         s_bLandscape = true;
     } else {
+        
         EDGEBOARD_X = 470;
         EDGEBOARD_Y = 0;
         s_bLandscape = false;
@@ -169,14 +174,24 @@ function sizeHandler() {
     var destH = CANVAS_HEIGHT * multiplier;
 
     var iAdd = 0;
+
     if (destH < h) {
         iAdd = h - destH;
         destH += iAdd;
         destW += iAdd * (CANVAS_WIDTH / CANVAS_HEIGHT);
+
+        // s_oStage.regX = destH;
+        // s_oStage.regY = destH;
+        // rota = true
+        // s_oStage.rotation = 90
+        // s_oStage.x = destH
+
     } else if (destW < w) {
         iAdd = w - destW;
         destW += iAdd;
         destH += iAdd * (CANVAS_HEIGHT / CANVAS_WIDTH);
+        // s_oStage.rotation = 0
+        // s_oStage.x = 0
     }
 
     var fOffsetY = ((h / 2) - (destH / 2));
@@ -197,6 +212,11 @@ function sizeHandler() {
     s_iOffsetX = (-1 * fOffsetX * fGameInverseScaling);
     s_iOffsetY = (-1 * fOffsetY * fGameInverseScaling);
 
+    // if (rota) {
+    //     var temp = s_iOffsetX
+    //     s_iOffsetX = s_iOffsetY;
+    //     s_iOffsetY = temp;
+    // }
     // s_oStage.regX = s_iOffsetX
     // s_oStage.regY = s_iOffsetY
 
@@ -208,9 +228,8 @@ function sizeHandler() {
         s_iOffsetX = 0;
     }
 
-    // if(s_oInterface !== null){
-    //     s_oInterface.refreshButtonPos( s_iOffsetX,s_iOffsetY);
-    // }
+    // console.log(CANVAS_HEIGHT * h / w)
+
     if (_ScreenHome) {
         _ScreenHome.refreshButtonPos();
     }
@@ -229,9 +248,6 @@ function sizeHandler() {
     if (ScreenGame_4) {
         ScreenGame_4.refreshButtonPos();
     }
-    // if(s_oHelp !== null){
-    //     s_oHelp.refreshButtonPos( s_iOffsetX,s_iOffsetY);
-    // }
 
     if (s_bIsIphone) {
         canvas = document.getElementById('canvas');
@@ -245,21 +261,53 @@ function sizeHandler() {
     } else if (s_bMobile || isChrome()) {
         $("#canvas").css("width", destW + "px");
         $("#canvas").css("height", destH + "px");
+
+        if (rota) {
+            s_oStage.rotation = 90
+            s_oStage.x = s_iOffsetY + CANVAS_HEIGHT * h / w
+        } else {
+            s_oStage.rotation = 0
+            s_oStage.x = 0
+        }
     } else {
         s_oStage.canvas.width = destW;
         s_oStage.canvas.height = destH;
 
         s_iScaleFactor = Math.min(destW / CANVAS_WIDTH, destH / CANVAS_HEIGHT);
         s_oStage.scaleX = s_oStage.scaleY = s_iScaleFactor;
+
+        if (rota) {
+            s_oStage.rotation = 90
+            s_oStage.x = fOffsetY + destH
+        } else {
+            s_oStage.rotation = 0
+            s_oStage.x = 0
+        }
     }
 
-    if (fOffsetY < 0) {
-        $("#canvas").css("top", fOffsetY + "px");
+    if (rota) {
+
+        $('.game_popup').addClass('rotarion')
+
+        if (fOffsetY < 0) {
+            $("#canvas").css("top", fOffsetX + "px");
+        } else {
+            $("#canvas").css("top", "0px");
+        }
+    
+        $("#canvas").css("left", 0 + "px");
     } else {
-        $("#canvas").css("top", "0px");
-    }
 
-    $("#canvas").css("left", fOffsetX + "px");
+        $('.game_popup').removeClass('rotarion')
+
+        if (fOffsetY < 0) {
+            $("#canvas").css("top", fOffsetY + "px");
+        } else {
+            $("#canvas").css("top", "0px");
+        }
+    
+        $("#canvas").css("left", fOffsetX + "px");
+    }
 };
 
 function createBitmap(oSprite, iWidth, iHeight) {

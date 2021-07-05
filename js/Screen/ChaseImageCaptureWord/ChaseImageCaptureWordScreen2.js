@@ -13,6 +13,7 @@ function ChaseImageCaptureWordScreen2 () {
     var _input = []
     var _stringArr = []
     var _iScore = 0;
+    var _totalTime = 0;
     var _iTimeLevelUpElapsed
 
     var oModePos;
@@ -76,6 +77,7 @@ function ChaseImageCaptureWordScreen2 () {
 
         _iTimeElapsed = 60000;
         _iTimeLevelUpElapsed = 0
+        _totalTime = 0;
 
         oModePos = {x: CANVAS_WIDTH/2, y: 875};
         // Add background
@@ -102,7 +104,7 @@ function ChaseImageCaptureWordScreen2 () {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
-        _ButtonCart.addEventListener(ON_MOUSE_UP, ()=>{} , this);
+        _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup , this);
 
         var oSprite = s_oSpriteLibrary.getSprite('game_pause');
         _pPausePos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
@@ -184,6 +186,10 @@ function ChaseImageCaptureWordScreen2 () {
     this.update = function() {
         //REFRESH TIME BAR
         _iTimeElapsed -= s_iTimeElaps;
+        
+        _totalTime += s_iTimeElaps;
+        GAME_2_TIME = _totalTime;
+
         if (_iTimeElapsed < 0){
             _bUpdate = false;
             // this.gameOver();
@@ -236,6 +242,7 @@ function ChaseImageCaptureWordScreen2 () {
             _iScore += 10
         }
         // Cap nhat lai diem so
+        GAME_2_SCORE = _iScore
         _Scores.changeText(_iScore)
     }
 
@@ -329,7 +336,7 @@ function ChaseImageCaptureWordScreen2 () {
         stopSound('game_2')
         // Nếu đủ điểm
         if (_iScore >= 30) {
-            _PassPartPanel.show(_iScore)
+            _PassPartPanel.show(_iScore, 2, _totalTime)
         } else {
             _FailedPartPanel.show(_iScore)
         }

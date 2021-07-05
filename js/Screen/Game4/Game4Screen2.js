@@ -25,38 +25,21 @@ function Game4Screen2 () {
 
     var gamePart = 1;
 
+    var gameData;
+
     var textInput = [
         {
             text: 'mirror',
             texthide: '',
             status: false,
-        },
-        {
-            text: 'parrot',
-            texthide: '',
-            status: false,
-        },
-        {
-            text: 'pond',
-            texthide: '',
-            status: false,
-        },
-        {
-            text: 'finally',
-            texthide: '',
-            status: false,
-        },
-        {
-            text: 'climb',
-            texthide: '',
-            status: false,
-        },
+        }
     ]
 
     var _FailedPartPanel;
     var _PassPartPanel;
 
     var questionFind = 0;
+    var _totalTime;
 
     this.init = function() {
 
@@ -64,6 +47,7 @@ function Game4Screen2 () {
         gamePart = 0;
         _bUpdate = true;
         _iScore = 0;
+        _totalTime = 0;
 
 
         _gameContainer = new createjs.Container();
@@ -93,7 +77,7 @@ function Game4Screen2 () {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
-        _ButtonCart.addEventListener(ON_MOUSE_UP, ()=>{} , this);
+        _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup , this);
 
         var oSprite = s_oSpriteLibrary.getSprite('game_pause');
         _pPausePos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
@@ -108,7 +92,7 @@ function Game4Screen2 () {
         new CGImage(oModePos.x + 500, oModePos.y + 40, s_oSpriteLibrary.getSprite('sugges_bg'), s_oStage);
 
         s_TextHide = []
-        for (let index = 0; index < textInput.length; index++) {
+        for (let index = 0; index < 5; index++) {
             s_TextHide.push(new CText(oModePos.x + 500, oModePos.y - 50 + (50 * index), null, '', "MontserratBlack", "#fce48a", 30, s_oStage))
         }
 
@@ -186,27 +170,49 @@ function Game4Screen2 () {
         _PausePanel = new PausePanel(s_oStage);
         _ButtonPause.addEventListener(ON_MOUSE_UP, s_Game4Screen2.onPauseGame, this);
 
-        s_Game4Screen2.gameRefresh()
+        gameData = []
+        getQuestion(4, USER_CLASS).then((res) => {
+            if (res.code == 1) {
+                for (let index = 0; index < res.data.length; index++) {
+                    gameData.push({
+                        text: res.data[index].question.replace(' ',''),
+                        texthide: '',
+                        status: false,
+                    })              
+                }
+                
+                s_Game4Screen2.gameRefresh()
+            }
+        })
+
         playSound('game_4', 1, true)
         this.refreshButtonPos();
     }
 
     this.gameRefresh = function () {
-
         if (gamePart > 0 && questionFind < 5) {
             _FailedPartPanel.show(_iScore)
             _bUpdate = false;
             stopSound('game_4')
             return;
         } else if (gamePart == 4 && questionFind == 5) {
-            _PassPartPanel.show(_iScore)
+            _PassPartPanel.show(_iScore, 4, _totalTime)
             _bUpdate = false;
             stopSound('game_4')
             return;
         }
-
+        
         gamePart++;
         questionFind = 0;
+        textInput = []
+
+        if (gameData.length) {
+            for (let index = (gamePart - 1) * 5; index < gamePart * 5; index++) {
+                textInput.push(gameData[index])
+            }
+        } else {
+            return
+        }
 
         while (true) {
             
@@ -255,7 +261,7 @@ function Game4Screen2 () {
     this.checkResutl = function (text) {
         for (let index = 0; index < textInput.length; index++) {
             if (textInput[index].status === false && text.toUpperCase() == textInput[index].text.toUpperCase()) {
-
+                GAME_4_SCORE = _iScore;
                 _iScore += 10;
                 playSound('bonus-collect', 1, false)
 
@@ -526,6 +532,10 @@ function Game4Screen2 () {
         if (!_bUpdate) { return; }
         //REFRESH TIME BAR
         _iTimeElapsed -= s_iTimeElaps;
+
+        _totalTime += s_iTimeElaps;
+        GAME_4_TIME = _totalTime;
+
         if (_iTimeElapsed < 0){
             _bUpdate = false;
             this.gameRefresh()

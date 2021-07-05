@@ -83,7 +83,7 @@
     </div>
     <div id="registerPopup" class="modal game_popup">
         <h4>BẠN CẦN ĐĂNG KÝ ĐỂ THAM GIA GAME</h4>
-        <span>Bạn cần điền đầy đủ thông tin tại đây để bắt đầu tham gia trò chơi nhé:</span>
+        <span style="display: block;">Bạn cần điền đầy đủ thông tin tại đây để bắt đầu tham gia trò chơi nhé:</span>
         <form action="">
             <input type="text" name="fullname" id="fullname" placeholder="Họ và tên">
             <span class="alert fullname">Hãy nhập tên của bạn</span>
@@ -98,7 +98,7 @@
             </select>
             <span class="alert class_id">Hãy nhập tên của bạn</span>
         </form>
-        <p>* Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với Chính sách bảo mật, Điều khoản dịch vụ và Chính sách tư vấn của HOCMAI.</p>
+        <p class="chuy">* Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với Chính sách bảo mật, Điều khoản dịch vụ và Chính sách tư vấn của HOCMAI.</p>
         <button>ĐĂNG KÝ</button>
     </div>
     <div id="loginPopup" class="modal game_popup">
@@ -108,12 +108,26 @@
             <input type="text" name="phone" id="phone_2" placeholder="Số điện thoại">
             <span class="alert phone_2"></span>
         </form>
-        <p>Bạn chưa có tài khoản? Vui lòng <a href="#" class="btn_regiser_popup">Đăng ký tại đây</a></p>
+        <p class="chuy">Bạn chưa có tài khoản? Vui lòng <a href="#" class="btn_regiser_popup">Đăng ký tại đây</a></p>
         <button>ĐĂNG NHẬP</button>
+    </div>
+    <div id="couponPopup" class="modal game_popup">
+        <p>Mã khuyến mại của ba/mẹ/con là:</p>
+        <h5 class="coupon_code">ABCDEF</h5>
+        <!-- <span>Bấm đề copy</span> -->
+        <input type="text" id="coupon_code_input" style="display: none">
     </div>
     <div style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%"></div>
     <script>
         $(document).ready(function () {
+            
+            $('.coupon_code').click(function() {
+                var copyText = document.getElementById("coupon_code_input");
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+                document.execCommand("copy");
+                alert("Mẫ khuyến mại của bạn đã được copy");
+            })
 
             $('.btn_regiser_popup').click(function() {
                 $(".jquery-modal.blocker.current").trigger('click');

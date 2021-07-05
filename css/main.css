@@ -2,6 +2,18 @@
     display: block;
 }
 
+/* @media screen and (min-width: 320px) and (max-width: 1920px) and (orientation: portrait) {
+    html {
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        width: 100vh;
+        overflow-x: hidden;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+} */
+
 body{
     background-color: #000;
     background-repeat: repeat-x;
@@ -155,6 +167,12 @@ input, select:focus {
     font-family:inherit; 
 }
 
+
+.game_popup span {
+    display: block;
+}
+
+
 .game_popup span.alert {
     margin-top: 0;
     margin-bottom: 10px;
@@ -166,24 +184,82 @@ input, select:focus {
 
 .game_popup select#class_id {
     margin-bottom: 10px;
+    font-size: 12px;
 }
 
 .game_popup span.alert.class_id {
     margin-bottom: 0;
 }
-
-.game_popup {
-    font-family: 'Montserrat', sans-serif;
-    background-image: url(../assets/modal_login_background.png);
+/* 
+.game_popup::before {
+    content: '';
+    width: 100%;
+    height: inherit;
+    display: block;
+    background-image: url(../assets/modal_bg_top.png);
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
+    top: -120px;
+    position: absolute;
+    z-index: 0;
+}
+
+.game_popup::after {
+    content: '';
+    width: 100%;
+    height: inherit;
+    display: block;
+    background-image: url(../assets/modal_bg_bottom.png);
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    bottom: -120px;
+    position: absolute;
+    z-index: 0;
+} */
+
+.game_popup {
+    font-family: 'Montserrat', sans-serif;
+    background-image: url(../assets/modal_bg_repeat.png);
+    background-size: contain;
+    background-position: center center;
+    background-repeat: repeat-y;
     background-color: transparent;
-    box-shadow: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
     text-align: center;
-    max-width: 690px;
-    height: 510px;
+    width: 80%;
+    max-width: 700px;
+    /* height: 100%; */
+    /* max-height: 300px; */
     position: relative;
+    margin-top: 55px;
+    padding: 0;
+    border-radius: 10px;
+}
+
+/* .blocker {
+    overflow: hidden;
+} */
+
+.game_popup.rotarion {
+    -webkit-transform: rotate(
+        90deg
+        );
+        -ms-transform: rotate(
+        90deg
+        );
+            transform: rotate(
+        90deg
+        );
+    -webkit-transform-origin: right top;
+        -ms-transform-origin: right top;
+            transform-origin: right top;
+    width: 90vh;
+    position: absolute;
+    top: 85%;
+    right: 80px;
 }
 
 .game_popup .close-modal {
@@ -193,9 +269,32 @@ input, select:focus {
 .game_popup h4 {
     font-family: 'showcard';
     color: #fffec9;
-    font-size: 24px;
+    font-size: 20px;
     text-shadow: 0px 3px 3px #00000069;
-    margin-top: 34px;
+    margin-top: 20px;
+}
+
+.game_popup span {
+    color: #fff;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 14px;
+    margin: 15px;
+    padding: 0 30px;
+}
+
+.game_popup .chuy {
+    padding: 0px 40px;
+    font-size: 14px;
+    font-weight: 600;
+    font-style: italic;
+    color: #fff;
+    margin-top: 25px;
+    margin-bottom: 25px;bottom: 0px;
+}
+
+#registerPopup input {
+    font-size: 12px;
 }
 
 .game_popup form input, .game_popup form select {
@@ -212,24 +311,21 @@ input, select:focus {
 }
 
 .game_popup form {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     max-width: 270px;
     background-color: #59173e4d;
     padding: 17px;
     margin: auto;
     border-radius: 15px;
-    margin-top: 30px;
 }
 
 .game_popup span {   
-    color: #fff;
-    font-weight: 600;
-    font-style: italic;
-    font-size: 13px;
-    margin-bottom: 15px;
-    display: block;
-    margin-top: 14px;
 }
 
 .game_popup button:focus {
@@ -250,34 +346,25 @@ input, select:focus {
     color: #61230b;
     text-shadow: 0px 2px 0px #fffec9;
     cursor: pointer;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 11px;
+    margin-bottom: 20px;
 }
 
-#registerPopup p, #loginPopup p {
-    font-size: 14px;
-    font-weight: 600;
-    font-style: italic;
-    color: #fff;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    padding: 0px 10px;
-    position: absolute;
-    bottom: 50px;
+#registerPopup {
+    margin-top: 0px;
 }
 
 #thele h4 {
     font-family: 'showcard';
     color: #fffec9;
-    font-size: 70px;
+    font-size: 40px;
     text-shadow: 0px 3px 3px #873837;
     margin-top: 34px;
     position: absolute;
-    top: -140px;
+    top: -100px;
     left: 50%;
-    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
 }
 
 #thele p {
@@ -296,15 +383,15 @@ input, select:focus {
 }
 
 #thele .content-box {
-    margin: 40px;
+    margin: 20px 40px;
     background-color: #ffc46b;
     padding: 20px;
     border-radius: 22px;
-    height: 350px;
-    box-shadow: rgb(195 85 45 / 56%) 3px 3px 6px 0px inset, rgb(220 179 108 / 58%) -3px -3px 6px 1px inset;
-    /* font-weight: 600; */
+    -webkit-box-shadow: rgb(195 85 45 / 56%) 3px 3px 6px 0px inset, rgb(220 179 108 / 58%) -3px -3px 6px 1px inset;
+            box-shadow: rgb(195 85 45 / 56%) 3px 3px 6px 0px inset, rgb(220 179 108 / 58%) -3px -3px 6px 1px inset;
     text-align: left;
     padding-right: 8px;
+    font-size: 14px;
 }
 
 #thele .content-box .content {
@@ -327,8 +414,8 @@ input, select:focus {
     border-radius: 10px;
 }
 
-div#loginPopup span {
-    margin-top: 50px;
+div#loginPopup {
+    margin-top: 0;
 }
 
 div#loginPopup p {
@@ -338,4 +425,65 @@ div#loginPopup p {
 
 div#loginPopup p a {
     color: antiquewhite;
+}
+/* 
+
+@media (min-height: 340px) {
+    .game_popup::before {
+        top: -95px;
+    }
+    .game_popup::after {
+        bottom: -95px;
+    }
+
+    .game_popup {
+        margin-top: 10px;
+    }
+
+    .content-box {
+        font-size: 14px;
+    }
+}
+
+@media (min-height: 390px) {
+    .game_popup::before {
+        top: -105px;
+    }
+    .game_popup::after {
+        bottom: -105px;
+    }
+
+    .game_popup {
+        margin-top: 10px;
+    }
+
+}
+
+@media (min-height: 430px) {
+    .game_popup::before {
+        top: -115px;
+    }
+    .game_popup::after {
+        bottom: -115px;
+    }
+
+    .game_popup {
+        margin-top: 10px;
+    }
+
+} */
+
+div#couponPopup {
+    padding: 29px;
+}
+
+div#couponPopup p {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+h5.coupon_code {
+    color: #6d142a;
+    font-family: 'MontserratBlack';
+    font-size: 22px;
 }

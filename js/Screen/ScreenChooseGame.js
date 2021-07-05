@@ -59,10 +59,10 @@ function ScreenChooseGame() {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
-        _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
-        _ButtonCart.setVisible(false)
-        if (USER_COUPON != '') {
-            _ButtonCart.setVisible(true)
+        _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup, this);
+
+        if (USER_COUPON == '') {
+            _ButtonCart.setVisible(false)
         }
 
         // Add Background Level Game       

@@ -11,6 +11,8 @@ function PassPartPanel () {
 
     var _TextScore;
 
+    var _TextCoupon;
+
     var _oThis = this;
 
     this._init = function () {
@@ -61,7 +63,7 @@ function PassPartPanel () {
         _extraPanel.y = 30
         _oPanelContainer.addChild(_extraPanel);
 
-        new CText(0, 60, null, 'ABCDEFGH', "MontserratBlack", "#6e172a", 30, _oPanelContainer);
+        _TextCoupon = new CText(0, 60, null, 'ABCDEFGH', "MontserratBlack", "#6e172a", 30, _oPanelContainer);
 
         new CText(0, 100, null, 'Mã quà tặng của bạn đã được lưu vào giỏ hàng hãy xem', "MontserratSemiBold", "#fff", 18, _oPanelContainer);
         new CText(-105, 130, null, 'hướng dẫn sử dụng theo ', "MontserratSemiBold", "#fff", 18, _oPanelContainer);
@@ -111,13 +113,18 @@ function PassPartPanel () {
     };
 
     this.show = function(iScore){
-        _TextScore.changeText(iScore)
-        _oGroup.visible = true;
-        
-        // _oFade.alpha = 0;
-        _oPanelContainer.y = _iStartY;
-        createjs.Tween.get(_oFade).to({alpha:0.7},500);
-        createjs.Tween.get(_oPanelContainer).to({y:CANVAS_HEIGHT/2},1000, createjs.Ease.bounceOut).call(function(){s_oMain.stopUpdateNoBlock();});
+        getCoupon(function(res) {
+            if (res.code == 1) {
+                _TextCoupon.changeText(res.data)
+            }
+            _TextScore.changeText(iScore)
+            _oGroup.visible = true;
+            
+            // _oFade.alpha = 0;
+            _oPanelContainer.y = _iStartY;
+            createjs.Tween.get(_oFade).to({alpha:0.7},500);
+            createjs.Tween.get(_oPanelContainer).to({y:CANVAS_HEIGHT/2},1000, createjs.Ease.bounceOut).call(function(){s_oMain.stopUpdateNoBlock();});
+        })
     };
 
     this.hide = function(){

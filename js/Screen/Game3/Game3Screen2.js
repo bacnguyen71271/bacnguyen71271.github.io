@@ -9,6 +9,7 @@ function Game3Screen2 () {
     var _bUpdate = false;
     var _questionTitle
     var _questionIndex
+    var _totalTime;
     var questionList = [
         {
             question: 'Vườn nhà Mai có 316 cây, trong đó có 148 cây cam còn lại là cây chanh. Tỉ số cây cam : cây chanh = ...',
@@ -20,106 +21,7 @@ function Game3Screen2 () {
                 'D. 42 : 79',
             ],
             right_answer: 1
-        },
-        {
-            question: 'Trong các câu sau, câu nào cần sử dụng dấu phẩy?',
-            question_extra: null,
-            answer_option: [
-                'A. Gia đình tớ gồm bố mẹ chị gái và tớ.',
-                'B. Cô giáo tớ rất dịu dàng.',
-                'C. Trường học là ngôi nhà thứ hai của tớ.',
-                'D. Tớ cùng chị đạp xe mỗi buổi chiều.',
-            ],
-            right_answer: 0
-        },
-        {
-            question: 'Gấp đôi của 4 là ...',
-            question_extra: null,
-            answer_option: [
-                'A. 8',
-                'B. 7',
-                'C. 10',
-                'D. 6',
-            ],
-            right_answer: 0
-        },
-        {
-            question: 'Gấp đôi của 4 là ...',
-            question_extra: null,
-            answer_option: [
-                'A. 8',
-                'B. 7',
-                'C. 10',
-                'D. 6',
-            ],
-            right_answer: 0
-        },
-        {
-            question: 'Gấp đôi của 4 là ...',
-            question_extra: null,
-            answer_option: [
-                'A. 8',
-                'B. 7',
-                'C. 10',
-                'D. 6',
-            ],
-            right_answer: 0
-        },
-        {
-            question: 'Gấp đôi của 4 là ...',
-            question_extra: null,
-            answer_option: [
-                'A. 8',
-                'B. 7',
-                'C. 10',
-                'D. 6',
-            ],
-            right_answer: 0
-        },
-        {
-            question: 'Gấp đôi của 4 là ...',
-            question_extra: null,
-            answer_option: [
-                'A. 8',
-                'B. 7',
-                'C. 10',
-                'D. 6',
-            ],
-            right_answer: 0
-        },
-        {
-            question: 'Gấp đôi của 4 là ...',
-            question_extra: null,
-            answer_option: [
-                'A. 8',
-                'B. 7',
-                'C. 10',
-                'D. 6',
-            ],
-            right_answer: 0
-        },
-        {
-            question: 'Gấp đôi của 4 là ...',
-            question_extra: null,
-            answer_option: [
-                'A. 8',
-                'B. 7',
-                'C. 10',
-                'D. 6',
-            ],
-            right_answer: 0
-        },
-        {
-            question: 'Gấp đôi của 4 là ...',
-            question_extra: null,
-            answer_option: [
-                'A. 8',
-                'B. 7',
-                'C. 10',
-                'D. 6',
-            ],
-            right_answer: 0
-        },
+        }
     ]
 
     var _iTimeElapsed
@@ -135,6 +37,7 @@ function Game3Screen2 () {
         Score = 0;
         _bUpdate = true;
         _questionUsed = [];
+        _totalTime = 0;
 
         // Add background
         _Bg = createBitmap(s_oSpriteLibrary.getSprite('ldp_background'));
@@ -160,7 +63,7 @@ function Game3Screen2 () {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
-        _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
+        _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup, this);    
 
         var oSprite = s_oSpriteLibrary.getSprite('game_pause');
         _pPausePos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
@@ -270,6 +173,7 @@ function Game3Screen2 () {
             this.gameOver()
         }
         
+        GAME_3_SCORE = Score
         // Update diem so
         _Score.changeText(Score)
         // Chuyen cau tiep theo
@@ -281,7 +185,7 @@ function Game3Screen2 () {
         // Nếu đủ điểm
         stopSound('game_3')
         if (Score >= 50) {
-            _PassPartPanel.show(Score)
+            _PassPartPanel.show(Score, 3, _totalTime)
         } else {
             _FailedPartPanel.show(Score)
         }
@@ -297,6 +201,10 @@ function Game3Screen2 () {
 
         //REFRESH TIME BAR
         _iTimeElapsed -= s_iTimeElaps;
+
+        _totalTime += s_iTimeElaps;
+        GAME_3_TIME = _totalTime;
+        
         if (_iTimeElapsed < 0){
 
             if (_questionUsed.length == 10) {

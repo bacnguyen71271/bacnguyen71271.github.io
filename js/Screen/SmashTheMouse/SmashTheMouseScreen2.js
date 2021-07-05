@@ -13,6 +13,7 @@ function SmashTheMouseScreen2 () {
     var _PausePanel = null;
     var _FailedPartPanel = null;
     var _PassPartPanel = null;
+    var _PassPartPanel2 = null;
     var _ButtonPause;
     // var _oInterface;
 
@@ -43,7 +44,11 @@ function SmashTheMouseScreen2 () {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
-        _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
+        _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup, this);    
+        
+        if (USER_COUPON == '') {
+            _ButtonCart.setVisible(false)
+        }
 
         _Time = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('clock'), s_oSpriteLibrary.getSprite('game_info_bg'), '00:00', '#602708', s_oStage)
         _Scores = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('start'), s_oSpriteLibrary.getSprite('game_info_bg'), '0', '#602708', s_oStage)
@@ -68,6 +73,7 @@ function SmashTheMouseScreen2 () {
         this._selectCharacter();
 
         _PassPartPanel = new PassPartPanel();
+        _PassPartPanel2 = new PassPartPanel2();
         _FailedPartPanel = new FailedPartPanel();
         _PausePanel = new PausePanel();
         _ButtonPause.addEventListener(ON_MOUSE_UP, s_SmashTheMouseScreen2.onPauseGame, this);    
@@ -86,6 +92,7 @@ function SmashTheMouseScreen2 () {
     }
 
     this.updateScore = function (score) {
+        GAME_1_SCORE = score
         _Scores.changeText(score)
     }
 
@@ -101,7 +108,10 @@ function SmashTheMouseScreen2 () {
         stopSound('game_1')
         // Nếu đủ điểm
         if (_iScore >= 50) {
-            _PassPartPanel.show(_iScore)
+            if (USER_COUPON == '')
+                _PassPartPanel.show(_iScore)
+            else 
+                _PassPartPanel2.show(_iScore, 1, 60)
         } else {
             _FailedPartPanel.show(_iScore)
         }
@@ -112,6 +122,8 @@ function SmashTheMouseScreen2 () {
         if(_bUpdate){
             //REFRESH TIME BAR
             _iTimeElapsed -= s_iTimeElaps;
+            GAME_1_TIME = _totalTime;
+
             if (_iTimeElapsed < 0){
                 _bUpdate = false;
                 this.gameOver();

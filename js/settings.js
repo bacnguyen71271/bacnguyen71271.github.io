@@ -79,5 +79,28 @@ var USER_GAME_UNLOCK = 1;
 var USER_TOTAL_TIME = 0;
 var USER_TOTAL_SCORE = 0;
 
+var GAME_1_TIME = 0;
+var GAME_1_SCORE = 0;
+
+var GAME_2_TIME = 0;
+var GAME_2_SCORE = 0;
+
+var GAME_3_TIME = 0;
+var GAME_3_SCORE = 0;
+
+var GAME_4_TIME = 0;
+var GAME_4_SCORE = 0;
+
 var GAME_TOTAL_TIME = 0;
 var GAME_TOTAL_SCORE = 0;
+
+
+function openCouponPopup() {
+    if (USER_COUPON != '') {
+        $('.coupon_code').html(USER_COUPON)
+        $('#coupon_code_input').val(USER_COUPON)
+        $("#couponPopup").modal({
+            fadeDuration: 200
+        })
+    }
+}

@@ -1,4 +1,4 @@
-function PassPartPanel2 () {
+function ScoreTotal () {
     var _aCbCompleted;
     
     var _iStartY;
@@ -13,8 +13,6 @@ function PassPartPanel2 () {
     var _TextTime;
     var _Text1;
     var _Text2;
-    var _Text3;
-
     var _oThis;
 
     this._init = function () {
@@ -44,48 +42,26 @@ function PassPartPanel2 () {
         _oPanelContainer.x = CANVAS_WIDTH/2;
         _oPanelContainer.y = _iStartY = - oSprite.height/2;
 
-        new CText(0, -280, null, 'QUA MÀN', "showcard", "#fffec9", 100, _oPanelContainer);
+        new CText(0, -280, null, 'TỔNG KẾT!!', "showcard", "#fffec9", 100, _oPanelContainer);
 
         _TextScore = new CText(0, -100, null, '90', "MontserratBlack", "#ffdf80", 140, _oPanelContainer, "#59173e");
 
         _TextTime = new CText(0, -50, null, 'Thời gian hoàn thành: 50s', "MontserratBlack", "#FFF", 18, _oPanelContainer);
-        _Text1 = new CText(0, 0, null, 'CHÚC MỪNG BẠN ĐÃ VƯỢT QUA THỬ THÁCH', "MontserratBlack", "#FFF", 20, _oPanelContainer);
-        _Text2 = new CText(0, 30, null, 'SỐ 1, CÙNG SĂN KHO BÁU TIẾP NHA', "MontserratBlack", "#FFF", 20, _oPanelContainer);
-        _Text3 = new CText(0, 60, null, 'SỐ 1, CÙNG SĂN KHO BÁU TIẾP NHA', "MontserratBlack", "#FFF", 20, _oPanelContainer);
-
-        _Text2.setVisible(false)
-        _Text3.setVisible(false)
+        _Text1 = new CText(0, 0, null, 'CHÚC MỪNG BẠN ĐÃ VƯỢT QUA TẤT CẢ THỬ', "MontserratBlack", "#FFF", 20, _oPanelContainer);
+        _Text2 = new CText(0, 30, null, 'THÁCH. CÙNG XEM BẢNG XẾP HẠNG NHÉ!!', "MontserratBlack", "#FFF", 20, _oPanelContainer);
 
         _ButtonHome = new CGfxButton( -175 , 190, s_oSpriteLibrary.getSprite('home_button'), _oPanelContainer);
         _ButtonHome.addEventListener(ON_MOUSE_UP, this.onGoHome, this, 0);
 
-        _ButtonNextGame = new CTextButton( 45, 190,s_oSpriteLibrary.getSprite('panel_button_bg'), 'QUA MÀN MỚI', "showcard", "#61230b", 35, _oPanelContainer);
+        _ButtonNextGame = new CTextButton( 45, 190,s_oSpriteLibrary.getSprite('panel_button_bg'), 'BẢNG XẾP HẠNG', "showcard", "#61230b", 35, _oPanelContainer);
         _ButtonNextGame.addEventListener(ON_MOUSE_UP, this._onButtonNextGame, this, 0);
 
     }
 
     this._onButtonNextGame = function () {
         _oThis.hide();
-        if (_iState === 'GAME1') {
-            if (GameUnLocked == 1) { GameUnLocked = 2; GAME_CHOOSE = 2 }
-            new ChaseImageCaptureWordScreen1()
-        }
-
-        if (_iState === 'GAME2') {
-            if (GameUnLocked == 2) { GameUnLocked = 3; GAME_CHOOSE = 3 }
-            new Game3Screen1();
-        }
-        
-        if (_iState === 'GAME3') {
-            if (GameUnLocked == 3) { GameUnLocked = 4; GAME_CHOOSE = 4 }
-            new Game4Screen1();
-        }
-        
-        if (_iState === 'GAME4') {
-            this.hide()
-            var scoreTotal = new ScoreTotal();
-            scoreTotal.show()
-        }
+        this.onGoHome()
+        console.log('BXH')
     };
 
     this.onGoChooseGame = function () {
@@ -125,26 +101,12 @@ function PassPartPanel2 () {
         s_oMain.startUpdateNoBlock();
     };
 
-    this.show = function(iScore, gamePart, time){
-        if (gamePart === 4) {
-            _TextScore.changeText(iScore)
-            _TextTime.changeText('Thời gian hoàn thành: ' + formatTime(time) + ' phút')
+    this.show = function(){
+        GAME_TOTAL_TIME = GAME_1_TIME + GAME_2_TIME + GAME_3_TIME + GAME_4_TIME
+        GAME_TOTAL_SCORE = GAME_1_SCORE + GAME_2_SCORE + GAME_3_SCORE + GAME_4_SCORE
 
-            _Text2.changeText('CUỐI CÙNG. XEM TỔNG ĐIỂM VÀ VIẾT TÊN')
-            _Text3.changeText('MÌNH LÊN BẢNG XẾP HẠNG NHÉ!')
-            
-            _ButtonNextGame.changeText('XEM TỔNG ĐIỂM')
-
-            _Text2.setVisible(true)
-            _Text3.setVisible(true)
-        } else {
-            _Text2.changeText('SỐ ' + gamePart + ', CÙNG SĂN KHO BÁU TIẾP NHA')
-            _Text3.changeText('SỐ ' + gamePart + ', CÙNG SĂN KHO BÁU TIẾP NHA')
-                
-            _Text2.setVisible(true)
-            _Text3.setVisible(false)
-
-        }
+        _TextScore.changeText(GAME_TOTAL_SCORE)
+        _TextTime.changeText('Thời gian hoàn thành: ' + formatTime(GAME_TOTAL_TIME) + ' phút')
         _oGroup.visible = true;
         // _oFade.alpha = 0;
         _oPanelContainer.y = _iStartY;

@@ -34,8 +34,11 @@ function SmashTheMouseScreen1 () {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
-        _ButtonCart.addEventListener(ON_MOUSE_UP, () => {}, this);    
+        _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup, this);    
 
+        if (USER_COUPON == '') {
+            _ButtonCart.setVisible(false)
+        }
         
         new CGImage(oModePos.x, oModePos.y + 160, s_oSpriteLibrary.getSprite('modal_bg'), s_oStage);
         new CGImage(oModePos.x, oModePos.y - 190, s_oSpriteLibrary.getSprite('homa_dapchuot_title'), s_oStage);
