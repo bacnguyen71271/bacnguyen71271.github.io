@@ -163,33 +163,6 @@ function PassPartPanel2 () {
         _aCbOwner[iEvent] = cbOwner;
     };
 
-    this._onButtonReGame = function () {
-        _oThis.hide();
-        
-        if (_iState === 'GAME1') {
-            if (ScreenGame_1) {
-                ScreenGame_1.init()
-            }
-        }
-
-        if (_iState === 'GAME2') {
-            if (ScreenGame_2) {
-                ScreenGame_2.init()
-            }
-        }
-        
-        if (_iState === 'GAME3') {
-            if (ScreenGame_3) {
-                ScreenGame_3.init()
-            }
-        }
-
-        if (_iState === 'GAME4') {
-            if (ScreenGame_4) {
-                ScreenGame_4.init()
-            }
-        }
-    };
     
     _oThis = this;
     this._init();

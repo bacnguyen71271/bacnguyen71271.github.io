@@ -109,6 +109,26 @@ function checkLogin(callback) {
                 USER_COUPON = res.data.coupon
                 GameUnLocked = res.data.history.game_unlock
                 GAME_DATA = res.data.history.game_data
+
+                Object.keys(GAME_DATA).forEach((key) => {
+                    if (key == 'game_1') {
+                        GAME_1_SCORE = GAME_DATA[key].score_max
+                        GAME_1_TIME = GAME_DATA[key].time_min
+                    }
+                    if (key == 'game_2') {
+                        GAME_2_SCORE = GAME_DATA[key].score_max
+                        GAME_2_TIME = GAME_DATA[key].time_min
+                    }
+                    if (key == 'game_3') {
+                        GAME_3_SCORE = GAME_DATA[key].score_max
+                        GAME_3_TIME = GAME_DATA[key].time_min
+                    }
+                    if (key == 'game_4') {
+                        GAME_4_SCORE = GAME_DATA[key].score_max
+                        GAME_4_TIME = GAME_DATA[key].time_min
+                    }
+                })
+
                 console.log('Logined')
             }
             callback()

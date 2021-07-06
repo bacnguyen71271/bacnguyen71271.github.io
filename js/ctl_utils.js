@@ -249,7 +249,8 @@ function sizeHandler() {
         ScreenGame_4.refreshButtonPos();
     }
 
-    if (s_bIsIphone) {
+    //s_bIsIphone
+    if (true) {
         canvas = document.getElementById('canvas');
         s_oStage.canvas.width = destW * 2;
         s_oStage.canvas.height = destH * 2;
@@ -258,6 +259,14 @@ function sizeHandler() {
         var iScale = Math.min(destW / CANVAS_WIDTH, destH / CANVAS_HEIGHT);
         s_iScaleFactor = iScale * 2;
         s_oStage.scaleX = s_oStage.scaleY = s_iScaleFactor;
+        console.log(destH + (fOffsetY * -1))
+        if (rota) {
+            s_oStage.rotation = 90
+            s_oStage.x = destH + (fOffsetY * -1)
+        } else {
+            s_oStage.rotation = 0
+            s_oStage.x = 0
+        }
     } else if (s_bMobile || isChrome()) {
         $("#canvas").css("width", destW + "px");
         $("#canvas").css("height", destH + "px");

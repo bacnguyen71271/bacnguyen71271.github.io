@@ -125,7 +125,7 @@ function ScreenHome(){
         s_oStage.addChild(circle);
 
         var oSprite = s_oSpriteLibrary.getSprite('button_background_2');
-        new CText(oModePos.x, oModePos.y + 330, oSprite, 'BÌNH NƯỚC HOCMAI', "showcard", "#fff", 17, s_oStage);  
+        new CText(oModePos.x, oModePos.y + 330, oSprite, 'BÌNH NƯỚC HOCMAI', "showcard", "#fff", 17, s_oStage);
 
         var btnArrowLeft = s_oSpriteLibrary.getSprite('arrow_left');         
         _btnArrowSliderLeft = new CGfxButton(oModePos.x - 400, oModePos.y + 220, btnArrowLeft, s_oStage);
@@ -241,3 +241,19 @@ function ScreenHome(){
 };
 
 var s_Home = null;
+
+
+function SlideItem(iXPos, iYPos, sPrite, Text) {
+    
+    var _itemContainer = null;
+
+    this.init = function (iXPos, iYPos, sPrite, Text) {
+        _itemContainer = new createjs.Container()
+
+        oSprite = s_oSpriteLibrary.getSprite('question_mask')
+
+        s_oStage.addChild(_itemContainer)
+    }
+
+    this.init(iXPos, iYPos, sPrite, Text)
+}

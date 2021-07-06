@@ -119,26 +119,31 @@ function FailedPartPanel () {
         
         if (_iState === 'GAME1') {
             if (ScreenGame_1) {
-                ScreenGame_1.init()
+                ScreenGame_1.unload()
             }
+            ScreenGame_1 = new SmashTheMouseScreen2()
         }
 
         if (_iState === 'GAME2') {
             if (ScreenGame_2) {
-                ScreenGame_2.init()
+                ScreenGame_2.unload()
             }
+            ScreenGame_2 = new ChaseImageCaptureWordScreen2()
         }
         
         if (_iState === 'GAME3') {
             if (ScreenGame_3) {
-                ScreenGame_3.init()
+                ScreenGame_3.unload()
             }
+            
+            ScreenGame_3 = new Game3Screen2()
         }
 
         if (_iState === 'GAME4') {
             if (ScreenGame_4) {
-                ScreenGame_4.init()
+                ScreenGame_4.unload()
             }
+            ScreenGame_4 = new Game4Screen2()
         }
     };
     

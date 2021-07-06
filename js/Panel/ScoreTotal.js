@@ -61,6 +61,7 @@ function ScoreTotal () {
     this._onButtonNextGame = function () {
         _oThis.hide();
         this.onGoHome()
+
         console.log('BXH')
     };
 
@@ -76,6 +77,7 @@ function ScoreTotal () {
         this.unload()
         _iState = 'HOME'
         _ScreenHome = new ScreenHome();
+        _ScreenHome._ranking()
     }
 
     this.unload = function(){

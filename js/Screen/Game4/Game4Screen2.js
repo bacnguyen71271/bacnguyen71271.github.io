@@ -41,6 +41,10 @@ function Game4Screen2 () {
     var questionFind = 0;
     var _totalTime;
 
+    var _oListenerDown;
+    var _oListenerUp;
+    var _oListenerMove;
+
     this.init = function() {
 
         _iTimeElapsed = 60000;
@@ -125,17 +129,18 @@ function Game4Screen2 () {
 
         s_oStage.addChild(_gameContainer);
 
-        _gameContainer.addEventListener("mousedown", function(evt) {
+        _oListenerDown = _gameContainer.addEventListener("mousedown", function(evt) {
             mouseDown = true;
-            
+            console.log('mousedown')
             _textSelectStart = _textSelectEnd
 
             s_Game4Screen2.checkTextSelect()
             // console.log(_textSelectStart)
         });
         
-        _gameContainer.addEventListener("pressup", function(evt) {
+        _oListenerUp = _gameContainer.addEventListener("pressup", function(evt) {
             mouseDown = false;
+            console.log('pressup')
             // console.log(_textSelectEnd)
             if (!s_Game4Screen2.checkResutl(_textSelect)) {
                 s_Game4Screen2.textFailAnimation()
@@ -162,7 +167,7 @@ function Game4Screen2 () {
             
         });
 
-        _gameContainer.addEventListener("pressmove", function(evt) {
+        _oListenerMove = _gameContainer.addEventListener("pressmove", function(evt) {
         });
 
         _PassPartPanel = new PassPartPanel2();
@@ -347,7 +352,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    // _selectText[directToIndex].selectStatus(true)
+                    _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -364,7 +369,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    // _selectText[directToIndex].selectStatus(true)
+                    _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -381,7 +386,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    // _selectText[directToIndex].selectStatus(true)
+                    _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -398,7 +403,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    // _selectText[directToIndex].selectStatus(true)
+                    _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -469,7 +474,9 @@ function Game4Screen2 () {
     this.checkTextSelect = function() {
         
         this.clearTextSelect()
+        console.log('1')
         if ((_textSelectStart && _textSelectEnd) && (_textSelectStart.col == _textSelectEnd.col || _textSelectStart.row == _textSelectEnd.row)  && mouseDown) {
+            console.log('2')
             playSound("ball_tap", 1,false);
             var loopLength
             var direction
@@ -518,7 +525,7 @@ function Game4Screen2 () {
     }
 
     this.selectTextMouseOver = function(params) {
-        // console.log("selectTextMouseOver", params)
+        console.log("selectTextMouseOver", params)
         _textSelectEnd = params
         if (mouseDown) {
             s_Game4Screen2.checkTextSelect()
@@ -600,7 +607,24 @@ function Game4Screen2 () {
 
     this.unload = function() {
         stopSound('game_4');
-        s_Game4Screen2 = null;
+        _ButtonCart.unload()
+        _ButtonPause.unload()
+        _Scores.unload()
+        _Time.unload()
+        for (let index = 0; index < 5; index++) {
+            s_TextHide[index].unload()
+        }
+
+        for (let index = 0; index < _selectTextLength; index++) {
+            _selectText[index].unload()
+        }
+
+        _gameContainer.off("mousedown", _oListenerDown);
+        _gameContainer.off("pressup", _oListenerUp);
+        _gameContainer.off("pressmove", _oListenerMove);
+        _ButtonPause.unload()
+        
+        // s_Game4Screen2 = null;
         s_oStage.removeAllChildren();
     }    
 
@@ -624,6 +648,8 @@ function TextHover (iXPos, iYPos, gameContainer) {
     var _evHover = false;
     var _TextSelected;
 
+    var _oListenerOver;
+    var _oListenerOut;
 
     this._init = function (iXPos, iYPos, gameContainer) {
 
@@ -677,6 +703,13 @@ function TextHover (iXPos, iYPos, gameContainer) {
         // });
 
         this._initListener()
+    }
+
+    this.unload = function () {
+        _TextBgSelect.off("mouseover", _oListenerOver);
+        _TextBgSelect.off("mouseout" , _oListenerOut);   
+
+        gameContainer.removeChild(_oButton);
     }
 
     this.selectStatus  = function (status) {
@@ -764,8 +797,8 @@ function TextHover (iXPos, iYPos, gameContainer) {
     };
 
     this._initListener = function(){
-        _TextBgSelect.on("mouseover", this.buttonMouseOver);
-        _TextBgSelect.on("mouseout" , this.buttonMouseOut);      
+        _oListenerOver = _TextBgSelect.on("mouseover", this.buttonMouseOver);
+        _oListenerOut = _TextBgSelect.on("mouseout" , this.buttonMouseOut);      
     };
 
     this.changeText = function (text) {

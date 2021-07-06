@@ -448,7 +448,32 @@ function ChaseImageCaptureWordScreen2 () {
 
     this.unload = function() {
         stopSound('game_2');
-        s_ChaseImageCaptureWordScreen2 = null;
+        
+        _ButtonCart.unload()
+        _ButtonPause.unload()
+        _Scores.unload()
+        _Time.unload()
+        scorePointText_1.unload()
+        scorePoint_1.unload()
+        scorePointText_2.unload()
+        scorePoint_2.unload()
+        scorePointText_3.unload()
+        scorePoint_3.unload()
+        _buttonBackSpace.unload()
+        _buttonNextGame.unload()
+        _buttonNextFrame.unload()
+
+        for (let index = 0; index < _imageWord.length; index++) {
+            _imageWord[index].imageView.unload()
+        }
+        for (let index = 0; index < _inputLength; index++) {
+            _input[index].unload()
+        }
+        for (let index = 0; index < _buttonSelectLength; index++) {
+            _buttonSelect[index].unload()
+        }
+
+        // s_ChaseImageCaptureWordScreen2 = null;
         s_oStage.removeAllChildren();
     }    
 
