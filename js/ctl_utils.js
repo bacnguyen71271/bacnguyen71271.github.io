@@ -250,7 +250,7 @@ function sizeHandler() {
     }
 
     //
-    if (true) {
+    if (s_bIsIphone) {
         canvas = document.getElementById('canvas');
         s_oStage.canvas.width = destW * 2;
         s_oStage.canvas.height = destH * 2;
