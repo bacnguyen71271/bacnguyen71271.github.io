@@ -249,7 +249,7 @@ function sizeHandler() {
         ScreenGame_4.refreshButtonPos();
     }
 
-    //s_bIsIphone
+    //
     if (true) {
         canvas = document.getElementById('canvas');
         s_oStage.canvas.width = destW * 2;
