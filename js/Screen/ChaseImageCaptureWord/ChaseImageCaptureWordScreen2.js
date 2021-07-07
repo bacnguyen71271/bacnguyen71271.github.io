@@ -112,13 +112,13 @@ function ChaseImageCaptureWordScreen2 () {
 
         _Scores = new GameInfo(_pCartPos.x, _pCartPos.y, s_oSpriteLibrary.getSprite('start'), s_oSpriteLibrary.getSprite('game_info_bg_2'), '0', '#fce48a', s_oStage)
 
-        scorePointText_1 = new CText(280, s_iOffsetY + 35 , null, '+10 ĐIỂM', "showcard", "#fff", 25, s_oStage)
+        scorePointText_1 = new CText(280, s_iOffsetY + 35 , null, '+100 ĐIỂM', "showcard", "#fff", 25, s_oStage)
         scorePoint_1 =new CGImage(280, s_iOffsetY + 60 , s_oSpriteLibrary.getSprite('time_point'), s_oStage);
         
-        scorePointText_2 = new CText(450, s_iOffsetY + 35, null, '+20 ĐIỂM', "showcard", "#fff", 25, s_oStage)
+        scorePointText_2 = new CText(450, s_iOffsetY + 35, null, '+200 ĐIỂM', "showcard", "#fff", 25, s_oStage)
         scorePoint_2 = new CGImage(450, s_iOffsetY + 60, s_oSpriteLibrary.getSprite('time_point'), s_oStage);
 
-        scorePointText_3 = new CText(600, s_iOffsetY + 35, null, '+30 ĐIỂM', "showcard", "#fff", 25, s_oStage)
+        scorePointText_3 = new CText(600, s_iOffsetY + 35, null, '+300 ĐIỂM', "showcard", "#fff", 25, s_oStage)
         scorePoint_3 = new CGImage(600, s_iOffsetY + 60, s_oSpriteLibrary.getSprite('time_point'), s_oStage);
 
         _Time = new TimeProcess(_pCartPos.x, _pCartPos.y, '00:00', 70, s_oStage)
