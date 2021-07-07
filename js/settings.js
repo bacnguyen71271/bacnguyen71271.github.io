@@ -63,7 +63,7 @@ var ENABLE_FULLSCREEN;
 
 
 // Ten game
-var GAME_NAME = [ 'HOMA ĐẬP CHUỘT', 'HOMA ĐUỔI HÌNH BẮT CHỮ', 'HOMA LÀM TOÁN', 'HOMA HỌC TIẾNG ANH'];
+var GAME_NAME = [ 'HOMA ĐẬP CHUỘT', 'HOMA ĐUỔI HÌNH BẮT CHỮ', 'ÔN LUYỆN CÙNG HOMA', 'HOMA HỌC TIẾNG ANH'];
 
 // Game dang chon
 var GAME_CHOOSE = 1;

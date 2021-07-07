@@ -42,7 +42,7 @@ function Game3Screen1 () {
         new CText(oModePos.x, oModePos.y - 240, null, 'ÔN LUYỆN CÙNG HOMA', "showcard", "#fffec9", 60, s_oStage);
 
         new CText(oModePos.x, oModePos.y - 60, null, 'Chào mừng các bé đã đến với thử thách', "MontserratSemiBold", "#fff", 30, s_oStage);
-        new CText(oModePos.x, oModePos.y - 20, null, 'Homa Làm toán!', "MontserratSemiBold", "#fff", 30, s_oStage);
+        new CText(oModePos.x, oModePos.y - 20, null, 'Ôn luyện cùng HOMA!', "MontserratSemiBold", "#fff", 30, s_oStage);
 
         new CGImage(oModePos.x - 190, oModePos.y + 120, s_oSpriteLibrary.getSprite('game3_score_define1'), s_oStage);
         new CGImage(oModePos.x + 190, oModePos.y + 120, s_oSpriteLibrary.getSprite('game3_score_define2'), s_oStage);
