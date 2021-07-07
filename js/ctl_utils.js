@@ -251,6 +251,7 @@ function sizeHandler() {
 
     //s_bIsIphone
     if (true) {
+        console.log(destW * 2, destH * 2, s_iOffsetY)
         canvas = document.getElementById('canvas');
         s_oStage.canvas.width = destW * 2;
         s_oStage.canvas.height = destH * 2;
@@ -259,10 +260,11 @@ function sizeHandler() {
         var iScale = Math.min(destW / CANVAS_WIDTH, destH / CANVAS_HEIGHT);
         s_iScaleFactor = iScale * 2;
         s_oStage.scaleX = s_oStage.scaleY = s_iScaleFactor;
-        console.log(destH + (fOffsetY * -1))
+        // console.log(s_iScaleFactor)
+        console.log(destH)
         if (rota) {
             s_oStage.rotation = 90
-            s_oStage.x = destH + (fOffsetY * -1)
+            s_oStage.x = destH * 2 - s_iOffsetY
         } else {
             s_oStage.rotation = 0
             s_oStage.x = 0
