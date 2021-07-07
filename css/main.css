@@ -174,11 +174,13 @@ input, select:focus {
 
 
 .game_popup span.alert {
+    margin: 0;
     margin-top: 0;
     margin-bottom: 10px;
     text-align: left;
     font-weight: 400;
     color: #ffb226;
+    padding: 0;
     display: none;
 }
 
@@ -221,13 +223,8 @@ input, select:focus {
 
 .game_popup {
     font-family: 'Montserrat', sans-serif;
-    /* background-image: url(../assets/modal_bg_repeat.png);
-    background-size: contain;
-    background-position: center center;
-    background-repeat: repeat-y;
-    background-color: transparent; */
     -webkit-box-shadow: none;
-            box-shadow: none;
+    box-shadow: 0 6px 0 rgb(123 34 18);
     text-align: center;
     width: 80%;
     max-width: 700px;
@@ -236,7 +233,8 @@ input, select:focus {
     position: relative;
     margin-top: 55px;
     padding: 1rem;
-    border-radius: 10px;
+    border-radius: 34px;
+    border: solid 2px rgb(220 120 38);
     background-color: #a74431;
 }
 
@@ -324,14 +322,19 @@ input, select:focus {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    max-width: 270px;
+    max-width: 300px;
     background-color: #59173e4d;
     padding: 17px;
     margin: auto;
     border-radius: 15px;
 }
 
-.game_popup span {   
+form.otp-form span {
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-style: inherit;
 }
 
 .game_popup button:focus {
@@ -532,4 +535,50 @@ h5.coupon_code {
 #rankList tr td {
     padding: 10px 0px;
     border-bottom: 1px solid #eb924d;
+}
+
+#couponPopup .content-box, #rankingPopup .content-box {
+    margin: 10px;
+    background-color: #ffc46b;
+    padding: 20px;
+    border-radius: 22px;
+    -webkit-box-shadow: rgb(195 85 45 / 56%) 3px 3px 6px 0px inset, rgb(220 179 108 / 58%) -3px -3px 6px 1px inset;
+    box-shadow: rgb(195 85 45 / 56%) 3px 3px 6px 0px inset, rgb(220 179 108 / 58%) -3px -3px 6px 1px inset;
+    text-align: left;
+    padding-right: 8px;
+    font-size: 14px;
+}
+#couponPopup .content-box {
+    cursor : pointer;
+    text-align: center;
+    display: flex
+}
+#couponPopup .content-box h5{
+flex: 1
+}
+#couponPopup .content-box::after {
+    content: "";
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    transition: 0.2s;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%236d142a' d='M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z' class=''%3E%3C/path%3E%3C/svg%3E");
+}
+#couponPopup .content-box:hover::after {
+   transform: scale(1.1)
+}
+#couponPopup .content-box:active::after {
+   transform: scale(0.95)
+}
+#couponPopup h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin: .5rem 0 1rem 0;
+}
+
+a#resend_otp {
+    color: #ffb236;
+    cursor: pointer;
 }

@@ -186,6 +186,12 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("text_selected","./assets/text_selected.png");
         s_oSpriteLibrary.addSprite("notifi_bg","./assets/notifi_bg.png");
         s_oSpriteLibrary.addSprite("sugges_bg","./assets/sugges_bg.png");
+        
+        s_oSpriteLibrary.addSprite("gt_1","./assets/gt_1.png");
+        s_oSpriteLibrary.addSprite("gt_2","./assets/gt_2.png");
+        s_oSpriteLibrary.addSprite("gt_3","./assets/gt_3.png");
+        s_oSpriteLibrary.addSprite("gt_4","./assets/gt_4.png");
+
 
         for(var i = 1 ;i< 11 ;i++){
             s_oSpriteLibrary.addSprite("image_word_"+i,"./assets/image_word_"+i+".png");

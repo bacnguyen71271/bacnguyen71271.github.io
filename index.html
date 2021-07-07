@@ -90,7 +90,7 @@
         <div class="modal_box">
             <h4>BẠN CẦN ĐĂNG KÝ ĐỂ THAM GIA GAME</h4>
             <span style="display: block;">Bạn cần điền đầy đủ thông tin tại đây để bắt đầu tham gia trò chơi nhé:</span>
-            <form action="">
+            <form action="" class="register-info">
                 <input type="text" name="fullname" id="fullname" placeholder="Họ và tên">
                 <span class="alert fullname">Hãy nhập tên của bạn</span>
                 <input type="text" name="phone" id="phone" placeholder="Số điện thoại">
@@ -104,8 +104,16 @@
                 </select>
                 <span class="alert class_id">Hãy nhập tên của bạn</span>
             </form>
+            <form action="" class="otp-form" style="display: none;">
+                <span>Vui lòng nhập mã OTP để xác nhận đăng ký:</span>
+                <input type="text" id="otp_code" placeholder="Mã OTP">
+                <span class="alert otp_code">Hãy nhập tên của bạn</span>
+                <span class="time_otp" style="display: none;">Thời gian nhập còn lại: <em>60</em> giây</span>
+                <span class="otp_resend" style="display: none;">Không nhận được mã? <a id="resend_otp">Gửi lại</a></span>
+            </form>
             <p class="chuy">* Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với Chính sách bảo mật, Điều khoản dịch vụ và Chính sách tư vấn của HOCMAI.</p>
-            <button>ĐĂNG KÝ</button>
+            <button class="register_btn">ĐĂNG KÝ</button>
+            <button class="verifi_btn" style="display: none;">XÁC NHẬN</button>
         </div>
     </div>
     <div id="loginPopup" class="modal game_popup">
@@ -166,6 +174,9 @@
     </div>
     <div style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%"></div>
     <script>
+
+        var userID = ''
+
         $(document).ready(function () {
             
             $('.coupon_code').click(function() {
@@ -187,7 +198,39 @@
                 return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
             }
 
-            $('#registerPopup button').click(function() {
+            $('#resend_otp').click(function () {
+                countDown()
+                sendSms({
+                    id: userID
+                })
+            })
+
+            $('#registerPopup button.verifi_btn').click(function() {
+                if (userID) {
+                    var otp_code = $('#otp_code').val()
+                    checkOtp({
+                        id: userID,
+                        otp_code
+                    }).then(function (res) {
+                        $('.alert.otp_code').css('display', 'none')
+                        if (res.code == 2) {
+                            $('.alert.otp_code').html('Mã xác thực không đúng')
+                            $('.alert.otp_code').css('display', 'block')
+                        }
+
+                        if (res.code == 1) {
+                            localStorage.setItem('tieuhoc_game_key', userID)
+                            IS_LOGIN = true;
+                            $(".jquery-modal.blocker.current").trigger('click');
+                            s_Home.unload()
+                            _ChooseGameScreen = new ScreenChooseGame()
+                        }
+                    })
+                }
+                
+            })
+
+            $('#registerPopup button.register_btn').click(function() {
                 var fullname = $('#fullname').val()
                 var phone = $('#phone').val()
                 var class_id = $('#class_id').val()
@@ -217,10 +260,10 @@
                 
                 if (class_id.trim() == '' || class_id.trim() == ' ') {
                     error = true
-                    $('.alert.phone').html('Hãy chọn lớp đang học !')
-                    $('.alert.phone').css('display', 'block')
+                    $('.alert.class_id').html('Hãy chọn lớp đang học !')
+                    $('.alert.class_id').css('display', 'block')
                 } else {
-                    $('.alert.phone').css('display', 'none')
+                    $('.alert.class_id').css('display', 'none')
                 }
 
                 if (!error) {
@@ -237,11 +280,46 @@
                             $('.alert.phone').html(res.message)
                             $('.alert.phone').css('display', 'block')
                         }
+                        
+                        if (res.code == 3) {
+                            error = true
+                            userID = res.data
+                            $('.register-info').css('display', 'none')
+                            $('.otp-form').css('display', 'block')
+                            $('.time_otp').css('display', 'block')
+                            $('#registerPopup button.verifi_btn').css('display', 'initial')
+                            $('#registerPopup button.register_btn').css('display', 'none')
+                            countDown()
+                            sendSms({
+                                id: userID
+                            })
+                        }
                     })
                 } else {
                     return;
                 }
+                
             })
+
+            function countDown () {
+                var time = 60;
+                
+                $('.time_otp').css('display', 'block')
+                $('.otp_resend').css('display', 'none')
+
+                var coundDown = setInterval(function () {
+                    time--;
+
+                    $('.time_otp').css('display', 'block')
+                    $('.otp_resend').css('display', 'none')
+                    $('.time_otp em').html(time)
+                    if (time <= 0) {
+                        $('.time_otp').css('display', 'none')
+                        $('.otp_resend').css('display', 'block')
+                        clearInterval(coundDown)
+                    }
+                }, 1000)
+            }
 
             $('#loginPopup button').click(function() {
                 var phone = $('#phone_2').val()
@@ -269,11 +347,28 @@
                             s_Home.unload()
                             _ChooseGameScreen = new ScreenChooseGame()
                         }
-
+                        
                         if (res.code == 2) {
                             error = true
                             $('.alert.phone_2').html(res.message)
                             $('.alert.phone_2').css('display', 'block')
+                        }
+
+                        if (res.code == 3) {
+                            $(".jquery-modal.blocker.current").trigger('click');
+                            $("#registerPopup").modal({
+                                fadeDuration: 200
+                            })
+                            userID = res.data
+                            $('.register-info').css('display', 'none')
+                            $('.otp-form').css('display', 'block')
+                            $('.time_otp').css('display', 'block')
+                            $('#registerPopup button.verifi_btn').css('display', 'initial')
+                            $('#registerPopup button.register_btn').css('display', 'none')
+                            countDown()
+                            sendSms({
+                                id: userID
+                            })
                         }
                     })
                 } else {

@@ -24,12 +24,19 @@ function ScreenHome(){
     var _pStartPosCredits;
     var _pStartPosFullscreen;
     var _pStartPosLogo;
+
+    var sliderItem = []
+    var sliderPos = [];
+    var sliderStartItem = 0;
+
+    var oModePos;
+
     
     this._init = function(){
         _bUpdate = false;
         _iTimeElaps = 0;
         
-        var oModePos = {x: CANVAS_WIDTH/2, y: 875};
+        oModePos = {x: CANVAS_WIDTH/2, y: 875};
         
         // Add background
         _oBg = createBitmap(s_oSpriteLibrary.getSprite('ldp_background'));
@@ -96,22 +103,24 @@ function ScreenHome(){
         _oButtonStart = new CTextButton(oModePos.x, oModePos.y + 450, oSprite, 'BẮT ĐẦU SĂN KHO BÁU', "showcard", "#61230b", 50, s_oStage);        
         _oButtonStart.addEventListener(ON_MOUSE_UP, this._registerPopup, this);
         
-        var circle = new createjs.Shape();
-        circle.graphics.beginFill("white").drawCircle(oModePos.x - 100, oModePos.y + 100, 100);
-        circle.x = 100;
-        circle.y = 100;
-        s_oStage.addChild(circle);
+        // var circle = new createjs.Shape();
+        // circle.graphics.beginFill("white").drawCircle(oModePos.x - 100, oModePos.y + 100, 100);
+        // circle.x = 100;
+        // circle.y = 100;
+        // s_oStage.addChild(circle);
+        
+        // var oSprite = s_oSpriteLibrary.getSprite('button_background_2');
+        // new CText(oModePos.x, oModePos.y + 330, oSprite, 'BÌNH NƯỚC HOCMAI', "showcard", "#fff", 17, s_oStage);
 
-        var oSprite = s_oSpriteLibrary.getSprite('button_background_2');
-        new CText(oModePos.x, oModePos.y + 330, oSprite, 'BÌNH NƯỚC HOCMAI', "showcard", "#fff", 17, s_oStage);
+        this.initSlider()
 
         var btnArrowLeft = s_oSpriteLibrary.getSprite('arrow_left');         
         _btnArrowSliderLeft = new CGfxButton(oModePos.x - 400, oModePos.y + 220, btnArrowLeft, s_oStage);
-        _btnArrowSliderLeft.addEventListener(ON_MOUSE_UP, function() {}, this, 0);
+        _btnArrowSliderLeft.addEventListener(ON_MOUSE_UP, this.sliderPre, this, 0);
         
         var btnArrowRight = s_oSpriteLibrary.getSprite('arrow_right');         
         _btnArrowSliderRight = new CGfxButton(oModePos.x + 400, oModePos.y + 220, btnArrowRight, s_oStage);
-        _btnArrowSliderRight.addEventListener(ON_MOUSE_UP, function() {}, this, 0);
+        _btnArrowSliderRight.addEventListener(ON_MOUSE_UP, this.sliderNext, this, 0);
         
         var doc = window.document;
         var docEl = doc.documentElement;
@@ -124,10 +133,70 @@ function ScreenHome(){
         
         // _PassPartPanel = new FailedPartPanel(s_oStage);
         // _PassPartPanel.show()
+        
         createjs.Ticker.addEventListener("tick", s_oStage);
         this.refreshButtonPos();
         _bUpdate = true;
-    };  
+        
+        this.sliderPre()
+    };
+
+    this.sliderPre = function () {
+
+        if (sliderStartItem < 0) { sliderStartItem = sliderItem.length - 1 }
+        
+        var slideIndex = sliderStartItem
+
+        for (let index = 0; index < 4; index++) {
+            if (index == 3) {
+                sliderItem[slideIndex].setPositionEffect(sliderPos[index-1], oModePos.y + 200, index, 'pre')
+            } else {
+                sliderItem[slideIndex].setPositionEffect(sliderPos[index], oModePos.y + 200, index, 'pre')
+            }
+            slideIndex++
+            if(slideIndex == sliderItem.length) {slideIndex = 0}
+        }
+
+        sliderStartItem--;
+    }
+
+    
+    this.sliderNext = function () {
+        
+        if (sliderStartItem < 0) { sliderStartItem = sliderItem.length - 1 }
+        if (sliderStartItem > sliderItem.length - 1) { sliderStartItem = 0 }
+        
+        var slideIndex = sliderStartItem
+        
+        for (let index = 0; index < 4; index++) {
+            if (index == 0) {
+                var temp = slideIndex - 1 < 0 ? 0 : slideIndex - 1
+                sliderItem[temp].setPositionEffect(sliderPos[index], oModePos.y + 200, index, 'next')
+                sliderItem[slideIndex].setPositionEffect(sliderPos[index], oModePos.y + 200, index, 'next')
+            } else {
+                sliderItem[slideIndex].setPositionEffect(sliderPos[index], oModePos.y + 200, index, 'next')
+            }
+            slideIndex++
+            if(slideIndex == sliderItem.length) {slideIndex = 0}
+        }
+        sliderStartItem++;
+    }
+
+    this.initSlider = function () {
+        sliderItem.push(new SlideItem(oModePos.x - 250, oModePos.y + 200, s_oSpriteLibrary.getSprite('gt_1'), 'ĐỒNG HỒ ĐỊNH VỊ TRẺ EM'))
+        sliderItem.push(new SlideItem(oModePos.x, oModePos.y + 200, s_oSpriteLibrary.getSprite('gt_2'), 'BỘ SÁCH GIÚP BÉ KHÁM PHÁ THẾ GIỚI'))
+        sliderItem.push(new SlideItem(oModePos.x + 250, oModePos.y + 200, s_oSpriteLibrary.getSprite('gt_3'), 'KHÓA HỌC GIỎI TIỂU HỌC TỪ LỚP 1 - LỚP 5'))
+        sliderItem.push(new SlideItem(oModePos.x + 500, oModePos.y + 200, s_oSpriteLibrary.getSprite('gt_4'), 'BỘ SÁCH NUÔI DƯỠNG TÂM HỒN CHO BÉ'))
+
+        for (let index = 0; index < sliderItem.length; index++) {
+            // sliderItem[index].setVisible(false)
+            sliderPos.push(sliderItem[index].getX())
+            sliderItem[index].setScale(0.7, 0.7)
+        }
+
+        // sliderItem[0].setScale(0.7, 0.7)
+        // sliderItem[2].setScale(0.7, 0.7)
+    }
 
     this.logOut = function () {
         IS_LOGIN = false
@@ -221,17 +290,166 @@ function ScreenHome(){
 var s_Home = null;
 
 
-function SlideItem(iXPos, iYPos, sPrite, Text) {
+function SlideItem(iXPos, iYPos, oSprite, Text) {
     
     var _itemContainer = null;
+    var _oTextBack
+    var _oText;
+    var _oButtonBg;
+    var _oItemImage;
+    var iFontSize = 18;
+    var shadowColor = "#61230b"
+    var _iWidth;
+    var _iHeight;
+    var szColor = '#fff';
 
-    this.init = function (iXPos, iYPos, sPrite, Text) {
+    this.init = function (iXPos, iYPos, oSprite, Text) {
+
         _itemContainer = new createjs.Container()
+        
+        _oItemImage = createBitmap(oSprite)
 
-        oSprite = s_oSpriteLibrary.getSprite('question_mask')
+        _iWidth = oSprite.width;
+        _iHeight = oSprite.height;
 
+        var iStepShadow = Math.ceil(iFontSize/15);
+
+        var oSprite = s_oSpriteLibrary.getSprite('button_background_2')
+        _oButtonBg = createBitmap( oSprite);
+
+        _oTextBack = new createjs.Text(Text,iFontSize + "px showcard", shadowColor);
+        var oBounds = _oTextBack.getBounds();
+        _oTextBack.textAlign = "center";
+        _oTextBack.lineWidth = _iWidth *0.9;
+        _oTextBack.lineHeight = iFontSize * 1.2;
+        _oTextBack.textBaseline = "alphabetic";
+        _oTextBack.x = oSprite.width/2;
+        
+
+        _oText = new createjs.Text(Text, iFontSize + "px showcard", szColor);
+        _oText.textAlign = "center";
+        _oText.textBaseline = "alphabetic";  
+        _oText.lineWidth = _iWidth *0.9;
+        _oText.lineHeight = iFontSize * 1.2;
+        _oText.x = oSprite.width/2;
+
+        
+        _oButtonBg.y = _iHeight - oSprite.height
+        _oTextBack.y = _iHeight - Math.floor((oSprite.height)/2)+ iStepShadow;
+        _oText.y = _iHeight - Math.floor((oSprite.height)/2);
+        _oItemImage.x = (oSprite.width - _iWidth) / 2 
+
+        _itemContainer.x = iXPos;
+        _itemContainer.y = iYPos;
+        _itemContainer.regX = _iWidth / 2
+        _itemContainer.regY = _iHeight / 2
+
+        // _oButton.addChild(_oButtonBg,_oTextBack,_oText);
+        _itemContainer.addChild(_oItemImage, _oButtonBg, _oTextBack, _oText);
+        _itemContainer.scaleX = 0.9
+        _itemContainer.scaleY = 0.9
+        
         s_oStage.addChild(_itemContainer)
     }
 
-    this.init(iXPos, iYPos, sPrite, Text)
+    this.setScale = function (x, y) {
+        _itemContainer.scaleX = x
+        _itemContainer.scaleY = y
+    }
+
+    this.setPositionEffect = function (iXPos, iYPos, index, type) {
+        if (type == 'pre') {
+            if (index == 0) {
+                _itemContainer.x = iXPos - 50
+                createjs.Tween.get(_itemContainer)
+                .to({x: iXPos, }, 200, createjs.Ease.quadOut)
+    
+                createjs.Tween.get(_itemContainer)
+                .to({alpha: 1, }, 200, createjs.Ease.quadIn)
+            } else if (index == 3) {
+                // console.log(type)
+                createjs.Tween.get(_itemContainer)
+                .to({x: iXPos + 50, }, 200, createjs.Ease.quadOut)
+    
+                createjs.Tween.get(_itemContainer)
+                .to({alpha: 0, }, 200, createjs.Ease.quadOut)
+            } else if (index == 1) {
+                createjs.Tween.get(_itemContainer)
+                .to({x: iXPos, }, 200, createjs.Ease.quadOut)
+    
+                createjs.Tween.get(_itemContainer)
+                .to({scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadOut)
+            } else {
+                createjs.Tween.get(_itemContainer)
+                .to({x: iXPos, }, 200, createjs.Ease.quadOut)
+    
+                createjs.Tween.get(_itemContainer)
+                .to({scaleX: 0.7, scaleY: 0.7 }, 200, createjs.Ease.quadOut)
+            }
+        }
+
+        if (type == 'next') {
+            
+            if (index == 0) {
+                // _itemContainer.x = iXPos
+                createjs.Tween.get(_itemContainer)
+                .to({x: iXPos, }, 200, createjs.Ease.quadOut)
+
+                createjs.Tween.get(_itemContainer)
+                .to({alpha: 1, }, 200, createjs.Ease.quadIn)
+
+                createjs.Tween.get(_itemContainer)
+                .to({scaleX: 0.7, scaleY: 0.7 }, 200, createjs.Ease.quadOut)
+            } else if (index == -1) {
+                // console.log(type)
+                createjs.Tween.get(_itemContainer)
+                .to({x: iXPos, }, 200, createjs.Ease.quadOut)
+    
+                createjs.Tween.get(_itemContainer)
+                .to({alpha: 0, }, 200, createjs.Ease.quadOut)
+            } else if (index == 1) {
+                createjs.Tween.get(_itemContainer)
+                .to({x: iXPos, }, 200, createjs.Ease.quadOut)
+    
+                createjs.Tween.get(_itemContainer)
+                .to({scaleX: 1, scaleY: 1 }, 200, createjs.Ease.quadOut)
+            } else if (index == 2) {
+                createjs.Tween.get(_itemContainer)
+                .to({x: iXPos, }, 200, createjs.Ease.quadOut)
+    
+                createjs.Tween.get(_itemContainer)
+                .to({scaleX: 0.7, scaleY: 0.7 }, 200, createjs.Ease.quadOut)
+    
+                // createjs.Tween.get(_itemContainer)
+                // .to({alpha: 0, }, 200, createjs.Ease.quadIn)
+            }
+        }
+
+
+        
+
+        // createjs.Tween.get(_itemContainer)
+        // .to({scaleX: _iScale*1.05, scaleY: _iScale*1.05}, 1500, createjs.Ease.quadOut)
+        // .to({scaleX: _iScale, scaleY: _iScale}, 1500, createjs.Ease.quadIn).call(function () {
+        // });
+    }
+
+    this.setPosition = function(iXPos,iYPos){
+        _itemContainer.x = iXPos;
+        _itemContainer.y = iYPos;
+   };
+
+   this.getX = function(){
+        return _itemContainer.x;
+    };
+
+    this.getY = function(){
+        return _itemContainer.y;
+    };
+
+    this.setVisible = function(bVisible){
+        _itemContainer.visible = bVisible;
+    };
+
+    this.init(iXPos, iYPos, oSprite, Text)
 }

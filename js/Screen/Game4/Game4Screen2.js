@@ -352,7 +352,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    _selectText[directToIndex].selectStatus(true)
+                    // _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -369,7 +369,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    _selectText[directToIndex].selectStatus(true)
+                    // _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -386,7 +386,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    _selectText[directToIndex].selectStatus(true)
+                    // _selectText[directToIndex].selectStatus(true)
                 }
             }
         }
@@ -403,7 +403,7 @@ function Game4Screen2 () {
                     }
                 } else {
                     _selectText[directToIndex].changeText(wordArr[index].toUpperCase())
-                    _selectText[directToIndex].selectStatus(true)
+                    // _selectText[directToIndex].selectStatus(true)
                 }
             }
         }

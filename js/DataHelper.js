@@ -65,6 +65,24 @@ function saveHistory (game_part) {
     
 }
 
+function sendSms(params) {
+    return $.ajax({
+        url: BASE_URL + '/verifi-step',
+        method: 'POST',
+        dataType: 'JSON',
+        data: params,
+    })
+}
+
+function checkOtp(params) {
+    return $.ajax({
+        url: BASE_URL + '/verifi-check',
+        method: 'POST',
+        dataType: 'JSON',
+        data: params,
+    })
+}
+
 function saveScore (game_part) {
 
     return 
