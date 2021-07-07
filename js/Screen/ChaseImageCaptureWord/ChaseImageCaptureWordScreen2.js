@@ -235,11 +235,11 @@ function ChaseImageCaptureWordScreen2 () {
     // Tinh diem
     this.sCore = function() {
         if (_iTimeElapsed > 45000) {
-            _iScore += 30
+            _iScore += 300
         } else if (_iTimeElapsed > 30000) {
-            _iScore += 20
+            _iScore += 200
         } else if (_iTimeElapsed > 0) {
-            _iScore += 10
+            _iScore += 100
         }
         // Cap nhat lai diem so
         GAME_2_SCORE = _iScore

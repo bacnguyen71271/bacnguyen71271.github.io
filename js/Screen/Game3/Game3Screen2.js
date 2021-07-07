@@ -161,11 +161,11 @@ function Game3Screen2 () {
 
             console.log('tra loi dung')
             // Cong diem
-            Score += 10
+            Score += 100
         } else {
             console.log('tra loi sai')
             // Tru diem
-            Score -= 20
+            Score -= 50
             if (Score < 0) { Score = 0 }
         }
 

@@ -49,7 +49,7 @@ function Game4Screen1 () {
         new CText(oModePos.x - 235, oModePos.y + 140, null, '60 giây', "MontserratSemiBold", "#fff", 25, s_oStage);
 
         new CText(oModePos.x - 145, oModePos.y + 240, null, '• CÁCH TÍNH ĐIỂM: ', "MontserratBlack", "#fff", 30, s_oStage);
-        new CText(oModePos.x - 65, oModePos.y + 280, null, 'Mỗi từ tìm được sẽ được 10 điểm', "MontserratSemiBold", "#fff", 25, s_oStage);
+        new CText(oModePos.x - 65, oModePos.y + 280, null, 'Mỗi từ tìm được sẽ được 100 điểm', "MontserratSemiBold", "#fff", 25, s_oStage);
         
 
         var oSprite = s_oSpriteLibrary.getSprite('button_background_3');

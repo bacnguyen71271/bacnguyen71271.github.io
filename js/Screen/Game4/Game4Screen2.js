@@ -47,7 +47,7 @@ function Game4Screen2 () {
 
     this.init = function() {
 
-        _iTimeElapsed = 60000;
+        _iTimeElapsed = 90000;
         gamePart = 0;
         _bUpdate = true;
         _iScore = 0;
@@ -241,7 +241,7 @@ function Game4Screen2 () {
                 _selectText[index].changeText(this._randomString(1))
         }
 
-        _iTimeElapsed = 60000;
+        _iTimeElapsed = 90000;
         _bUpdate = true;
     }
 
@@ -269,7 +269,7 @@ function Game4Screen2 () {
             if (textInput[index].status === false && text.toUpperCase() == textInput[index].text.toUpperCase()) {
                 GAME_4_SCORE = _iScore;
                 saveScore(4)
-                _iScore += 10;
+                _iScore += 100;
                 playSound('bonus-collect', 1, false)
 
                 textInput[index].status = true
@@ -552,7 +552,7 @@ function Game4Screen2 () {
             // Change time text
             _Time.changeText(formatTime(_iTimeElapsed))
             // Change time process
-            _Time.updateProcess((_iTimeElapsed / 60000) * 100 )
+            _Time.updateProcess((_iTimeElapsed / 90000) * 100 )
         }
     }
     
