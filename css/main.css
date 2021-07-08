@@ -522,13 +522,13 @@ h5.coupon_code {
 }
 
 
-#rankList tbody tr td:nth-child(3) {
-    color: #fff;
+#rankList tbody tr td:nth-child(3) span{
+    color: #fff !important;
     text-shadow: 1px 1px 3px #00000087;
 }
 
-#rankList tbody tr td:nth-child(5) {
-    color: #fff;
+#rankList tbody tr td:nth-child(5) span {
+    color: #fff !important;
     text-shadow: 1px 1px 3px #00000087;
 }
 
@@ -581,4 +581,55 @@ flex: 1
 a#resend_otp {
     color: #ffb236;
     cursor: pointer;
+}
+
+#rotatescreen img {
+    width: 100%;
+}
+
+#rotatescreen span {
+    margin: 0;
+    padding: 0;
+    font-style: normal;
+}
+
+#rotatescreen {
+    background-color: #ffffff;
+    max-width: 400px;
+    max-height: 400px;
+}
+
+#rotatescreen span {
+    color: #1d1d1d;
+}
+
+table#rankList tbody tr:nth-child(1) td:nth-child(1) span {
+    text-indent: -9999px;
+    background-image: url(../assets/rank_1.png);
+    background-size: cover;
+    height: 38px;
+}
+
+table#rankList tbody tr:nth-child(2) td:nth-child(1) span {
+    text-indent: -9999px;
+    background-image: url(../assets/rank_2.png);
+    background-size: cover;
+    height: 38px;
+}
+
+table#rankList tbody tr:nth-child(3) td:nth-child(1) span {
+    text-indent: -9999px;
+    background-image: url(../assets/rank_3.png);
+    background-size: cover;
+    height: 38px;
+}
+#rankList span.rank {
+    color: #6e172a;
+}
+
+table#rankList td span {
+    font-style: initial;
+    padding: 0;
+    margin: 0;
+    color: #6e172a;
 }

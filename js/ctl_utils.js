@@ -149,12 +149,13 @@ function sizeHandler() {
     var w = getSize("Width");
 
     var rota = false
-    if (h > w) {
-        var temp = h
-        h = w;
-        w = temp;
-        rota = true
-    }
+
+    // if (h > w) {
+    //     var temp = h
+    //     h = w;
+    //     w = temp;
+    //     rota = true
+    // }
 
     var multiplier = Math.min((h / CANVAS_HEIGHT), (w / CANVAS_WIDTH));
 
@@ -164,7 +165,6 @@ function sizeHandler() {
         EDGEBOARD_Y = 570;
         s_bLandscape = true;
     } else {
-        
         EDGEBOARD_X = 470;
         EDGEBOARD_Y = 0;
         s_bLandscape = false;
@@ -235,7 +235,13 @@ function sizeHandler() {
     }
     if (_ScreenChooseGame) {
         _ScreenChooseGame.refreshButtonPos();
+        if (s_bLandscape) {
+            $("#rotatescreen .close-modal").trigger('click')
+        } else {
+            $("#rotatescreen").modal('show')
+        }
     }
+
     if (ScreenGame_1) {
         ScreenGame_1.refreshButtonPos();
     }
@@ -249,7 +255,20 @@ function sizeHandler() {
         ScreenGame_4.refreshButtonPos();
     }
 
-    //
+    if (ScreenGame_1_1) {
+        ScreenGame_1_1.refreshButtonPos();
+    }
+    if (ScreenGame_2_1) {
+        ScreenGame_2_1.refreshButtonPos();
+    }
+    if (ScreenGame_3_1) {
+        ScreenGame_3_1.refreshButtonPos();
+    }
+    if (ScreenGame_4_1) {
+        ScreenGame_4_1.refreshButtonPos();
+    }
+
+    //s_bIsIphone
     if (s_bIsIphone) {
         canvas = document.getElementById('canvas');
         s_oStage.canvas.width = destW * 2;
@@ -259,7 +278,6 @@ function sizeHandler() {
         var iScale = Math.min(destW / CANVAS_WIDTH, destH / CANVAS_HEIGHT);
         s_iScaleFactor = iScale * 2;
         s_oStage.scaleX = s_oStage.scaleY = s_iScaleFactor;
-        console.log(s_iOffsetY, fOffsetY)
         if (rota) {
             s_oStage.x = (destH * 2) - (s_iOffsetY + fOffsetY)
             s_oStage.rotation = 90
@@ -317,7 +335,54 @@ function sizeHandler() {
     
         $("#canvas").css("left", fOffsetX + "px");
     }
+    fullscreenHandler()
 };
+
+function fullscreenHandler(){
+    if (!ENABLE_FULLSCREEN || !screenfull.enabled){
+       return;
+    }
+	
+    if(screen.height < window.innerHeight+3 && screen.height > window.innerHeight-3){
+        s_bFullscreen = true;
+    }else{
+        s_bFullscreen = false;
+    }
+
+    // if (_ScreenHome) {
+    //     _ScreenHome.resetFullscreenBut();
+    // }
+    if (_ScreenChooseGame) {
+        _ScreenChooseGame.resetFullscreenBut();
+    }
+
+    if (ScreenGame_1) {
+        ScreenGame_1.resetFullscreenBut();
+    }
+    if (ScreenGame_2) {
+        ScreenGame_2.resetFullscreenBut();
+    }
+    if (ScreenGame_3) {
+        ScreenGame_3.resetFullscreenBut();
+    }
+    if (ScreenGame_4) {
+        ScreenGame_4.resetFullscreenBut();
+    }
+
+    if (ScreenGame_1_1) {
+        ScreenGame_1_1.resetFullscreenBut();
+    }
+    if (ScreenGame_2_1) {
+        ScreenGame_2_1.resetFullscreenBut();
+    }
+    if (ScreenGame_3_1) {
+        ScreenGame_3_1.resetFullscreenBut();
+    }
+    if (ScreenGame_4_1) {
+        ScreenGame_4_1.resetFullscreenBut();
+    }
+}
+
 
 function createBitmap(oSprite, iWidth, iHeight) {
     var oBmp = new createjs.Bitmap(oSprite);

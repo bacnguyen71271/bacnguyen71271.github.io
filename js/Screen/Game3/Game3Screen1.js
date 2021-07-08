@@ -1,5 +1,8 @@
 function Game3Screen1 () {
+
     var _ButtonBack;
+    var _fRequestFullScreen = null;
+    var _fCancelFullScreen = null;
 
     this.init = function() {
 
@@ -34,8 +37,25 @@ function Game3Screen1 () {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
+        _ButtonCart.pulseAnimation2()
         _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup, this);    
 
+        // Fullscreen
+        var doc = window.document;
+        var docEl = doc.documentElement;
+        _fRequestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+        _fCancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+        if(ENABLE_FULLSCREEN === false){
+            _fRequestFullScreen = false;
+        }
+
+        if (_fRequestFullScreen && screenfull.enabled){
+            oSprite = s_oSpriteLibrary.getSprite("but_fullscreen")
+            _pStartPosFullscreen = {x: oSprite.width/4 + 10,y:(oSprite.height/2) + 10};
+            _oButFullscreen = new CToggle(_pStartPosFullscreen.x,_pStartPosFullscreen.y,oSprite,s_bFullscreen, s_oStage);
+            _oButFullscreen.addEventListener(ON_MOUSE_UP,this._onFullscreenRelease,this);
+        }
         
         new CGImage(oModePos.x, oModePos.y + 140, s_oSpriteLibrary.getSprite('modal_bg'), s_oStage);
 
@@ -77,16 +97,40 @@ function Game3Screen1 () {
         Howler.mute(s_bAudioActive);
         s_bAudioActive = !s_bAudioActive;
     };
+    
+    this.resetFullscreenBut = function(){
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.setActive(s_bFullscreen);
+        }
+    };
+    
+    this._onFullscreenRelease = function(){
+        if(s_bFullscreen) { 
+            _fCancelFullScreen.call(window.document);
+        }else{
+            _fRequestFullScreen.call(window.document.documentElement);
+        }
+    }
 
     this.refreshButtonPos = function(){
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             _oAudioToggle.setPosition(_pStartPosAudio.x - s_iOffsetX,s_iOffsetY + _pStartPosAudio.y);
         }
+
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.setPosition(_pStartPosAudio.x - s_iOffsetX - 260,s_iOffsetY + _pStartPosAudio.y - 5);
+        }
+        
         _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
         _ButtonBack.setPosition(_pBackPos.x + s_iOffsetX,s_iOffsetY + _pBackPos.y);
     }
 
     this.unload = function() {
+
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.unload();
+        }
+        
         s_Game3Screen1 = null;
         s_oStage.removeAllChildren();
     }    

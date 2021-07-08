@@ -5,6 +5,7 @@ function ScreenChooseGame() {
 
     var _Fade;
     var _ButtonBack;
+    var _oButFullscreen;
     var _LineGameStatus0 = [];
     var _LineGameStatus1 = [];
     var _GameLock = [];
@@ -14,11 +15,17 @@ function ScreenChooseGame() {
 
     var _GameNameLayer;
     
+
+    var _fRequestFullScreen = null;
+    var _fCancelFullScreen = null;
     
     var _HeightGameStatus = -285;
 
     this.init = function() {
 
+        if (!s_bLandscape) {
+            $("#rotatescreen").modal('show')
+        }
         var oModePos = {x: CANVAS_WIDTH/2, y: 875};
 
         // Add background
@@ -59,7 +66,26 @@ function ScreenChooseGame() {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
+        _ButtonCart.pulseAnimation2()
         _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup, this);
+
+
+        // Fullscreen
+        var doc = window.document;
+        var docEl = doc.documentElement;
+        _fRequestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+        _fCancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+        if(ENABLE_FULLSCREEN === false){
+            _fRequestFullScreen = false;
+        }
+
+        if (_fRequestFullScreen && screenfull.enabled){
+            oSprite = s_oSpriteLibrary.getSprite("but_fullscreen")
+            _pStartPosFullscreen = {x: oSprite.width/4 + 10,y:(oSprite.height/2) + 10};
+            _oButFullscreen = new CToggle(_pStartPosFullscreen.x,_pStartPosFullscreen.y,oSprite,s_bFullscreen, s_oStage);
+            _oButFullscreen.addEventListener(ON_MOUSE_UP,this._onFullscreenRelease,this);
+        }
 
         if (USER_COUPON == '') {
             _ButtonCart.setVisible(false)
@@ -142,16 +168,16 @@ function ScreenChooseGame() {
         this.unload()
         switch (GAME_CHOOSE) {
             case 1:
-                new SmashTheMouseScreen1();
+                ScreenGame_1_1 = new SmashTheMouseScreen1();
                 break;
             case 2:
-                new ChaseImageCaptureWordScreen1();
+                ScreenGame_2_1 = new ChaseImageCaptureWordScreen1();
                 break;
             case 3:
-                new Game3Screen1();
+                ScreenGame_3_1 = new Game3Screen1();
                 break;
             case 4:
-                new Game4Screen1();
+                ScreenGame_4_1 = new Game4Screen1();
                 break;
             default:
                 break;
@@ -159,8 +185,18 @@ function ScreenChooseGame() {
     }
 
     this.unload = function () {
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.unload();
+        }
+        
+        if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+            _oAudioToggle.unload();
+            _oAudioToggle = null;
+        }
+        
         s_ChooseGame = null;
         s_oStage.removeAllChildren();
+        _ScreenChooseGame = null
     }
 
     this.previousGameClick = function() {
@@ -212,10 +248,29 @@ function ScreenChooseGame() {
         s_bAudioActive = !s_bAudioActive;
     };
 
+    this.resetFullscreenBut = function(){
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.setActive(s_bFullscreen);
+        }
+    };
+    
+    this._onFullscreenRelease = function(){
+        if(s_bFullscreen) { 
+            _fCancelFullScreen.call(window.document);
+        }else{
+            _fRequestFullScreen.call(window.document.documentElement);
+        }
+    }
+
     this.refreshButtonPos = function(){
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             _oAudioToggle.setPosition(_pStartPosAudio.x - s_iOffsetX,s_iOffsetY + _pStartPosAudio.y);
         }
+        
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.setPosition(_pStartPosAudio.x - s_iOffsetX - 260,s_iOffsetY + _pStartPosAudio.y - 5);
+        }
+
         _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
         _ButtonBack.setPosition(_pBackPos.x + s_iOffsetX,s_iOffsetY + _pBackPos.y);
     }

@@ -243,7 +243,7 @@ function ScreenHome(){
             })
         } else {
             this.unload()
-            _ChooseGameScreen = new ScreenChooseGame()
+            _ScreenChooseGame = new ScreenChooseGame()
         }
     };
 
@@ -254,7 +254,7 @@ function ScreenHome(){
             })
         } else {
             this.unload()
-            _ChooseGameScreen = new ScreenChooseGame()
+            _ScreenChooseGame = new ScreenChooseGame()
         }
     };
 

@@ -15,7 +15,7 @@ function getRanking() {
 
             for (let index = 0; index < res.data.length; index++) {
                 const element = res.data[index];
-                html += '<tr> <td>' + (index+1) + '</td> <td>' + element.fullname + '</td> <td>' + element.score + '</td> <td>' + element.phone + '</td> <td>' + formatTime(element.time) + '</td> </tr>'
+                html += '<tr> <td><span class="rank">' + (index+1) + '</span</td> <td><span>' + element.fullname + '</span></td> <td><span>' + element.score + '</span></td> <td><span>' + element.phone + '</span></td> <td><span>' + formatTime(element.time) + '</span></td> </tr>'
             }
 
             $('#rankList tbody').html(html)

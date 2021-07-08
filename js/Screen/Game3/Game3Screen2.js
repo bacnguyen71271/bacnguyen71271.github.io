@@ -30,6 +30,9 @@ function Game3Screen2 () {
     var _FailedPartPanel = null;
     var _PassPartPanel = null;
 
+    var _fRequestFullScreen = null;
+    var _fCancelFullScreen = null;
+
     this.init = function() {
         _questionIndex = -1
         oModePos = {x: CANVAS_WIDTH/2, y: 875};
@@ -63,7 +66,25 @@ function Game3Screen2 () {
         var oSprite = s_oSpriteLibrary.getSprite('cart_icon');
         _pCartPos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
         _ButtonCart = new CGfxButton(_pCartPos.x, _pCartPos.y, oSprite, s_oStage);
+        _ButtonCart.pulseAnimation2()
         _ButtonCart.addEventListener(ON_MOUSE_UP, openCouponPopup, this);    
+
+        // Fullscreen
+        var doc = window.document;
+        var docEl = doc.documentElement;
+        _fRequestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+        _fCancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+        if(ENABLE_FULLSCREEN === false){
+            _fRequestFullScreen = false;
+        }
+
+        if (_fRequestFullScreen && screenfull.enabled){
+            oSprite = s_oSpriteLibrary.getSprite("but_fullscreen")
+            _pStartPosFullscreen = {x: oSprite.width/4 + 10,y:(oSprite.height/2) + 10};
+            _oButFullscreen = new CToggle(_pStartPosFullscreen.x,_pStartPosFullscreen.y,oSprite,s_bFullscreen, s_oStage);
+            _oButFullscreen.addEventListener(ON_MOUSE_UP,this._onFullscreenRelease,this);
+        }
 
         var oSprite = s_oSpriteLibrary.getSprite('game_pause');
         _pPausePos = {x: CANVAS_WIDTH - (oSprite.height/2) - 30, y: (oSprite.height/2) + 30};
@@ -285,10 +306,29 @@ function Game3Screen2 () {
         s_bAudioActive = !s_bAudioActive;
     };
 
+    this.resetFullscreenBut = function(){
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.setActive(s_bFullscreen);
+        }
+    };
+    
+    this._onFullscreenRelease = function(){
+        if(s_bFullscreen) { 
+            _fCancelFullScreen.call(window.document);
+        }else{
+            _fRequestFullScreen.call(window.document.documentElement);
+        }
+    }
+
     this.refreshButtonPos = function(){
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             _oAudioToggle.setPosition(_pStartPosAudio.x - s_iOffsetX,s_iOffsetY + _pStartPosAudio.y);
         }
+
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.setPosition(_pStartPosAudio.x - s_iOffsetX - 390,s_iOffsetY + _pStartPosAudio.y - 5);
+        }
+
         _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 260,s_iOffsetY + _pCartPos.y);
         _ButtonPause.setPosition(_pPausePos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
         // _Time.setPosition(_pCartPos.x - s_iOffsetX , oModePos.y - 80 );
@@ -299,6 +339,11 @@ function Game3Screen2 () {
         for (let index = 0; index < _option.length; index++) {
             _option[index].unload()
         }
+    
+        if (_fRequestFullScreen && screenfull.enabled){
+            _oButFullscreen.unload();
+        }
+
         s_Game3Screen2 = null;
         s_oStage.removeAllChildren();
     }    

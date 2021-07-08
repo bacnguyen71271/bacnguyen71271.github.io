@@ -2,6 +2,10 @@ var ScreenGame_1;
 var ScreenGame_2;
 var ScreenGame_3;
 var ScreenGame_4;
+var ScreenGame_1_1;
+var ScreenGame_2_1;
+var ScreenGame_3_1;
+var ScreenGame_4_1;
 var _ScreenHome;
 var _ScreenChooseGame;
 
@@ -191,6 +195,7 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("gt_2","./assets/gt_2.png");
         s_oSpriteLibrary.addSprite("gt_3","./assets/gt_3.png");
         s_oSpriteLibrary.addSprite("gt_4","./assets/gt_4.png");
+        s_oSpriteLibrary.addSprite("but_fullscreen","./assets/but_fullscreen.png");
 
 
         for(var i = 1 ;i< 11 ;i++){

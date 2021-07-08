@@ -101,6 +101,19 @@ function CGfxButton(iXPos,iYPos,oSprite,oParentContainer){
         });
     };
     
+    this.pulseAnimation2 = function () {
+        createjs.Tween.get(_oButton)
+        .to({rotation: 10}, 100, createjs.Ease.quadOut)
+        .to({rotation: -10}, 100, createjs.Ease.quadOut)
+        .to({rotation: 5}, 200, createjs.Ease.quadOut)
+        .to({rotation: -5}, 200, createjs.Ease.quadOut)
+        .to({rotation: 0}, 300, createjs.Ease.quadOut)
+        .wait(2000)
+        .call(function () {
+            _oParent.pulseAnimation2();
+        });
+    };
+    
     this.setX = function(iXPos){
          _oButton.x = iXPos;
     };
