@@ -381,7 +381,7 @@
                             _ScreenChooseGame = new ScreenChooseGame()
                         }
                         
-                        if (res.code == 2) {
+                        if (res.code == 2 || res.code == 0) {
                             error = true
                             $('.alert.phone_2').html(res.message)
                             $('.alert.phone_2').css('display', 'block')
@@ -403,6 +403,8 @@
                                 id: userID
                             })
                         }
+
+
                     })
                 } else {
                     return;
