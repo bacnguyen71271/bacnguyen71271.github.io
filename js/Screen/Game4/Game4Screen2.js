@@ -13,8 +13,8 @@ function Game4Screen2 () {
 
     var _notifiText;
 
-    var _textSelectStart = null;
-    var _textSelectEnd = null;
+    var _textSelectStart = {};
+    var _textSelectEnd = {};
     var _textSelect = '';
     var mouseDown = false;
 
@@ -47,7 +47,7 @@ function Game4Screen2 () {
 
     var _fRequestFullScreen = null;
     var _fCancelFullScreen = null;
-
+    var containerBound;
     this.init = function() {
 
         _iTimeElapsed = 90000;
@@ -143,6 +143,7 @@ function Game4Screen2 () {
             var button = new TextHover((col * 60) , (row * 60), _gameContainer)
             button.addEventListenerWithParams(ON_MOUSE_OVER, this.selectTextMouseOver , this, { index, col, row });
             button.addEventListenerWithParams(ON_MOUSE_OUT, this.selectTextMouseOut , this, { index, col, row });
+            button.addEventListenerWithParams(ON_MOUSE_PRESSMOVE, this.selectTextMousePressMove , this, { index, col, row });
             _selectText.push(button)
         }
         _gameContainer.x = 330
@@ -152,16 +153,26 @@ function Game4Screen2 () {
 
         _oListenerDown = _gameContainer.addEventListener("mousedown", function(evt) {
             mouseDown = true;
-            console.log('mousedown')
-            _textSelectStart = _textSelectEnd
-
-            s_Game4Screen2.checkTextSelect()
-            // console.log(_textSelectStart)
+            
+            // Tim diem duoc bam
+            if (s_bMobile) {
+                for (let index = 0; index < _gameContainer.children.length; index++) {
+                    var positionX = _gameContainer.children[index].x + containerBound.x + _gameContainer.x
+                    var positionY = _gameContainer.children[index].y + containerBound.y + _gameContainer.y
+                    if (evt.rawX > positionX && evt.rawX < positionX + 60 && evt.rawY > positionY && evt.rawY < positionY + 60) {
+                        _textSelectStart.col = index % 9;
+                        _textSelectStart.row = parseInt(index / 9)
+                        return
+                    }
+                }
+            } else {
+                _textSelectStart = _textSelectEnd
+                s_Game4Screen2.checkTextSelect()
+            }
         });
         
         _oListenerUp = _gameContainer.addEventListener("pressup", function(evt) {
             mouseDown = false;
-            console.log('pressup')
             // console.log(_textSelectEnd)
             if (!s_Game4Screen2.checkResutl(_textSelect)) {
                 s_Game4Screen2.textFailAnimation()
@@ -188,8 +199,16 @@ function Game4Screen2 () {
             
         });
 
+        containerBound = _gameContainer.getBounds()
         _oListenerMove = _gameContainer.addEventListener("pressmove", function(evt) {
+            if (s_bMobile) {
+                s_Game4Screen2.checkSelectMobile(evt)
+            }
         });
+
+        // $('canvas').on("pointerenter", function(evt) {
+        //     console.log(evt)
+        // });
 
         _PassPartPanel = new PassPartPanel2();
         _FailedPartPanel = new FailedPartPanel();
@@ -213,6 +232,19 @@ function Game4Screen2 () {
 
         playSound('game_4', 1, true)
         this.refreshButtonPos();
+    }
+
+    this.checkSelectMobile = function (evt) {
+        for (let index = 0; index < _gameContainer.children.length; index++) {
+            var positionX = _gameContainer.children[index].x + containerBound.x + _gameContainer.x
+            var positionY = _gameContainer.children[index].y + containerBound.y + _gameContainer.y
+            if (evt.rawX > positionX && evt.rawX < positionX + 60 && evt.rawY > positionY && evt.rawY < positionY + 60) {
+                _textSelectEnd.col = index % 9;
+                _textSelectEnd.row = parseInt(index / 9)
+                this.checkTextSelect()
+                return
+            }
+        }
     }
 
     this.gameRefresh = function () {
@@ -493,11 +525,8 @@ function Game4Screen2 () {
     }
 
     this.checkTextSelect = function() {
-        
         this.clearTextSelect()
-        console.log('1')
         if ((_textSelectStart && _textSelectEnd) && (_textSelectStart.col == _textSelectEnd.col || _textSelectStart.row == _textSelectEnd.row)  && mouseDown) {
-            console.log('2')
             playSound("ball_tap", 1,false);
             var loopLength
             var direction
@@ -546,7 +575,6 @@ function Game4Screen2 () {
     }
 
     this.selectTextMouseOver = function(params) {
-        console.log("selectTextMouseOver", params)
         _textSelectEnd = params
         if (mouseDown) {
             s_Game4Screen2.checkTextSelect()
@@ -554,6 +582,10 @@ function Game4Screen2 () {
     }
     this.selectTextMouseOut = function(params) {
         // console.log("selectTextMouseOut", params)
+    }
+
+    this.selectTextMousePressMove = function(params) {
+        // console.log(params)
     }
 
     this.update = function() {
@@ -637,6 +669,9 @@ function Game4Screen2 () {
         if (_fRequestFullScreen && screenfull.enabled){
             _oButFullscreen.setPosition(_pStartPosAudio.x - s_iOffsetX - 390,s_iOffsetY + _pStartPosAudio.y - 5);
         }
+        
+        containerBound = _gameContainer.getBounds()
+        
         _ButtonCart.setPosition(_pCartPos.x - s_iOffsetX - 260,s_iOffsetY + _pCartPos.y);
         _ButtonPause.setPosition(_pPausePos.x - s_iOffsetX - 130,s_iOffsetY + _pCartPos.y);
         _Scores.setPosition(s_iOffsetX + 970, s_iOffsetY + 80);
@@ -748,9 +783,14 @@ function TextHover (iXPos, iYPos, gameContainer) {
         this._initListener()
     }
 
+    this.getPositon = function () {
+        return _oButton
+    }
+
     this.unload = function () {
         _TextBgSelect.off("mouseover", _oListenerOver);
-        _TextBgSelect.off("mouseout" , _oListenerOut);   
+        _TextBgSelect.off("mouseout" , _oListenerOut);
+        _TextBgSelect.off("pressmove" , _oListenerPressMove);
 
         gameContainer.removeChild(_oButton);
     }
@@ -839,9 +879,33 @@ function TextHover (iXPos, iYPos, gameContainer) {
        }
     };
 
+    this.buttonMousePress = function(){
+        if(_bDisable){
+            return;
+        }
+
+        // if (_evHover) {
+        //     _evHover = false;
+        // } else {
+        //     return;
+        // }
+
+        if (!_select) {
+            _TextBg.visible = false;
+            // _TextBg.alpha = 0.5;
+            _oButton.scaleX = 1;
+            _oButton.scaleY = 1;
+        }
+
+       if(_aCbCompleted[ON_MOUSE_PRESSMOVE]){
+           _aCbCompleted[ON_MOUSE_PRESSMOVE].call(_aCbOwner[ON_MOUSE_PRESSMOVE], _oParams);
+       }
+    };
+
     this._initListener = function(){
         _oListenerOver = _TextBgSelect.on("mouseover", this.buttonMouseOver);
-        _oListenerOut = _TextBgSelect.on("mouseout" , this.buttonMouseOut);      
+        _oListenerOut = _TextBgSelect.on("mouseout" , this.buttonMouseOut);
+        _oListenerPressMove = _TextBgSelect.on("pressmove" , this.buttonMousePress);
     };
 
     this.changeText = function (text) {

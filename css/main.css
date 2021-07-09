@@ -14,6 +14,10 @@
     }
 } */
 
+* {
+    touch-action: none;
+}
+
 body{
     background-color: #000;
     background-repeat: repeat-x;
@@ -587,20 +591,27 @@ a#resend_otp {
     width: 100%;
 }
 
+div#rotatescreen>div {
+    position: relative;
+}
+
 #rotatescreen span {
     margin: 0;
     padding: 0;
     font-style: normal;
+    color: #1d1d1d;
+    padding-bottom: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    bottom: 0px;
 }
 
 #rotatescreen {
     background-color: #ffffff;
     max-width: 400px;
     max-height: 400px;
-}
-
-#rotatescreen span {
-    color: #1d1d1d;
 }
 
 table#rankList tbody tr:nth-child(1) td:nth-child(1) span {
@@ -632,4 +643,46 @@ table#rankList td span {
     padding: 0;
     margin: 0;
     color: #6e172a;
+}
+
+
+#rankingPopup .content-box .content {
+    overflow: auto;
+}
+
+@media (max-width: 500px) {
+    #thele h4 {
+        font-size: 30px;
+    }
+
+    .game_popup {
+        width: 100%;
+        padding: 10px;
+    }
+
+    #thele .content-box {
+        margin: 0;
+    }
+
+    #thele .content-box {
+        margin: 0;
+        padding: 10px;
+    }
+
+    #rankingPopup .content-box {
+        margin: 10px 0px;
+    }
+
+    #rankList span {
+        font-size: 13px;
+    }
+
+    #loginPopup h4 {
+        font-size: 22px;
+    }
+
+    #loginPopup span {
+        margin: 10 0px;
+        padding: 0px;
+    }
 }
