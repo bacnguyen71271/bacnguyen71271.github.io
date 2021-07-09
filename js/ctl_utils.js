@@ -278,6 +278,7 @@ function sizeHandler() {
         var iScale = Math.min(destW / CANVAS_WIDTH, destH / CANVAS_HEIGHT);
         s_iScaleFactor = iScale * 2;
         s_oStage.scaleX = s_oStage.scaleY = s_iScaleFactor;
+        console.log(s_iScaleFactor)
         if (rota) {
             s_oStage.x = (destH * 2) - (s_iOffsetY + fOffsetY)
             s_oStage.rotation = 90

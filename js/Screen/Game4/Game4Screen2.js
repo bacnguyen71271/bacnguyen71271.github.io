@@ -157,9 +157,9 @@ function Game4Screen2 () {
             // Tim diem duoc bam
             if (s_bMobile) {
                 for (let index = 0; index < _gameContainer.children.length; index++) {
-                    var positionX = _gameContainer.children[index].x + containerBound.x + _gameContainer.x
-                    var positionY = _gameContainer.children[index].y + containerBound.y + _gameContainer.y
-                    if (evt.rawX > positionX && evt.rawX < positionX + 60 && evt.rawY > positionY && evt.rawY < positionY + 60) {
+                    var positionX = (_gameContainer.children[index].x + containerBound.x + _gameContainer.x) * s_iScaleFactor
+                    var positionY = (_gameContainer.children[index].y + containerBound.y + _gameContainer.y) * s_iScaleFactor
+                    if (evt.rawX > positionX && evt.rawX < positionX + 60 * s_iScaleFactor && evt.rawY > positionY && evt.rawY < positionY + 60 * s_iScaleFactor) {
                         _textSelectStart.col = index % 9;
                         _textSelectStart.row = parseInt(index / 9)
                         return
@@ -236,9 +236,9 @@ function Game4Screen2 () {
 
     this.checkSelectMobile = function (evt) {
         for (let index = 0; index < _gameContainer.children.length; index++) {
-            var positionX = _gameContainer.children[index].x + containerBound.x + _gameContainer.x
-            var positionY = _gameContainer.children[index].y + containerBound.y + _gameContainer.y
-            if (evt.rawX > positionX && evt.rawX < positionX + 60 && evt.rawY > positionY && evt.rawY < positionY + 60) {
+            var positionX = (_gameContainer.children[index].x + containerBound.x + _gameContainer.x) * s_iScaleFactor
+            var positionY = (_gameContainer.children[index].y + containerBound.y + _gameContainer.y) * s_iScaleFactor
+            if (evt.rawX > positionX && evt.rawX < positionX + 60 * s_iScaleFactor && evt.rawY > positionY && evt.rawY < positionY + 60 * s_iScaleFactor) {
                 _textSelectEnd.col = index % 9;
                 _textSelectEnd.row = parseInt(index / 9)
                 this.checkTextSelect()
