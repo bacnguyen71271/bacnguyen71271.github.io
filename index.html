@@ -214,6 +214,15 @@
             })
 
             $('#registerPopup button.verifi_btn').click(function() {
+                
+            })
+
+            $('#registerPopup form.otp-form').submit(function (e) {
+                e.preventDefault()
+                verifiOTPAction()
+            })
+
+            function verifiOTPAction() {
                 if (userID) {
                     var otp_code = $('#otp_code').val()
                     checkOtp({
@@ -235,10 +244,18 @@
                         }
                     })
                 }
-                
-            })
+            }
 
             $('#registerPopup button.register_btn').click(function() {
+                registerAction()
+            })
+
+            $('#registerPopup form.register-info').submit(function (evt) {
+                evt.preventDefault()
+                registerAction()
+            })
+
+            function registerAction() {
                 var fullname = $('#fullname').val()
                 var phone = $('#phone').val()
                 var class_id = $('#class_id').val()
@@ -306,8 +323,7 @@
                 } else {
                     return;
                 }
-                
-            })
+            }
 
             function countDown () {
                 var time = 60;
@@ -330,6 +346,15 @@
             }
 
             $('#loginPopup button').click(function() {
+                loginAction()
+            })
+
+            $('#loginPopup form').submit(function (e) {
+                e.preventDefault()
+                loginAction()
+            })
+
+            function loginAction() {
                 var phone = $('#phone_2').val()
                 var error = false;
                 
@@ -382,7 +407,7 @@
                 } else {
                     return;
                 }
-            })
+            }
 
 
             var oMain = new CMain({
