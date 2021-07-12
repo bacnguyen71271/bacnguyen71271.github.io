@@ -249,6 +249,11 @@ function ScreenHome(){
 
     this._registerPopup = function(){
         if (!IS_LOGIN) {
+            $('.register-info').css('display', 'flex')
+            $('.otp-form').css('display', 'none')
+            $('.time_otp').css('display', 'none')
+            $('#registerPopup button.verifi_btn').css('display', 'none')
+            $('#registerPopup button.register_btn').css('display', 'initial')
             $("#registerPopup").modal({
                 fadeDuration: 200
             })

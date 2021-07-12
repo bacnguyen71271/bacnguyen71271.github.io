@@ -47,7 +47,7 @@ function PassPartPanel () {
         _TextScore = new CText(0, -100, null, '90', "MontserratBlack", "#ffdf80", 140, _oPanelContainer, "#59173e");
 
         new CText(0, -60, null, 'Phần thưởng của bạn là học bổng 1 khóa', "MontserratBlack", "#FFF", 20, _oPanelContainer);
-        new CText(0, -35, null, '"học giỏi thiểu học" 01 tháng từ HOCMAI', "MontserratBlack", "#FFF", 20, _oPanelContainer);
+        new CText(0, -35, null, '"học giỏi tiểu học" 01 tháng từ HOCMAI', "MontserratBlack", "#FFF", 20, _oPanelContainer);
 
         new CText(0, 10, null, 'MÃ QUÀ TẶNG CỦA BẠN LÀ:', "MontserratBlack", "#FFF", 20, _oPanelContainer);
         

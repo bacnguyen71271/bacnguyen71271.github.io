@@ -214,7 +214,6 @@ function register (params, callback) {
         dataType: 'JSON',
         data: params,
     }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
             localStorage.setItem('tieuhoc_game_key', res.data)
         }

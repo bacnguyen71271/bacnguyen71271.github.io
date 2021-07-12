@@ -1,7 +1,13 @@
 :root { 
     display: block;
 }
+::selection{
+    background: #f7a494;
+  }
 
+::-moz-selection{
+background: #f7a494;
+}
 /* @media screen and (min-width: 320px) and (max-width: 1920px) and (orientation: portrait) {
     html {
         transform: rotate(-90deg);
@@ -37,8 +43,8 @@ input, input:before, input:after {
     user-select: initial;
 }
 
-::selection { background: transparent;color:inherit; }
-::-moz-selection { background: transparent;color:inherit; }
+/* ::selection { background: transparent;color:inherit; } */
+/* ::-moz-selection { background: transparent;color:inherit; } */
 
 #canvas{
     position: fixed;

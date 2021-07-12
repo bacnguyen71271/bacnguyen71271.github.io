@@ -96,6 +96,7 @@
                 <input type="text" name="phone" id="phone" placeholder="Số điện thoại">
                 <span class="alert phone">Hãy nhập tên của bạn</span>
                 <select name="" id="class_id">
+                    <option value="0">---Lớp---</option>
                     <option value="1">Lớp 1</option>
                     <option value="2">Lớp 2</option>
                     <option value="3">Lớp 3</option>
@@ -135,7 +136,7 @@
                 <h5 class="coupon_code"></h5>
             </div>
             <!-- <span>Bấm đề copy</span> -->
-            <input type="text" id="coupon_code_input" style="display: none">
+            <textarea type="text" id="coupon_code_input" style="position: fixed; bottom: -9999px; right: 0;"></textarea>
         </div>
     </div>
     <div id="rankingPopup" class="modal game_popup">
@@ -187,7 +188,7 @@
 
         $(document).ready(function () {
             
-            $('.coupon_code').click(function() {
+            $('#couponPopup .content-box').click(function() {
                 var copyText = document.getElementById("coupon_code_input");
                 copyText.select();
                 copyText.setSelectionRange(0, 99999);
@@ -237,6 +238,7 @@
 
                         if (res.code == 1) {
                             localStorage.setItem('tieuhoc_game_key', userID)
+                            checkLogin()
                             IS_LOGIN = true;
                             $(".jquery-modal.blocker.current").trigger('click');
                             s_Home.unload()
@@ -283,7 +285,7 @@
                     }
                 }
                 
-                if (class_id.trim() == '' || class_id.trim() == ' ') {
+                if (class_id.trim() == '' || class_id.trim() == ' ' || class_id == 0) {
                     error = true
                     $('.alert.class_id').html('Hãy chọn lớp đang học !')
                     $('.alert.class_id').css('display', 'block')
@@ -293,20 +295,13 @@
 
                 if (!error) {
                     register({fullname, phone, class_id}, function (res) {
-                        if (res.code == 1) {
-                            IS_LOGIN = true;
-                            $(".jquery-modal.blocker.current").trigger('click');
-                            s_Home.unload()
-                            _ScreenChooseGame = new ScreenChooseGame()
-                        }
-
                         if (res.code == 2) {
                             error = true
                             $('.alert.phone').html(res.message)
                             $('.alert.phone').css('display', 'block')
                         }
                         
-                        if (res.code == 3) {
+                        if (res.code == 3 || res.code == 1) {
                             error = true
                             userID = res.data
                             $('.register-info').css('display', 'none')
