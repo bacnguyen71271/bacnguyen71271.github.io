@@ -590,13 +590,13 @@ function Game4Screen2 () {
 
     this.update = function() {
         _Scores.changeText(_iScore)
-
+        GAME_4_TIME = _totalTime;
+        
         if (!_bUpdate) { return; }
         //REFRESH TIME BAR
         _iTimeElapsed -= s_iTimeElaps;
 
         _totalTime += s_iTimeElaps;
-        GAME_4_TIME = _totalTime;
 
         if (_iTimeElapsed < 0){
             _bUpdate = false;

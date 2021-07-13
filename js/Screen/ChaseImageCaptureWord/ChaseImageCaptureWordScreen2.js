@@ -358,8 +358,8 @@ function ChaseImageCaptureWordScreen2 () {
         stopSound('game_2')
         // Nếu đủ điểm
         if (_iScore >= 30) {
-            _PassPartPanel.show(_iScore, 2, _totalTime)
             saveHistory(2)
+            _PassPartPanel.show(_iScore, 2, _totalTime)
         } else {
             _FailedPartPanel.show(_iScore)
         }

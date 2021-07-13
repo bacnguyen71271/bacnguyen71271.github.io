@@ -189,14 +189,13 @@ function Game3Screen2 () {
             Score -= 50
             if (Score < 0) { Score = 0 }
         }
-
-        if (_questionIndex == questionList.length - 1) {
-            this.gameOver()
-        }
         
         GAME_3_SCORE = Score
         // Update diem so
         _Score.changeText(Score)
+        if (_questionIndex == questionList.length - 1) {
+            this.gameOver()
+        }
         // Chuyen cau tiep theo
         s_Game3Screen2._nextQuestion()
         _iTimeElapsed = 15000;
